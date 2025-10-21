@@ -1,4 +1,4 @@
-<h1 align="center">Hy 👋, I'm <span style="color:#ff6347;">Thakur Asutosh Dash</span><img src="https://raw.githubusercontent.com/ABS-unofficial/ABS-unofficial/main/assets/wave.gif" width="30px" height="30px" alt="Waving hand GIF"></h1>
+<h1 align="center">Hi 👋, I'm <span style="color:#ff6347;">Thakur Asutosh Dash</span><img src="https://raw.githubusercontent.com/ABS-unofficial/ABS-unofficial/main/assets/wave.gif" width="30px" height="30px" alt="Waving hand GIF"></h1>
 
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"> 
