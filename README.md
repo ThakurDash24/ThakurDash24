@@ -28,9 +28,8 @@
 You can view or download my resume here:  
 👉 [Click to View My Resume](https://github.com/ThakurDash24/ThakurDash24/blob/main/Updated_Resume_Thakur.pdf)
 
-> 💡 Tip: Upload your resume PDF to your GitHub repo (e.g., `main` branch) and update the link above if needed.
 
-### 🌐 Connect with Me
+### 🌐 Connect with Me ASAP !!!!!
 
 <p>
   <a href="https://www.linkedin.com/in/thakur-asutosh-dash-a6965922a/" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a>
