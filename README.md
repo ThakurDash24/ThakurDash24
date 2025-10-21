@@ -1,8 +1,13 @@
-<h1 align="center">Hi 👋, I'm <span style="color:#ff6347;">Thakur Asutosh Dash</span><img src="https://raw.githubusercontent.com/ABS-unofficial/ABS-unofficial/main/assets/wave.gif" width="30px" height="30px" alt="Waving hand GIF"></h1>
+<h1 align="center">Heyloo 👋, I'm <span style="color:#ff6347;">Thakur Asutosh Dash</span><img src="https://raw.githubusercontent.com/ABS-unofficial/ABS-unofficial/main/assets/wave.gif" width="30px" height="30px" alt="Waving hand GIF"></h1>
+
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"> 
+
 <h3 align="center">🚀 CSE 2023-2027 • Aspiring Data Scientist • Seeking Internships 🇮🇳</h3>
 
+
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&pause=1000&color=00F7FF&center=true&vCenter=true&width=1000&lines=Welcome+to+my+GitHub+Profile!;Final+Year+Data+Scientist+and+ML+Engineer;Python+%7C+ML+%7C+DL+%7C+NLP+%7C+Computer+Vision" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&pause=1000&color=3F5EFB&center=true&vCenter=true&width=1000&lines=Welcome+to+my+GitHub+Profile!;Final+Year+Data+Scientist+and+ML+Engineer;Python+%7C+ML+%7C+DL+%7C+NLP+%7C+Computer+Vision" alt="Typing SVG" />
 </div>
 
 <p align="center">
@@ -13,7 +18,11 @@
   <img src="https://github-profile-trophy.vercel.app/?username=ThakurDash24&theme=tokyonight&title=Followers,Stars,Fork,Commit,PullRequest,Issues,Repositories,Contributions,MultiLanguage&no-bg=true&margin-w=15&row=3&column=3" alt="GitHub Trophies" />
 </p>
 
+
+
 <img align="right" alt="Coding" width="420" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2JqaWU0ejRkdHAycXpzYzYzdjRseDR5bzc2eTh1MXo5aHk5ODkxciZlcD12MV9naWZzX3NlYXJjaCZjdD1n/2J8jIHqqIr6tW/giphy.gif"/>
+
+
 
 ### 👨‍💻 About Me
 
@@ -57,7 +66,7 @@ You can view or download my resume here:
   <img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" width="40" alt="Streamlit" />
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" width="40" alt="Linux" />
   <img src="https://raw.githubusercontent.com/gilbarbara/logos/main/logos/flask.svg" width="40" alt="Flask"/>
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" width="40" alt="GitHub" />
+
 </p>
 
 ### 🏅 Badges & Achievements
