@@ -1,4 +1,4 @@
-<h1 align="center">Heyloo 👋, I'm <span style="color:#ff6347;">Thakur Asutosh Dash</span><img src="https://raw.githubusercontent.com/ABS-unofficial/ABS-unofficial/main/assets/wave.gif" width="30px" height="30px" alt="Waving hand GIF"></h1>
+<h1 align="center">Hy 👋, I'm <span style="color:#ff6347;">Thakur Asutosh Dash</span><img src="https://raw.githubusercontent.com/ABS-unofficial/ABS-unofficial/main/assets/wave.gif" width="30px" height="30px" alt="Waving hand GIF"></h1>
 
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"> 
@@ -44,6 +44,8 @@ You can view or download my resume here:
   <a href="https://www.linkedin.com/in/thakur-asutosh-dash-a6965922a/" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a>
   <a href="https://github.com/ThakurDash24" target="_blank"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/></a>
   <a href="https://huggingface.co/Laven24" target="_blank"><img src="https://img.shields.io/badge/Hugging%20Face-%23FFCC00.svg?&style=for-the-badge&logo=Hugging%20Face&logoColor=black"/></a>
+  <a href="https://x.com/mrthakurdash?s=11" target="_blank"><img src="https://img.shields.io/badge/Twitter-%231DA1F2.svg?&style=for-the-badge&logo=X&logoColor=white"/></a>
+  
 </p>
 
 ### 🧰 Tech Stack & Tools
