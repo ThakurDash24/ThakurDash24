@@ -36,8 +36,8 @@
 
 You can view or download my documents here:  
 
-👉 <a href="sandbox:/mnt/data/Finalised_Thakur_Resume.pdf">Finalised Resume</a>  
-👉 <a href="sandbox:/mnt/data/Extended_Resume_Thakur.pdf">Extended Resume / CV</a>
+👉 <a href="https://github.com/ThakurDash24/ThakurDash24/raw/main/Finalised_Thakur_Resume.pdf">Finalised Resume</a>  
+👉 <a href="https://github.com/ThakurDash24/ThakurDash24/raw/main/Extended_Resume_Thakur.pdf">Extended Resume / CV</a>
 
 
 
