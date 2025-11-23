@@ -34,8 +34,11 @@
 
 ### 📄 Resume
 
-You can view or download my resume here:  
-👉 [Click to View My Resume](https://github.com/ThakurDash24/ThakurDash24/blob/main/Updated_Resume_Thakur.pdf)
+You can view or download my documents here:  
+
+👉 <a href="sandbox:/mnt/data/Finalised_Thakur_Resume.pdf">Finalised Resume</a>  
+👉 <a href="sandbox:/mnt/data/Extended_Resume_Thakur.pdf">Extended Resume / CV</a>
+
 
 
 ### 🌐 Connect with Me ASAP !!!!!
