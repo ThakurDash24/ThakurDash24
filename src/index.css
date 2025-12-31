@@ -394,19 +394,42 @@ ul {
 }
 
 /* Projects Styles */
-.projects-grid {
-  display: grid;
+/* Projects Styles */
+.projects-scroll-container {
+  display: flex;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  overflow-x: auto;
+  padding-bottom: 2rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  /* Hide scrollbar for cleaner look, but keep functionality */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
+  cursor: grab;
+}
+
+.projects-scroll-container::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
+}
+
+.projects-scroll-container:active {
+  cursor: grabbing;
 }
 
 .project-card {
+  min-width: 400px;
+  max-width: 400px;
   padding: 2rem;
   border-radius: 6px;
   position: relative;
   overflow: hidden;
   cursor: default;
   transition: transform 0.35s ease, box-shadow 0.35s ease;
+  flex-shrink: 0;
+  /* Prevent shrinking */
 }
 
 .project-card:hover {
@@ -511,8 +534,19 @@ ul {
   }
 
   /* PROJECTS */
-  .projects-grid {
-    grid-template-columns: 1fr;
+  .projects-scroll-container {
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 2rem;
+    /* Ensure space for scrollbar if visible or touch area */
+  }
+
+  .project-card {
+    min-width: 85vw;
+    /* Show most of the card, with a peek at the next one */
+    max-width: 85vw;
+    scroll-snap-align: center;
   }
 
   /* RESEARCH & SKILLS */

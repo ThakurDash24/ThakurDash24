@@ -64,8 +64,13 @@ const Contact = () => {
                         transparent 40%
                     )`;
                 }}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.02)';
+                    e.currentTarget.style.transition = 'transform 0.3s ease';
+                }}
                 onMouseLeave={(e) => {
                     e.currentTarget.style.background = '';
+                    e.currentTarget.style.transform = 'scale(1)';
                 }}
             >
                 <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>

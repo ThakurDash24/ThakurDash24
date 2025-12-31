@@ -1,24 +1,87 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Section from '../components/Section';
 
+const researchAreas = [
+    {
+        title: 'Applied Machine Learning',
+        description: 'Bridging theory and practice. I focus on the full lifecycle of ML systems—from feature engineering and model selection to rigorous evaluation—deploying scalable solutions that drive real-world impact.',
+    },
+    {
+        title: 'Deep Learning Concepts',
+        description: 'Unraveling neural architectures. My work spans the mathematics of backpropagation, CNNs for vision, and Sequence Models, building a deep understanding of how complex representations are learned.',
+    },
+    {
+        title: 'NLP & Generative AI',
+        description: 'Harnessing the power of Language Models. I design sophisticated conversational agents and generative workflows, mastering prompt engineering and Transformer mechanics to create context-aware systems.',
+    },
+    {
+        title: 'Agentic AI',
+        description: 'Pioneering autonomous systems. Leveraging LangChain, I build agents with memory, planning, and tool-use capabilities, enabling them to reason and execute complex, multi-step goals independently.',
+        current: true,
+    },
+];
+
 const Research = () => {
+    const scrollRef = useRef(null);
+    // Duplicate items to create a seamless infinite loop effect
+    const infiniteResearch = [...researchAreas, ...researchAreas, ...researchAreas];
+
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+
+        // Initialize scroll position to the start of the second set (middle)
+        const initializeScroll = () => {
+            const oneSetWidth = el.scrollWidth / 3;
+            if (el.scrollLeft === 0) {
+                el.scrollLeft = oneSetWidth;
+            }
+        };
+
+        setTimeout(initializeScroll, 100);
+
+        const handleScroll = () => {
+            const oneSetWidth = el.scrollWidth / 3;
+
+            // Infinite loop logic
+            if (el.scrollLeft >= oneSetWidth * 2) {
+                el.scrollLeft = oneSetWidth;
+            }
+            else if (el.scrollLeft <= 0) {
+                el.scrollLeft = oneSetWidth;
+            }
+        };
+
+        // Mouse wheel logic for horizontal scroll
+        const onWheel = (e) => {
+            if (e.deltaY === 0) return;
+            e.preventDefault();
+            el.scrollLeft += e.deltaY;
+        };
+
+        el.addEventListener('scroll', handleScroll);
+        el.addEventListener('wheel', onWheel, { passive: false });
+
+        return () => {
+            el.removeEventListener('scroll', handleScroll);
+            el.removeEventListener('wheel', onWheel);
+        };
+    }, []);
+
+    const handleCardClick = (e) => {
+        e.currentTarget.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center'
+        });
+    };
+
     return (
         <Section id="research">
-            {/* Pulse animation for active focus */}
-            <style>
-                {`
-                @keyframes focusPulse {
-                    0% { opacity: 0.4; }
-                    50% { opacity: 1; }
-                    100% { opacity: 0.4; }
-                }
-                `}
-            </style>
-
             <h2
                 style={{
                     fontSize: '2.5rem',
-                    marginBottom: '2rem',
+                    marginBottom: '3rem',
                     textAlign: 'center',
                 }}
             >
@@ -30,201 +93,115 @@ const Research = () => {
                     color: 'var(--text-muted)',
                     marginBottom: '3rem',
                     textAlign: 'center',
+                    maxWidth: '800px',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
                 }}
             >
                 Exploring modern machine learning and AI systems with a focus on
                 building solutions that move beyond theory into real-world impact.
             </p>
 
-            {/* Responsive Grid */}
             <div
                 style={{
-                    display: 'grid',
-                    gridTemplateColumns:
-                        'repeat(auto-fit, minmax(320px, 1fr))',
-                    gap: '2.5rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    marginBottom: '3rem',
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '1rem',
+                    letterSpacing: '0.05em',
+                    opacity: 0.9,
+                    animation: 'luxuriousPulse 4s ease-in-out infinite',
                 }}
             >
-                {/* Applied ML */}
-                <div
-                    className="glass"
-                    style={{
-                        padding: '2rem',
-                        borderRadius: '6px',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        transition:
-                            'transform 0.35s ease, box-shadow 0.35s ease',
-                    }}
-                    onMouseMove={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
+                <div>Slide to know more</div>
+            </div>
 
-                        e.currentTarget.style.background =
-                            `radial-gradient(
-                                600px circle at ${x}px ${y}px,
-                                rgba(255,255,255,0.08),
-                                transparent 40%
-                            )`;
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-6px)';
-                        e.currentTarget.style.boxShadow =
-                            '0 18px 40px rgba(0,0,0,0.45)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = 'none';
-                        e.currentTarget.style.background = 'none';
-                    }}
-                >
-                    <h3>Applied Machine Learning</h3>
-                    <p style={{ color: 'var(--text-muted)' }}>
-                        Working on practical ML techniques including clustering,
-                        regression, forecasting, model evaluation, and deployment
-                        strategies for production-ready systems.
-                    </p>
-                </div>
-
-                {/* Deep Learning */}
-                <div
-                    className="glass"
-                    style={{
-                        padding: '2rem',
-                        borderRadius: '6px',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        transition:
-                            'transform 0.35s ease, box-shadow 0.35s ease',
-                    }}
-                    onMouseMove={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-
-                        e.currentTarget.style.background =
-                            `radial-gradient(
-                                600px circle at ${x}px ${y}px,
-                                rgba(255,255,255,0.08),
-                                transparent 40%
-                            )`;
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-6px)';
-                        e.currentTarget.style.boxShadow =
-                            '0 18px 40px rgba(0,0,0,0.45)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = 'none';
-                        e.currentTarget.style.background = 'none';
-                    }}
-                >
-                    <h3>Deep Learning Concepts</h3>
-                    <p style={{ color: 'var(--text-muted)' }}>
-                        Studying neural network fundamentals including backpropagation,
-                        optimization techniques, CNNs, and sequence models to
-                        understand how deep architectures learn representations.
-                    </p>
-                </div>
-
-                {/* NLP & GenAI */}
-                <div
-                    className="glass"
-                    style={{
-                        padding: '2rem',
-                        borderRadius: '6px',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        transition:
-                            'transform 0.35s ease, box-shadow 0.35s ease',
-                    }}
-                    onMouseMove={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-
-                        e.currentTarget.style.background =
-                            `radial-gradient(
-                                600px circle at ${x}px ${y}px,
-                                rgba(255,255,255,0.08),
-                                transparent 40%
-                            )`;
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-6px)';
-                        e.currentTarget.style.boxShadow =
-                            '0 18px 40px rgba(0,0,0,0.45)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = 'none';
-                        e.currentTarget.style.background = 'none';
-                    }}
-                >
-                    <h3>NLP & Generative AI</h3>
-                    <p style={{ color: 'var(--text-muted)' }}>
-                        Exploring text representation, transformers, LLM behavior,
-                        prompt engineering, and generative workflows for building
-                        conversational and content-driven AI systems.
-                    </p>
-                </div>
-
-                {/* Agentic AI */}
-                <div
-                    className="glass"
-                    style={{
-                        padding: '2rem',
-                        borderRadius: '6px',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        transition:
-                            'transform 0.35s ease, box-shadow 0.35s ease',
-                    }}
-                    onMouseMove={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-
-                        e.currentTarget.style.background =
-                            `radial-gradient(
-                                600px circle at ${x}px ${y}px,
-                                rgba(255,255,255,0.08),
-                                transparent 40%
-                            )`;
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-6px)';
-                        e.currentTarget.style.boxShadow =
-                            '0 18px 40px rgba(0,0,0,0.45)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = 'none';
-                        e.currentTarget.style.background = 'none';
-                    }}
-                >
-                    <h3>Agentic AI</h3>
-                    <p style={{ color: 'var(--text-muted)' }}>
-                        Actively working on agent-based AI systems using LangChain,
-                        tool calling, memory, and planning patterns to build autonomous
-                        agents capable of reasoning and goal-driven execution.
-                    </p>
-
-                    <p
+            {/* Scroll Container */}
+            <div
+                className="projects-scroll-container"
+                ref={scrollRef}
+            >
+                {infiniteResearch.map((item, index) => (
+                    <div
+                        key={`${item.title}-${index}`}
+                        className="glass project-card" // Reusing project-card for consistent sizing and styling
+                        onClick={handleCardClick}
                         style={{
-                            marginTop: '1rem',
-                            fontSize: '0.8rem',
-                            color: 'var(--text-muted)',
-                            animation:
-                                'focusPulse 1s ease-in-out infinite',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center'
+                        }}
+                        onMouseMove={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            const x = e.clientX - rect.left;
+                            const y = e.clientY - rect.top;
+
+                            e.currentTarget.style.background =
+                                `radial-gradient(
+                                    600px circle at ${x}px ${y}px,
+                                    rgba(255,255,255,0.08),
+                                    transparent 40%
+                                )`;
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-6px)';
+                            e.currentTarget.style.boxShadow =
+                                '0 18px 40px rgba(0,0,0,0.45)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = 'none';
+                            e.currentTarget.style.background = 'none';
                         }}
                     >
-                        Current focus
-                    </p>
-                </div>
+                        <h3 style={{
+                            color: 'var(--accent-gold)',
+                            marginBottom: '1.2rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.8rem',
+                            textShadow: '0 0 15px rgba(255, 215, 0, 0.25)'
+                        }}>
+                            {item.title}
+                            {item.current && (
+                                <span
+                                    style={{
+                                        fontSize: '0.65rem',
+                                        letterSpacing: '0.06em',
+                                        padding: '0.15rem 0.45rem',
+                                        borderRadius: '999px',
+                                        color: '#fff',
+                                        background: 'rgba(255,255,255,0.15)',
+                                        animation: 'focusPulse 1.6s ease-in-out infinite',
+                                        border: '1px solid rgba(255,255,255,0.1)',
+                                        whiteSpace: 'nowrap',
+                                        textShadow: 'none' // Prevent double glow on tag
+                                    }}
+                                >
+                                    CURRENT
+                                </span>
+                            )}
+                        </h3>
+                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                            {item.description}
+                        </p>
+                    </div>
+                ))}
             </div>
+
+            {/* Pulse animation for active focus */}
+            <style>
+                {`
+                @keyframes focusPulse {
+                    0% { opacity: 0.35; }
+                    50% { opacity: 1; }
+                    100% { opacity: 0.35; }
+                }
+                `}
+            </style>
         </Section>
     );
 };

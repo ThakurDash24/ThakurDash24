@@ -56,8 +56,48 @@ const Home = () => {
                 </p>
 
                 <div style={{ display: 'flex', gap: '1.5rem' }}>
-                    <a href="#projects" className="btn btn-primary">
-                        View Work
+                    <a
+                        href="https://resumyzer24.vercel.app"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            if (window.confirm("You are about to open 'Resumyzer' in a new tab. Continue?")) {
+                                window.open("https://resumyzer24.vercel.app", "_blank");
+                            }
+                        }}
+                        className="btn btn-primary"
+                        style={{
+                            position: 'relative',
+                            overflow: 'hidden',
+                            boxShadow: '0 0 20px rgba(255, 215, 0, 0.3)',
+                            border: '1px solid var(--accent-gold)',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '1rem 2rem',
+                            minWidth: '180px', // Ensure consistent width
+                        }}
+                    >
+                        <span style={{ position: 'relative', zIndex: 1, letterSpacing: '1px' }}>Freshly Deployed</span>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: '-100%',
+                                width: '100%',
+                                height: '100%',
+                                background: 'linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent)',
+                                animation: 'shine 3s infinite',
+                            }}
+                        />
+                        <style>
+                            {`
+                            @keyframes shine {
+                                0% { left: -100%; }
+                                20% { left: 100%; }
+                                100% { left: 100%; }
+                            }
+                            `}
+                        </style>
                     </a>
 
                     <a href="#contact" className="btn btn-secondary">

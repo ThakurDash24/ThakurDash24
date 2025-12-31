@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Section from '../components/Section';
 
 const About = () => {
+    const [inView, setInView] = useState(false);
+    const imgRef = useRef(null);
+
+    // Intersection Observer for scroll effect
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setInView(entry.isIntersecting);
+            },
+            {
+                threshold: 0.4, // Trigger when 40% of the image is visible
+            }
+        );
+
+        if (imgRef.current) {
+            observer.observe(imgRef.current);
+        }
+
+        return () => {
+            if (imgRef.current) {
+                observer.unobserve(imgRef.current);
+            }
+        };
+    }, []);
+
     return (
         <Section id="about">
             <div
@@ -85,24 +110,18 @@ const About = () => {
                             }}
                         >
                             <img
+                                ref={imgRef}
                                 src="/assets/profile.jpg"
                                 alt="Profile"
                                 style={{
                                     width: '100%',
-                                    height: '360px',   // ⬅️ extended height
+                                    height: '360px',
                                     objectFit: 'cover',
                                     objectPosition: 'center 22%',
-                                    filter: 'grayscale(100%)',
+                                    filter: inView ? 'grayscale(0%)' : 'grayscale(100%)',
+                                    transform: inView ? 'scale(1.05)' : 'scale(1)',
                                     transition:
-                                        'transform 0.6s ease, filter 0.6s ease',
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.transform = 'scale(1.05)';
-                                    e.target.style.filter = 'grayscale(0%)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.transform = 'scale(1)';
-                                    e.target.style.filter = 'grayscale(100%)';
+                                        'transform 3.5s ease, filter 3.5s ease',
                                 }}
                             />
                         </div>
