@@ -74,10 +74,7 @@ const About = () => {
                             marginBottom: '0.9rem',
                         }}
                     >
-                        My interests lie in <strong>Data Science, Machine Learning,
-                            and intelligent system design</strong>, where I enjoy
-                        working with data to uncover insight, build meaningful
-                        models, and translate complexity into practical solutions.
+                        I am <strong>Thakur Asutosh Dash</strong>, a <strong>Computer Science undergraduate</strong> with a <strong>strong academic record</strong> and a <strong>disciplined, systems-oriented mindset</strong>. Beyond academics, I’ve been actively involved in <strong>technical clubs</strong>, <strong>event organization</strong>, and <strong>student mentoring</strong>—experiences that strengthened my <strong>leadership</strong>, <strong>clear communication</strong>, and <strong>ownership of outcomes</strong>.
                     </p>
 
                     <p
@@ -87,10 +84,7 @@ const About = () => {
                             marginBottom: 0,
                         }}
                     >
-                        I value continuous growth, clarity of thought, and an
-                        optimistic approach. I seek structure even in chaos and
-                        focus on delivering outcomes that are thoughtful,
-                        reliable, and impact-driven.
+                        My core interests lie in <strong>Data Science</strong>, <strong>Machine Learning</strong>, and <strong>intelligent system design</strong>, where I emphasize <strong>thinking clearly before writing code</strong>. I’m driven by understanding <strong>why projects fail early</strong>—often due to <strong>poor data and system design decisions</strong>. I value <strong>fundamentals</strong>, <strong>continuous growth</strong>, and <strong>engineering discipline</strong>, with a focus on turning <strong>complex ideas into reliable, real-world impact</strong>.
                     </p>
                 </div>
 
