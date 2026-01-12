@@ -52,7 +52,7 @@ const About = () => {
                         }}
                     />
 
-                    <p
+                    {/* <p
                         style={{
                             fontSize: '1.05rem',
                             color: 'var(--text-muted)',
@@ -65,7 +65,7 @@ const About = () => {
                         I have actively contributed as a club member, organized
                         technical and academic events, and mentored students as a
                         student mentor.
-                    </p>
+                    </p> */}
 
                     <p
                         style={{
