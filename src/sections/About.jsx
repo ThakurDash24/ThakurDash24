@@ -74,7 +74,7 @@ const About = () => {
                             marginBottom: '0.9rem',
                         }}
                     >
-                        I am <strong>Thakur Asutosh Dash</strong>, a <strong>Computer Science undergraduate</strong> with a <strong>strong academic record</strong> and a <strong>disciplined, systems-oriented mindset</strong>. Beyond academics, I’ve been actively involved in <strong>technical clubs</strong>, <strong>event organization</strong>, and <strong>student mentoring</strong>—experiences that strengthened my <strong>leadership</strong>, <strong>clear communication</strong>, and <strong>ownership of outcomes</strong>.
+                        I am <strong>Thakur Asutosh Dash</strong>, a <strong>Computer Science undergraduate</strong> with a <strong>strong academic foundation</strong> and a <strong>systems-first way of thinking</strong>. My journey has been shaped not only by academics, but also by <strong>technical club involvement</strong>, <strong>event leadership</strong>, and <strong>student mentoring</strong>, experiences that trained me to think clearly, communicate precisely, and take ownership of results.
                     </p>
 
                     <p
@@ -84,7 +84,7 @@ const About = () => {
                             marginBottom: 0,
                         }}
                     >
-                        My core interests lie in <strong>Data Science</strong>, <strong>Machine Learning</strong>, and <strong>intelligent system design</strong>, where I emphasize <strong>thinking clearly before writing code</strong>. I’m driven by understanding <strong>why projects fail early</strong>—often due to <strong>poor data and system design decisions</strong>. I value <strong>fundamentals</strong>, <strong>continuous growth</strong>, and <strong>engineering discipline</strong>, with a focus on turning <strong>complex ideas into reliable, real-world impact</strong>.
+                        What draws me to <strong>Data Science</strong>, <strong>Machine Learning</strong>, and <strong>intelligent system design</strong> is the belief that most failures happen long before code is written. I focus on <strong>decision-making around data, design, and structure</strong>, because strong systems are built on clarity, not shortcuts. I value <strong>fundamentals</strong>, <strong>continuous growth</strong>, and <strong>engineering discipline</strong>, with a constant aim to convert <strong>complex ideas into dependable, real-world outcomes</strong>.
                     </p>
                 </div>
 
