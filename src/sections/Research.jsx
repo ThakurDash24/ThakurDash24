@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Section from '../components/Section';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const researchAreas = [
     {
@@ -52,19 +53,10 @@ const Research = () => {
             }
         };
 
-        // Mouse wheel logic for horizontal scroll
-        const onWheel = (e) => {
-            if (e.deltaY === 0) return;
-            e.preventDefault();
-            el.scrollLeft += e.deltaY;
-        };
-
         el.addEventListener('scroll', handleScroll);
-        el.addEventListener('wheel', onWheel, { passive: false });
 
         return () => {
             el.removeEventListener('scroll', handleScroll);
-            el.removeEventListener('wheel', onWheel);
         };
     }, []);
 
@@ -74,6 +66,18 @@ const Research = () => {
             block: 'nearest',
             inline: 'center'
         });
+    };
+
+    const scrollLeft = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollBy({ left: -432, behavior: 'smooth' }); // Card width + gap
+        }
+    };
+
+    const scrollRight = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollBy({ left: 432, behavior: 'smooth' }); // Card width + gap
+        }
     };
 
     return (
@@ -120,76 +124,97 @@ const Research = () => {
             </div>
 
             {/* Scroll Container */}
-            <div
-                className="projects-scroll-container"
-                ref={scrollRef}
-            >
-                {infiniteResearch.map((item, index) => (
-                    <div
-                        key={`${item.title}-${index}`}
-                        className="glass project-card" // Reusing project-card for consistent sizing and styling
-                        onClick={handleCardClick}
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center'
-                        }}
-                        onMouseMove={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            const x = e.clientX - rect.left;
-                            const y = e.clientY - rect.top;
+            <div style={{ position: 'relative', width: '100%' }}>
 
-                            e.currentTarget.style.background =
-                                `radial-gradient(
-                                    600px circle at ${x}px ${y}px,
-                                    rgba(255,255,255,0.08),
-                                    transparent 40%
-                                )`;
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-6px)';
-                            e.currentTarget.style.boxShadow =
-                                '0 18px 40px rgba(0,0,0,0.45)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = 'none';
-                            e.currentTarget.style.background = 'none';
-                        }}
-                    >
-                        <h3 style={{
-                            color: 'var(--accent-gold)',
-                            marginBottom: '1.2rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.8rem',
-                            textShadow: '0 0 15px rgba(255, 215, 0, 0.25)'
-                        }}>
-                            {item.title}
-                            {item.current && (
-                                <span
-                                    style={{
-                                        fontSize: '0.65rem',
-                                        letterSpacing: '0.06em',
-                                        padding: '0.15rem 0.45rem',
-                                        borderRadius: '999px',
-                                        color: '#fff',
-                                        background: 'rgba(255,255,255,0.15)',
-                                        animation: 'focusPulse 1.6s ease-in-out infinite',
-                                        border: '1px solid rgba(255,255,255,0.1)',
-                                        whiteSpace: 'nowrap',
-                                        textShadow: 'none' // Prevent double glow on tag
-                                    }}
-                                >
-                                    CURRENT
-                                </span>
-                            )}
-                        </h3>
-                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>
-                            {item.description}
-                        </p>
-                    </div>
-                ))}
+                {/* Left Glass Arrow */}
+                <button
+                    className="glass-arrow-btn glass-arrow-left"
+                    onClick={scrollLeft}
+                    aria-label="Scroll Left"
+                >
+                    <ChevronLeft size={24} />
+                </button>
+
+                <div
+                    className="projects-scroll-container hide-scrollbar"
+                    ref={scrollRef}
+                >
+                    {infiniteResearch.map((item, index) => (
+                        <div
+                            key={`${item.title}-${index}`}
+                            className="glass project-card" // Reusing project-card for consistent sizing and styling
+                            onClick={handleCardClick}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center'
+                            }}
+                            onMouseMove={(e) => {
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                const x = e.clientX - rect.left;
+                                const y = e.clientY - rect.top;
+
+                                e.currentTarget.style.background =
+                                    `radial-gradient(
+                                        600px circle at ${x}px ${y}px,
+                                        rgba(255,255,255,0.08),
+                                        transparent 40%
+                                    )`;
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-6px)';
+                                e.currentTarget.style.boxShadow =
+                                    '0 18px 40px rgba(0,0,0,0.45)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = 'none';
+                                e.currentTarget.style.background = 'none';
+                            }}
+                        >
+                            <h3 style={{
+                                color: 'var(--accent-gold)',
+                                marginBottom: '1.2rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.8rem',
+                                textShadow: '0 0 15px rgba(255, 215, 0, 0.25)'
+                            }}>
+                                {item.title}
+                                {item.current && (
+                                    <span
+                                        style={{
+                                            fontSize: '0.65rem',
+                                            letterSpacing: '0.06em',
+                                            padding: '0.15rem 0.45rem',
+                                            borderRadius: '999px',
+                                            color: '#fff',
+                                            background: 'rgba(255,255,255,0.15)',
+                                            animation: 'focusPulse 1.6s ease-in-out infinite',
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            whiteSpace: 'nowrap',
+                                            textShadow: 'none' // Prevent double glow on tag
+                                        }}
+                                    >
+                                        CURRENT
+                                    </span>
+                                )}
+                            </h3>
+                            <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                                {item.description}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Right Glass Arrow */}
+                <button
+                    className="glass-arrow-btn glass-arrow-right"
+                    onClick={scrollRight}
+                    aria-label="Scroll Right"
+                >
+                    <ChevronRight size={24} />
+                </button>
             </div>
 
             {/* Pulse animation for active focus */}

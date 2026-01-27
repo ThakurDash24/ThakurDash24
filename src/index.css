@@ -42,8 +42,8 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  transition: opacity 1.5s ease-out, visibility 1.5s ease-out;
-  /* Faster fade (1.5s) */
+  transition: opacity 1s ease-out, visibility 1s ease-out;
+  /* Optimized fade (1s) */
 }
 
 .loading-content {
@@ -65,6 +65,7 @@ body {
   animation: enterAndTurnGold 2s ease-in-out forwards 0.8s;
   /* Delay appearance */
   transition: all 1.5s ease-out;
+  will-change: opacity, color, filter, transform;
 }
 
 .loading-subtitle {
@@ -122,7 +123,8 @@ body {
   filter: blur(10px);
   transform: scale(1.02);
   /* Subtle zoom out for depth */
-  transition: opacity 1.5s ease-out, filter 1.5s ease-out, transform 1.5s ease-out;
+  transition: opacity 1s ease-out, filter 1s ease-out, transform 1s ease-out;
+  will-change: opacity, filter, transform;
 }
 
 .content-visible .content-wrapper {
@@ -135,7 +137,7 @@ body {
 .header,
 .luxury-bg-container {
   opacity: 0;
-  transition: opacity 1.5s ease-out;
+  transition: opacity 1s ease-out;
 }
 
 .content-visible .header,
@@ -145,7 +147,7 @@ body {
 
 /* Ensure Header transition doesn't conflict with scroll effect */
 .header {
-  transition: opacity 1.5s ease-out, padding 0.3s ease, background 0.3s ease;
+  transition: opacity 1s ease-out, padding 0.3s ease, background 0.3s ease;
 }
 
 /* Dust Fade Out Effect */
@@ -252,6 +254,7 @@ ul {
   filter: blur(120px);
   opacity: 0.5;
   animation: float 20s infinite ease-in-out;
+  will-change: transform;
 }
 
 .orb-1 {
@@ -417,6 +420,123 @@ ul {
 
 .projects-scroll-container:active {
   cursor: grabbing;
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Glass Arrow Button - High Gloss / Reflective Style */
+.glass-arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+
+  /* Glossy Background similar to reference */
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.1) 100%);
+
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  /* Highlight top border */
+  border-left: 1px solid rgba(255, 255, 255, 0.9);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  /* Ensure on top */
+
+  /* Strong shadow for 3D effect + Glow */
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 2px 2px 10px rgba(255, 255, 255, 0.5);
+  /* Inner shine */
+
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  color: #fff;
+  /* White icon */
+}
+
+/* Shining reflection on top */
+.glass-arrow-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  border-radius: 50% 50% 0 0;
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.1) 100%);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Hover State */
+.glass-arrow-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.2) 100%);
+  border-color: #fff;
+  box-shadow:
+    0 10px 40px 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+    inset 4px 4px 20px rgba(255, 255, 255, 0.6);
+}
+
+.glass-arrow-btn:active {
+  transform: translateY(-50%) scale(0.95);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.glass-arrow-left {
+  left: 10px;
+  /* Slight offset from edge */
+}
+
+.glass-arrow-right {
+  right: 10px;
+  /* Slight offset from edge */
+}
+
+/* Ensure visible on mobile now */
+@media (max-width: 768px) {
+  .glass-arrow-btn {
+    width: 40px;
+    /* Slightly smaller on mobile */
+    height: 40px;
+    display: flex;
+    /* Force display */
+  }
+
+  .glass-arrow-left {
+    left: 5px;
+  }
+
+  .glass-arrow-right {
+    right: 5px;
+  }
 }
 
 .project-card {

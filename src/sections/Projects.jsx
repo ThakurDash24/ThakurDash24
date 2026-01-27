@@ -1,5 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import Section from '../components/Section';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 
 const projects = [
     {
@@ -73,19 +75,10 @@ const Projects = () => {
             }
         };
 
-        // Mouse wheel logic for horizontal scroll
-        const onWheel = (e) => {
-            if (e.deltaY === 0) return;
-            e.preventDefault();
-            el.scrollLeft += e.deltaY;
-        };
-
         el.addEventListener('scroll', handleScroll);
-        el.addEventListener('wheel', onWheel, { passive: false });
 
         return () => {
             el.removeEventListener('scroll', handleScroll);
-            el.removeEventListener('wheel', onWheel);
         };
     }, []);
 
@@ -100,6 +93,18 @@ const Projects = () => {
             block: 'nearest',
             inline: 'center'
         });
+    };
+
+    const scrollLeft = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollBy({ left: -432, behavior: 'smooth' }); // Card width + gap
+        }
+    };
+
+    const scrollRight = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollBy({ left: 432, behavior: 'smooth' }); // Card width + gap
+        }
     };
 
     return (
@@ -128,83 +133,105 @@ const Projects = () => {
                 </div>
             </div>
 
-            <div
-                className="projects-scroll-container"
-                ref={scrollRef}
-            >
-                {infiniteProjects.map((project, index) => (
-                    <div
-                        key={`${project.title}-${index}`}
-                        className="glass project-card"
-                        onClick={(e) => handleCardClick(e, project.link)}
-                        onMouseMove={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            const x = e.clientX - rect.left;
-                            const y = e.clientY - rect.top;
+            {/* Container for scroll area + buttons */}
+            <div style={{ position: 'relative', width: '100%' }}>
 
-                            e.currentTarget.style.background = `radial-gradient(
-                                600px circle at ${x}px ${y}px,
-                                rgba(255,255,255,0.08),
-                                transparent 40%
-                            )`;
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.background = '';
-                        }}
-                    >
-                        {/* Project Title (Live Link) */}
-                        <h3
-                            className="project-title"
-                            style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}
-                            onClick={() => window.open(project.link, '_blank')}
+                {/* Left Glass Arrow */}
+                <button
+                    className="glass-arrow-btn glass-arrow-left"
+                    onClick={scrollLeft}
+                    aria-label="Scroll Left"
+                >
+                    <ChevronLeft size={24} />
+                </button>
+
+                <div
+                    className="projects-scroll-container hide-scrollbar"
+                    ref={scrollRef}
+                >
+                    {infiniteProjects.map((project, index) => (
+                        <div
+                            key={`${project.title}-${index}`}
+                            className="glass project-card"
+                            onClick={(e) => handleCardClick(e, project.link)}
+                            onMouseMove={(e) => {
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                const x = e.clientX - rect.left;
+                                const y = e.clientY - rect.top;
+
+                                e.currentTarget.style.background = `radial-gradient(
+                                    600px circle at ${x}px ${y}px,
+                                    rgba(255,255,255,0.08),
+                                    transparent 40%
+                                )`;
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.background = '';
+                            }}
                         >
-                            {project.title}
-                            {project.latest && (
+                            {/* Project Title (Live Link) */}
+                            <h3
+                                className="project-title"
+                                style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}
+                                onClick={() => window.open(project.link, '_blank')}
+                            >
+                                {project.title}
+                                {project.latest && (
+                                    <span
+                                        style={{
+                                            fontSize: '0.65rem',
+                                            letterSpacing: '0.06em',
+                                            padding: '0.15rem 0.45rem',
+                                            borderRadius: '999px',
+                                            color: '#fff',
+                                            background: 'rgba(255,255,255,0.15)',
+                                            animation: 'focusPulse 1.6s ease-in-out infinite',
+                                            whiteSpace: 'nowrap',
+                                            border: '1px solid rgba(255,255,255,0.1)'
+                                        }}
+                                    >
+                                        LATEST
+                                    </span>
+                                )}
+                            </h3>
+
+                            <p className="project-description">
+                                {project.description}
+                            </p>
+
+                            {/* Tags */}
+                            <div className="project-tags">
+                                {project.tags.map((tag) => (
+                                    <span key={tag} className="project-tag">
+                                        #{tag}
+                                    </span>
+                                ))}
+                            </div>
+
+                            {/* GitHub Link */}
+                            <div className="project-link-container">
                                 <span
-                                    style={{
-                                        fontSize: '0.65rem',
-                                        letterSpacing: '0.06em',
-                                        padding: '0.15rem 0.45rem',
-                                        borderRadius: '999px',
-                                        color: '#fff',
-                                        background: 'rgba(255,255,255,0.15)',
-                                        animation: 'focusPulse 1.6s ease-in-out infinite',
-                                        whiteSpace: 'nowrap',
-                                        border: '1px solid rgba(255,255,255,0.1)'
+                                    className="project-link"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        window.open(project.github, '_blank');
                                     }}
                                 >
-                                    LATEST
+                                    View on GitHub →
                                 </span>
-                            )}
-                        </h3>
-
-                        <p className="project-description">
-                            {project.description}
-                        </p>
-
-                        {/* Tags */}
-                        <div className="project-tags">
-                            {project.tags.map((tag) => (
-                                <span key={tag} className="project-tag">
-                                    #{tag}
-                                </span>
-                            ))}
+                            </div>
                         </div>
+                    ))}
+                </div>
 
-                        {/* GitHub Link */}
-                        <div className="project-link-container">
-                            <span
-                                className="project-link"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    window.open(project.github, '_blank');
-                                }}
-                            >
-                                View on GitHub →
-                            </span>
-                        </div>
-                    </div>
-                ))}
+                {/* Right Glass Arrow */}
+                <button
+                    className="glass-arrow-btn glass-arrow-right"
+                    onClick={scrollRight}
+                    aria-label="Scroll Right"
+                >
+                    <ChevronRight size={24} />
+                </button>
             </div>
 
             <style>
