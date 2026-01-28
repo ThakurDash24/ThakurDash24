@@ -391,7 +391,6 @@ ul {
   transition: all 0.3s ease;
   position: relative;
   color: var(--text-color);
-  /* Default solid color */
 }
 
 .nav-link:hover {
@@ -401,41 +400,24 @@ ul {
 
 .nav-link.active {
   opacity: 1;
-  /* Only apply the gradient text clip here */
-  background: linear-gradient(to right, var(--accent-gold) 50%, #ffffff 50%);
-  background-size: 200% 100%;
-  background-position: 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  animation: goldFlash 0.8s ease-out forwards;
+  color: var(--accent-gold);
   font-weight: 600;
   text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+  animation: goldFlash 0.6s ease-out forwards;
 }
 
 @keyframes goldFlash {
   0% {
-    background-position: 100%;
-    -webkit-text-fill-color: rgba(255, 255, 255, 0.7);
-    text-shadow: none;
-  }
-
-  50% {
-    /* The Flash */
-    background-position: 0;
-    -webkit-text-fill-color: #fff;
-    text-shadow: 0 0 20px var(--accent-gold);
+    color: #ffffff;
+    text-shadow: 0 0 20px #ffffff;
   }
 
   100% {
-    background-position: 0;
-    -webkit-text-fill-color: var(--accent-gold);
-    text-shadow: 0 0 8px rgba(197, 160, 89, 0.3);
+    color: var(--accent-gold);
+    text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
   }
 }
 
-/* Projects Styles */
 /* Projects Styles */
 .projects-scroll-container {
   display: flex;
