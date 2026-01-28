@@ -132,7 +132,7 @@ const Research = () => {
                     onClick={scrollLeft}
                     aria-label="Scroll Left"
                 >
-                    <ChevronLeft size={20} color="currentColor" />
+                    <ChevronLeft size={20} color="#c5a059" />
                 </button>
 
                 <div
@@ -213,7 +213,7 @@ const Research = () => {
                     onClick={scrollRight}
                     aria-label="Scroll Right"
                 >
-                    <ChevronRight size={20} color="currentColor" />
+                    <ChevronRight size={20} color="#c5a059" />
                 </button>
             </div>
 
