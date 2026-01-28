@@ -1,11 +1,11 @@
-import { useState, Suspense, lazy } from 'react'
+import { useState, Suspense, lazy, useEffect, useCallback } from 'react'
 import LoadingScreen from './components/LoadingScreen'
 import Header from './components/Header'
 import ScrollProgress from './components/ScrollProgress'
-import Home from './sections/Home'
 import Footer from './sections/Footer'
 
-// Lazy load below-the-fold content
+// Lazy load ALL sections for proper suspense coordination
+const Home = lazy(() => import('./sections/Home'))
 const About = lazy(() => import('./sections/About'))
 const Skills = lazy(() => import('./sections/Skills'))
 const Projects = lazy(() => import('./sections/Projects'))
@@ -14,9 +14,38 @@ const Research = lazy(() => import('./sections/Research'))
 const Resume = lazy(() => import('./sections/Resume'))
 const Contact = lazy(() => import('./sections/Contact'))
 
+// Main content component - triggers suspense for all lazy components
+function MainContent({ onAllLoaded }) {
+    useEffect(() => {
+        // Signal that all components have loaded
+        onAllLoaded();
+    }, [onAllLoaded]);
+
+    return (
+        <>
+            <main>
+                <Home />
+                <About />
+                <Skills />
+                <Projects />
+                <Experience />
+                <Research />
+                <Resume />
+                <Contact />
+            </main>
+            <Footer />
+        </>
+    );
+}
+
 function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [isContentVisible, setIsContentVisible] = useState(false);
+    const [allComponentsLoaded, setAllComponentsLoaded] = useState(false);
+
+    const handleAllLoaded = useCallback(() => {
+        setAllComponentsLoaded(true);
+    }, []);
 
     return (
         <div className={`app ${isContentVisible ? 'content-visible' : ''}`}>
@@ -24,6 +53,7 @@ function App() {
                 <LoadingScreen
                     onComplete={() => setIsLoading(false)}
                     onFadeOutStart={() => setIsContentVisible(true)}
+                    allComponentsLoaded={allComponentsLoaded}
                 />
             )}
 
@@ -37,19 +67,9 @@ function App() {
             <ScrollProgress />
 
             <div className="content-wrapper">
-                <main>
-                    <Home />
-                    <Suspense fallback={<div style={{ height: '100vh' }}></div>}>
-                        <About />
-                        <Skills />
-                        <Projects />
-                        <Experience />
-                        <Research />
-                        <Resume />
-                        <Contact />
-                    </Suspense>
-                </main>
-                <Footer />
+                <Suspense fallback={null}>
+                    <MainContent onAllLoaded={handleAllLoaded} />
+                </Suspense>
             </div>
         </div>
     )

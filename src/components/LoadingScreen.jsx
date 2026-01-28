@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
-const LoadingScreen = ({ onComplete, onFadeOutStart }) => {
+const LoadingScreen = ({ onComplete, onFadeOutStart, allComponentsLoaded }) => {
     const [isFading, setIsFading] = useState(false);
+    const hasStartedFading = useRef(false);
 
     useEffect(() => {
-        const handleLoad = () => {
-            // Wait a bit more to ensure smooth transition
+        // Only start fading when all components are loaded
+        if (allComponentsLoaded && !hasStartedFading.current) {
+            hasStartedFading.current = true;
+
+            // Add a small delay for visual polish
             setTimeout(() => {
                 setIsFading(true);
                 if (onFadeOutStart) onFadeOutStart();
@@ -13,27 +17,25 @@ const LoadingScreen = ({ onComplete, onFadeOutStart }) => {
                 setTimeout(() => {
                     onComplete();
                 }, 1000); // Wait for fade out animation
-            }, 2500); // Minimum display time
-        };
-
-        if (document.readyState === 'complete') {
-            handleLoad();
-        } else {
-            window.addEventListener('load', handleLoad);
+            }, 500); // Small delay after loading for smoother feel
         }
+    }, [allComponentsLoaded, onComplete, onFadeOutStart]);
 
-        // Safety fallback: Force load after 7 seconds max
+    // Safety fallback: Force load after 10 seconds max
+    useEffect(() => {
         const safetyTimer = setTimeout(() => {
-            if (!isFading) {
+            if (!hasStartedFading.current) {
                 console.warn("Loading screen safety timeout triggered");
-                handleLoad();
+                hasStartedFading.current = true;
+                setIsFading(true);
+                if (onFadeOutStart) onFadeOutStart();
+                setTimeout(() => {
+                    onComplete();
+                }, 1000);
             }
-        }, 7000);
+        }, 10000);
 
-        return () => {
-            window.removeEventListener('load', handleLoad);
-            clearTimeout(safetyTimer);
-        };
+        return () => clearTimeout(safetyTimer);
     }, [onComplete, onFadeOutStart]);
 
     return (
