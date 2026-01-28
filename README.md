@@ -36,8 +36,8 @@
 
 You can view or download my documents here:  
 
-👉 <a href="https://github.com/ThakurDash24/ThakurDash24/raw/main/Resume_ThakurDash.pdf"> Resume </a>  
-👉 <a href="https://github.com/ThakurDash24/ThakurDash24/raw/main/Extended_Resume_Thakur.pdf"> CV </a>
+👉 <a href="https://tdash24.vercel.app/assets/Resume_ThakurDash.pdf"> Resume </a>  
+👉 <a href="https://tdash24.vercel.app/assets/CV_ThakurDash.pdf"> CV </a>
 
 
 
