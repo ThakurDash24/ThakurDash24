@@ -4,22 +4,26 @@ const LoadingScreen = ({ onComplete, onFadeOutStart }) => {
     const [isFading, setIsFading] = useState(false);
 
     useEffect(() => {
-        // Start fading out after a short delay to ensure the user sees the text
-        const fadeTimer = setTimeout(() => {
-            setIsFading(true);
-            if (onFadeOutStart) onFadeOutStart(); // Trigger content animation
-        }, 2500); // Display for 2.5 seconds
+        const handleLoad = () => {
+            // Wait a bit more to ensure smooth transition
+            setTimeout(() => {
+                setIsFading(true);
+                if (onFadeOutStart) onFadeOutStart();
 
-        // Notify parent that animation is complete after the fade transition
-        const completeTimer = setTimeout(() => {
-            onComplete();
-        }, 3500); // 2.5s display + 1s fade
-
-        return () => {
-            clearTimeout(fadeTimer);
-            clearTimeout(completeTimer);
+                setTimeout(() => {
+                    onComplete();
+                }, 1000); // Wait for fade out animation
+            }, 2500); // Minimum display time
         };
-    }, [onComplete]);
+
+        if (document.readyState === 'complete') {
+            handleLoad();
+        } else {
+            window.addEventListener('load', handleLoad);
+        }
+
+        return () => window.removeEventListener('load', handleLoad);
+    }, [onComplete, onFadeOutStart]);
 
     return (
         <div className={`loading-screen ${isFading ? 'fade-out' : ''}`}>
