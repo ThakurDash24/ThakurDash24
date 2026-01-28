@@ -1,6 +1,7 @@
 import { useState, Suspense, lazy } from 'react'
 import LoadingScreen from './components/LoadingScreen'
 import Header from './components/Header'
+import ScrollProgress from './components/ScrollProgress'
 import Home from './sections/Home'
 import Footer from './sections/Footer'
 
@@ -33,6 +34,7 @@ function App() {
             </div>
 
             <Header />
+            <ScrollProgress />
 
             <div className="content-wrapper">
                 <main>
