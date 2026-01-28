@@ -22,7 +22,18 @@ const LoadingScreen = ({ onComplete, onFadeOutStart }) => {
             window.addEventListener('load', handleLoad);
         }
 
-        return () => window.removeEventListener('load', handleLoad);
+        // Safety fallback: Force load after 7 seconds max
+        const safetyTimer = setTimeout(() => {
+            if (!isFading) {
+                console.warn("Loading screen safety timeout triggered");
+                handleLoad();
+            }
+        }, 7000);
+
+        return () => {
+            window.removeEventListener('load', handleLoad);
+            clearTimeout(safetyTimer);
+        };
     }, [onComplete, onFadeOutStart]);
 
     return (

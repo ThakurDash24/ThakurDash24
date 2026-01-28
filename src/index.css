@@ -393,9 +393,11 @@ ul {
   color: var(--text-color);
 }
 
-.nav-link:hover {
-  opacity: 1;
-  color: var(--accent-gold);
+@media (hover: hover) {
+  .nav-link:hover {
+    opacity: 1;
+    color: var(--accent-gold);
+  }
 }
 
 .nav-link.active {

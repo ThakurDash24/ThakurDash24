@@ -1,36 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
+    const sectionsRef = useRef({});
 
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
         };
 
-        // Scroll Spy Logic
+        // Scroll Spy Logic - Tracks visibility ratios and selects the most visible section
         const observerOptions = {
-            threshold: [0.1, 0.3, 0.5, 0.7], // Multiple thresholds for better tracking
-            rootMargin: "-10% 0px -45% 0px" // Focus on the top-center part of the screen
+            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+            rootMargin: "-10% 0px -40% 0px"
         };
 
         const observerCallback = (entries) => {
-            // We only care about intersecting entries, but since multiple can intersect,
-            // we should ideally track which one is *most* visible if we had access to all at once.
-            // However, observer fires on changes.
-            // A common robust way is to select the intersecting one with the highest ratio.
-
             entries.forEach((entry) => {
-                if (entry.isIntersecting && entry.intersectionRatio > 0.2) {
-                    setActiveSection(entry.target.id);
-                }
+                sectionsRef.current[entry.target.id] = entry.isIntersecting ? entry.intersectionRatio : 0;
             });
+
+            // Find section with highest visibility ratio
+            let maxRatio = 0;
+            let maxId = 'home';
+
+            for (const [id, ratio] of Object.entries(sectionsRef.current)) {
+                if (ratio > maxRatio) {
+                    maxRatio = ratio;
+                    maxId = id;
+                }
+            }
+
+            if (maxRatio > 0.05) {
+                setActiveSection(maxId);
+            }
         };
 
         const observer = new IntersectionObserver(observerCallback, observerOptions);
         const sections = document.querySelectorAll('section[id]');
-        sections.forEach((section) => observer.observe(section));
+
+        sections.forEach((section) => {
+            observer.observe(section);
+            sectionsRef.current[section.id] = 0;
+        });
 
         window.addEventListener('scroll', handleScroll);
 
@@ -52,6 +65,9 @@ const Header = () => {
 
     const handleNavClick = (e, href) => {
         e.preventDefault();
+        const sectionId = href.substring(1);
+        setActiveSection(sectionId); // Immediate visual feedback
+
         const element = document.querySelector(href);
         if (element) {
             const offsetTop = element.offsetTop;
@@ -59,7 +75,6 @@ const Header = () => {
                 top: offsetTop,
                 behavior: 'smooth'
             });
-            // Update URL hash without jumping
             history.pushState(null, null, href);
         }
     };
