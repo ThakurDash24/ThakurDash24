@@ -1,19 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
     const sectionsRef = useRef({});
 
+    // Scroll-based section detection (fallback for mobile)
+    const updateActiveByScroll = useCallback(() => {
+        const sections = document.querySelectorAll('section[id]');
+        const scrollPosition = window.scrollY + window.innerHeight / 3;
+
+        let currentSection = 'home';
+
+        sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                currentSection = section.id;
+            }
+        });
+
+        setActiveSection(currentSection);
+    }, []);
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
+            // Also update active section on scroll (mobile fallback)
+            updateActiveByScroll();
         };
 
-        // Scroll Spy Logic - Tracks visibility ratios and selects the most visible section
+        // IntersectionObserver for desktop (more precise)
         const observerOptions = {
-            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-            rootMargin: "-10% 0px -40% 0px"
+            threshold: [0, 0.1, 0.2, 0.3, 0.5],
+            rootMargin: "0px 0px -20% 0px" // More lenient for mobile
         };
 
         const observerCallback = (entries) => {
@@ -45,13 +66,16 @@ const Header = () => {
             sectionsRef.current[section.id] = 0;
         });
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Initial check
+        updateActiveByScroll();
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
             sections.forEach((section) => observer.unobserve(section));
         };
-    }, []);
+    }, [updateActiveByScroll]);
 
     const navLinks = [
         { name: 'Home', href: '#home' },
