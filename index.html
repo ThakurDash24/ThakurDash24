@@ -134,30 +134,102 @@
       gap: 1rem;
     }
 
+    /* Sci-Fi HUD / Tech Loader */
+    #initial-loader::before {
+      content: '';
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      background:
+        radial-gradient(circle at center, rgba(14, 20, 30, 0.9) 0%, #0a0a0a 100%),
+        linear-gradient(rgba(197, 160, 89, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(197, 160, 89, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
     .initial-progress-container {
-      width: 200px;
-      height: 2px;
-      background: rgba(255, 255, 255, 0.1);
-      overflow: hidden;
-      border-radius: 4px;
+      width: 300px;
+      height: 14px;
+      background: rgba(10, 10, 10, 0.8);
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 4px;
+      border: 1px solid rgba(197, 160, 89, 0.1);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      /* Tech Twitch */
+      animation: twitch 3s infinite steps(1);
     }
 
+    /* Tech Brackets [ ] */
+    .initial-progress-container::before,
+    .initial-progress-container::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      bottom: -6px;
+      width: 12px;
+      border: 2px solid #c5a059;
+      transition: all 0.3s ease;
+      opacity: 0.8;
+      box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+    }
+
+    .initial-progress-container::before {
+      left: -12px;
+      border-right: none;
+      animation: bracket-left 1s ease-out forwards;
+    }
+
+    .initial-progress-container::after {
+      right: -12px;
+      border-left: none;
+      animation: bracket-right 1s ease-out forwards;
+    }
+
+    /* Segmented Data Bar */
     .initial-progress-bar {
-      height: 100%;
-      background-color: #c5a059;
+      height: 6px;
+      background: repeating-linear-gradient(90deg,
+          #c5a059,
+          #c5a059 4px,
+          transparent 4px,
+          transparent 8px);
       width: 0%;
-      box-shadow: 0 0 10px #c5a059;
-      animation: initial-load 2s cubic-bezier(0.1, 0.4, 0.2, 1) forwards;
+      box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+      position: relative;
+      animation: initial-load 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    .initial-status {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.5);
-      margin-top: 1rem;
-      letter-spacing: 1px;
+    /* Scanner Line (The Laser) */
+    .initial-progress-container .scanline {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 100%;
+      background: #ffffff;
+      box-shadow: 0 0 15px #ffffff;
+      opacity: 0.6;
+      animation: scan 1.5s ease-in-out infinite alternate;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    /* Status Text Below */
+    .initial-status-text {
+      position: absolute;
+      bottom: -25px;
+      right: 0;
+      color: #c5a059;
+      font-family: 'Inter', monospace;
+      /* Monospace for tech feel */
+      font-size: 10px;
+      letter-spacing: 2px;
+      opacity: 0.7;
       text-transform: uppercase;
-      animation: pulse 1.5s infinite ease-in-out;
     }
 
     @keyframes initial-load {
@@ -165,28 +237,78 @@
         width: 0%;
       }
 
-      30% {
-        width: 40%;
-      }
-
-      70% {
-        width: 70%;
-      }
-
       100% {
         width: 99%;
       }
     }
 
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 0.5;
+    @keyframes bracket-left {
+      0% {
+        transform: translateX(20px);
+        opacity: 0;
       }
 
-      50% {
+      100% {
+        transform: translateX(0);
         opacity: 0.8;
+      }
+    }
+
+    @keyframes bracket-right {
+      0% {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+
+      100% {
+        transform: translateX(0);
+        opacity: 0.8;
+      }
+    }
+
+    @keyframes scan {
+      0% {
+        left: 0%;
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        left: 100%;
+        opacity: 0;
+      }
+    }
+
+    @keyframes twitch {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      90% {
+        transform: translate(0, 0);
+      }
+
+      91% {
+        transform: translate(1px, 0);
+      }
+
+      92% {
+        transform: translate(-1px, 0);
+      }
+
+      93% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate(0, 0);
       }
     }
   </style>
@@ -198,8 +320,9 @@
       <div class="initial-content">
         <div class="initial-progress-container">
           <div class="initial-progress-bar"></div>
+          <div class="scanline"></div>
+          <div class="initial-status-text">SYSTEM.INIT</div>
         </div>
-        <div class="initial-status">Initializing</div>
       </div>
     </div>
   </div>

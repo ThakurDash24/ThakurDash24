@@ -5,19 +5,29 @@ const ScrollProgress = () => {
     const [showBackToTop, setShowBackToTop] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        let rafId = null;
 
-            setScrollProgress(progress);
-            setShowBackToTop(scrollTop > window.innerHeight * 0.5); // Show after 50% of viewport
+        const handleScroll = () => {
+            if (rafId) return;
+
+            rafId = requestAnimationFrame(() => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
+                setScrollProgress(progress);
+                setShowBackToTop(scrollTop > window.innerHeight * 0.5);
+                rafId = null;
+            });
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll(); // Initial check
 
-        return () => window.removeEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            if (rafId) cancelAnimationFrame(rafId);
+        };
     }, []);
 
     const scrollToTop = () => {

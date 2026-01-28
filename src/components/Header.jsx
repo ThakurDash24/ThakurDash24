@@ -84,13 +84,26 @@ const Header = () => {
         { name: 'Projects', href: '#projects' },
         { name: 'Experience', href: '#experience' },
         { name: 'Research', href: '#research' },
+        { name: 'Resume', href: '#resume' },
         { name: 'Contact', href: '#contact' },
     ];
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    // ... existing scroll logic ...
+
+    // Toggle menu
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    // Close menu when clicking a link
     const handleNavClick = (e, href) => {
         e.preventDefault();
+        setIsMenuOpen(false); // Close mobile menu
+
         const sectionId = href.substring(1);
-        setActiveSection(sectionId); // Immediate visual feedback
+        setActiveSection(sectionId);
 
         const element = document.querySelector(href);
         if (element) {
@@ -110,7 +123,18 @@ const Header = () => {
                     ThakurDash<span>.</span>
                 </a>
 
-                <nav>
+                {/* Hamburger Button */}
+                <button
+                    className={`hamburger ${isMenuOpen ? 'active' : ''}`}
+                    onClick={toggleMenu}
+                    aria-label="Toggle Navigation"
+                >
+                    <span className="bar"></span>
+                    <span className="bar"></span>
+                    <span className="bar"></span>
+                </button>
+
+                <nav className={`nav-menu-container ${isMenuOpen ? 'active' : ''}`}>
                     <ul className="nav-menu">
                         {navLinks.map((link) => {
                             const isActive = activeSection === link.href.substring(1);
