@@ -14,16 +14,12 @@
   <title>Thakur Asutosh Dash | AI/ML Engineer & Data Scientist</title>
 
   <!-- ✅ CANONICAL DESCRIPTION (ENTITY-DEFINING) -->
-  <meta
-    name="description"
-    content="Thakur Asutosh Dash is an AI/ML Engineer and Computer Science undergraduate based in Bhubaneswar, Odisha, India. He specializes in Generative AI, Computer Vision, and Data Science."
-  />
+  <meta name="description"
+    content="Thakur Asutosh Dash is an AI/ML Engineer and Computer Science undergraduate based in Bhubaneswar, Odisha, India. He specializes in Generative AI, Computer Vision, and Data Science." />
 
   <!-- ✅ KEYWORDS FOR SEARCH OPTIMIZATION -->
-  <meta 
-    name="keywords" 
-    content="Thakur Dash, Thakur Asutosh Dash, AI Engineer, ML Engineer, Data Scientist, Bhubaneswar, Odisha, Generative AI, Computer Vision, Machine Learning, Python Developer, FastAPI, React Developer, Portfolio" 
-  />
+  <meta name="keywords"
+    content="Thakur Dash, Thakur Asutosh Dash, AI Engineer, ML Engineer, Data Scientist, Bhubaneswar, Odisha, Generative AI, Computer Vision, Machine Learning, Python Developer, FastAPI, React Developer, Portfolio" />
 
   <!-- ✅ AUTHOR / ENTITY SIGNALS -->
   <meta name="author" content="Thakur Asutosh Dash" />
@@ -35,10 +31,8 @@
 
   <!-- ✅ OPEN GRAPH (MATCHES ENTITY) -->
   <meta property="og:title" content="Thakur Asutosh Dash | AI/ML Engineer & Data Scientist" />
-  <meta
-    property="og:description"
-    content="Portfolio of Thakur Asutosh Dash, an AI/ML Engineer specializing in Generative AI, Computer Vision, and Data Science."
-  />
+  <meta property="og:description"
+    content="Portfolio of Thakur Asutosh Dash, an AI/ML Engineer specializing in Generative AI, Computer Vision, and Data Science." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://tdash24.vercel.app/" />
   <meta property="og:site_name" content="Thakur Asutosh Dash Portfolio" />
@@ -49,7 +43,8 @@
   <!-- ✅ TWITTER CARD -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Thakur Asutosh Dash | AI/ML Engineer & Data Scientist" />
-  <meta name="twitter:description" content="Portfolio of Thakur Asutosh Dash, an AI/ML Engineer specializing in Generative AI, Computer Vision, and Data Science." />
+  <meta name="twitter:description"
+    content="Portfolio of Thakur Asutosh Dash, an AI/ML Engineer specializing in Generative AI, Computer Vision, and Data Science." />
   <meta name="twitter:image" content="https://tdash24.vercel.app/assets/profile.jpg" />
 
   <!-- ✅ GEO TAGS -->
@@ -105,19 +100,109 @@
   <!-- ✅ PRELOAD CRITICAL RESOURCES -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+    as="style" />
   <link
-    rel="preload"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
-    as="style"
-  />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
-    rel="stylesheet"
-  />
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* Critical CSS for Initial Loader */
+    body {
+      margin: 0;
+      background-color: #0a0a0a;
+      color: #f8fafc;
+    }
+
+    #initial-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0a0a0a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .initial-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .initial-progress-container {
+      width: 200px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .initial-progress-bar {
+      height: 100%;
+      background-color: #c5a059;
+      width: 0%;
+      box-shadow: 0 0 10px #c5a059;
+      animation: initial-load 2s cubic-bezier(0.1, 0.4, 0.2, 1) forwards;
+    }
+
+    .initial-status {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    @keyframes initial-load {
+      0% {
+        width: 0%;
+      }
+
+      30% {
+        width: 40%;
+      }
+
+      70% {
+        width: 70%;
+      }
+
+      100% {
+        width: 99%;
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.5;
+      }
+
+      50% {
+        opacity: 0.8;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <div id="initial-loader">
+      <div class="initial-content">
+        <div class="initial-progress-container">
+          <div class="initial-progress-bar"></div>
+        </div>
+        <div class="initial-status">Initializing</div>
+      </div>
+    </div>
+  </div>
   <script type="module" src="/src/main.jsx"></script>
 
   <!-- ✅ ENTITY DISAMBIGUATION BLOCK (PASTE HERE) -->
@@ -126,4 +211,5 @@
     It does not refer to Thakur Das Bhargava, the Indian independence leader and politician.
   </section>
 </body>
+
 </html>

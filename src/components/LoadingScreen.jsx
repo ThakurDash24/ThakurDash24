@@ -3,13 +3,18 @@ import { useEffect, useState, useRef } from 'react';
 const LoadingScreen = ({ onComplete, onFadeOutStart, allComponentsLoaded }) => {
     const [isFading, setIsFading] = useState(false);
     const hasStartedFading = useRef(false);
+    const startTime = useRef(Date.now());
+    const MIN_DURATION = 2500; // Minimum duration in ms
 
     useEffect(() => {
         // Only start fading when all components are loaded
         if (allComponentsLoaded && !hasStartedFading.current) {
+            const elapsedTime = Date.now() - startTime.current;
+            const remainingTime = Math.max(0, MIN_DURATION - elapsedTime);
+
             hasStartedFading.current = true;
 
-            // Add a small delay for visual polish
+            // Wait for remaining time + small buffer if needed
             setTimeout(() => {
                 setIsFading(true);
                 if (onFadeOutStart) onFadeOutStart();
@@ -17,7 +22,7 @@ const LoadingScreen = ({ onComplete, onFadeOutStart, allComponentsLoaded }) => {
                 setTimeout(() => {
                     onComplete();
                 }, 1000); // Wait for fade out animation
-            }, 500); // Small delay after loading for smoother feel
+            }, remainingTime);
         }
     }, [allComponentsLoaded, onComplete, onFadeOutStart]);
 
@@ -42,10 +47,10 @@ const LoadingScreen = ({ onComplete, onFadeOutStart, allComponentsLoaded }) => {
         <div className={`loading-screen ${isFading ? 'fade-out' : ''}`}>
             <div className="loading-content">
                 <div className="loading-subtitle">
-                    Welcome to the portfolio
+                    Welcome to Portfolio
                 </div>
                 <div className="loading-text">
-                    TDash
+                    Tdash Production
                 </div>
             </div>
         </div>
