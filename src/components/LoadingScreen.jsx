@@ -8,12 +8,12 @@ const LoadingScreen = ({ onComplete, onFadeOutStart }) => {
         const fadeTimer = setTimeout(() => {
             setIsFading(true);
             if (onFadeOutStart) onFadeOutStart(); // Trigger content animation
-        }, 1500); // Display for 1.5 seconds (optimized for faster loading)
+        }, 2500); // Display for 2.5 seconds
 
         // Notify parent that animation is complete after the fade transition
         const completeTimer = setTimeout(() => {
             onComplete();
-        }, 2500); // 1.5s display + 1s fade (optimized)
+        }, 3500); // 2.5s display + 1s fade
 
         return () => {
             clearTimeout(fadeTimer);

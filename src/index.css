@@ -437,105 +437,171 @@ ul {
 /* Glass Arrow Button - High Gloss / Reflective Style */
 .glass-arrow-btn {
   position: absolute;
-  top: 50%;
+  top: 45%;
+  /* Moved up 5% for better vertical alignment */
   transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
 
-  /* Glossy Background similar to reference */
+  /* Enhanced Glossy Background with stronger shine */
   background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.4) 0%,
-      rgba(255, 255, 255, 0.1) 100%);
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.02) 100%);
 
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-top: 1px solid rgba(255, 255, 255, 0.9);
-  /* Highlight top border */
-  border-left: 1px solid rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-top: 2px solid rgba(255, 255, 255, 0.7);
+  /* Enhanced highlight top border */
+  border-left: 1.5px solid rgba(255, 255, 255, 0.6);
 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 20;
-  /* Ensure on top */
 
-  /* Strong shadow for 3D effect + Glow */
+  /* Enhanced shadow for stronger 3D effect + Glow */
   box-shadow:
-    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    0 12px 40px 0 rgba(0, 0, 0, 0.4),
+    0 4px 16px 0 rgba(255, 255, 255, 0.1),
     inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-    inset 2px 2px 10px rgba(255, 255, 255, 0.5);
-  /* Inner shine */
+    inset 3px 3px 15px rgba(255, 255, 255, 0.3),
+    inset -2px -2px 10px rgba(0, 0, 0, 0.1);
+  /* Multi-layer shine with depth */
 
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
-  color: #fff;
-  /* White icon */
+  color: rgba(255, 255, 255, 0.85);
 }
 
-/* Shining reflection on top */
+/* Enhanced shining reflection on top */
 .glass-arrow-btn::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 50%;
+  height: 60%;
   border-radius: 50% 50% 0 0;
   background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.3) 40%,
+      rgba(255, 255, 255, 0) 100%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Additional glossy highlight spot */
+.glass-arrow-btn::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center,
       rgba(255, 255, 255, 0.8) 0%,
-      rgba(255, 255, 255, 0.1) 100%);
-  opacity: 0.3;
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 100%);
+  opacity: 0.6;
   pointer-events: none;
 }
 
 /* Hover State */
 .glass-arrow-btn:hover {
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) scale(1.12);
   background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.6) 0%,
-      rgba(255, 255, 255, 0.2) 100%);
-  border-color: #fff;
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.05) 100%);
+  border-color: rgba(255, 255, 255, 0.7);
   box-shadow:
-    0 10px 40px 0 rgba(0, 0, 0, 0.4),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.4),
-    inset 4px 4px 20px rgba(255, 255, 255, 0.6);
+    0 16px 48px 0 rgba(0, 0, 0, 0.5),
+    0 6px 20px 0 rgba(255, 255, 255, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3),
+    inset 4px 4px 20px rgba(255, 255, 255, 0.4),
+    inset -3px -3px 12px rgba(0, 0, 0, 0.15);
+  color: rgba(255, 255, 255, 1);
 }
 
 .glass-arrow-btn:active {
-  transform: translateY(-50%) scale(0.95);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-50%) scale(0.98);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 .glass-arrow-left {
-  left: 10px;
-  /* Slight offset from edge */
+  left: -30px;
 }
 
 .glass-arrow-right {
-  right: 10px;
-  /* Slight offset from edge */
+  right: -30px;
 }
 
-/* Ensure visible on mobile now */
-@media (max-width: 768px) {
+/* Responsive sizing for different screen sizes */
+@media (max-width: 1200px) {
   .glass-arrow-btn {
-    width: 40px;
-    /* Slightly smaller on mobile */
-    height: 40px;
-    display: flex;
-    /* Force display */
+    width: 50px;
+    height: 50px;
   }
 
   .glass-arrow-left {
-    left: 5px;
+    left: -25px;
   }
 
   .glass-arrow-right {
-    right: 5px;
+    right: -25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .glass-arrow-btn {
+    width: 44px;
+    height: 44px;
+    top: 42%;
+    /* Adjust vertical position for mobile */
+  }
+
+  .glass-arrow-btn::after {
+    width: 16px;
+    height: 16px;
+    top: 6px;
+    left: 8px;
+  }
+
+  .glass-arrow-left {
+    left: -18px;
+  }
+
+  .glass-arrow-right {
+    right: -18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .glass-arrow-btn {
+    width: 38px;
+    height: 38px;
+    top: 40%;
+  }
+
+  .glass-arrow-btn::after {
+    width: 14px;
+    height: 14px;
+    top: 5px;
+    left: 6px;
+  }
+
+  .glass-arrow-left {
+    left: -12px;
+  }
+
+  .glass-arrow-right {
+    right: -12px;
   }
 }
 
