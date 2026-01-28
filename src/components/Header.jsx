@@ -11,13 +11,18 @@ const Header = () => {
 
         // Scroll Spy Logic
         const observerOptions = {
-            threshold: 0.3, // Trigger when 30% of section is visible
-            rootMargin: "-100px 0px 0px 0px" // Offset for header height
+            threshold: [0.1, 0.3, 0.5, 0.7], // Multiple thresholds for better tracking
+            rootMargin: "-10% 0px -45% 0px" // Focus on the top-center part of the screen
         };
 
         const observerCallback = (entries) => {
+            // We only care about intersecting entries, but since multiple can intersect,
+            // we should ideally track which one is *most* visible if we had access to all at once.
+            // However, observer fires on changes.
+            // A common robust way is to select the intersecting one with the highest ratio.
+
             entries.forEach((entry) => {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.2) {
                     setActiveSection(entry.target.id);
                 }
             });
