@@ -1027,20 +1027,23 @@ ul {
   }
 
   /* Header */
-  /* Header */
   .header {
     padding: 1rem 0;
   }
 
-  /* .nav-container and .nav-menu styles removed to prevent conflict with mobile menu overlay logic */
+  /* Reduced section padding for mobile to bring content up */
+  .section {
+    padding: 3rem 0;
+  }
+
+  /* HOME – Shift content up specifically */
+  #home .container {
+    margin-top: 0;
+    transform: translateY(-20px);
+  }
 
   .nav-link {
     font-size: 0.8rem;
-  }
-
-  /* HOME – small safe offset */
-  #home .container {
-    margin-top: 2.5rem;
   }
 
   /* ABOUT */
