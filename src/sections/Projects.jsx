@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import Section from '../components/Section';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 
 const projects = [
@@ -138,11 +137,30 @@ const Projects = () => {
 
                 {/* Left Glass Arrow */}
                 <button
-                    className="glass-arrow-btn glass-arrow-left"
+                    className="back-to-top visible"
                     onClick={scrollLeft}
                     aria-label="Scroll Left"
+                    style={{
+                        position: 'absolute',
+                        left: '10px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        bottom: 'auto',
+                        right: 'auto'
+                    }}
                 >
-                    <ChevronLeft size={24} />
+                    <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M15 18l-6-6 6-6" />
+                    </svg>
                 </button>
 
                 <div
@@ -226,11 +244,30 @@ const Projects = () => {
 
                 {/* Right Glass Arrow */}
                 <button
-                    className="glass-arrow-btn glass-arrow-right"
+                    className="back-to-top visible"
                     onClick={scrollRight}
                     aria-label="Scroll Right"
+                    style={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        bottom: 'auto',
+                        left: 'auto'
+                    }}
                 >
-                    <ChevronRight size={24} />
+                    <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M9 18l6-6-6-6" />
+                    </svg>
                 </button>
             </div>
 
