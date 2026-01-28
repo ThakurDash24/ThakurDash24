@@ -60,10 +60,9 @@ body {
 }
 
 /* Back to Top Button */
-.back-to-top {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+/* Shared Gold Glass Button Style */
+.back-to-top,
+.glass-arrow-btn {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -74,12 +73,31 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 20;
+  /* Ensure high visibility */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  /* Added subtle shadow for depth */
+}
+
+.back-to-top:hover,
+.glass-arrow-btn:hover {
+  background: linear-gradient(135deg, rgba(197, 160, 89, 0.5), rgba(197, 160, 89, 0.2));
+  transform: scale(1.1);
+  box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4);
+}
+
+/* Back to Top Specifics */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px);
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
   z-index: 1000;
+  /* Higher z-index for fixed element */
 }
 
 .back-to-top.visible {
@@ -89,13 +107,32 @@ body {
 }
 
 .back-to-top:hover {
-  background: linear-gradient(135deg, rgba(197, 160, 89, 0.5), rgba(197, 160, 89, 0.2));
   transform: translateY(-3px);
-  box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4);
+  /* Override scale for back-to-top hover logic */
 }
 
 .back-to-top:active {
   transform: translateY(0);
+}
+
+/* Carousel Arrow Specifics */
+.glass-arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.glass-arrow-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  /* Keep vertical center */
+}
+
+.glass-arrow-left {
+  left: 10px;
+}
+
+.glass-arrow-right {
+  right: 10px;
 }
 
 @media (max-width: 768px) {
@@ -105,40 +142,6 @@ body {
     width: 45px;
     height: 45px;
   }
-}
-
-/* Glass Arrow Button - High Gloss / Reflective Style */
-.glass-arrow-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(197, 160, 89, 0.3), rgba(197, 160, 89, 0.1));
-  border: 1px solid rgba(197, 160, 89, 0.5);
-  color: var(--accent-gold);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  z-index: 10;
-}
-
-.glass-arrow-btn:hover {
-  background: linear-gradient(135deg, rgba(197, 160, 89, 0.5), rgba(197, 160, 89, 0.2));
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4);
-}
-
-.glass-arrow-left {
-  left: 10px;
-}
-
-.glass-arrow-right {
-  right: 10px;
 }
 
 /* Loading Screen Styles */
