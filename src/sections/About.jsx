@@ -44,6 +44,7 @@ const About = () => {
                     </h2>
 
                     <div
+                        className="section-divider"
                         style={{
                             width: '60px',
                             height: '2px',

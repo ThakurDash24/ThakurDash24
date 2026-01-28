@@ -17,6 +17,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  /* Remove blue highlight on mobile */
+  outline: none;
+  /* Prevent default outline */
+}
+
+/* Explicit focus override if needed for accessibility later, but currently removing "selectable" feel */
+*:focus {
+  outline: none;
 }
 
 body {
@@ -27,6 +36,23 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Disable text selection globally */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Explicitly disable selection on interactive elements and media */
+img,
+svg,
+button,
+a,
+.glass-arrow-btn {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  /* Prevent image dragging */
 }
 
 /* Scroll Progress Bar */
@@ -443,6 +469,11 @@ ul {
   color: var(--bg-color);
   transform: translateY(-2px);
   box-shadow: 0 10px 20px -10px rgba(197, 160, 89, 0.5);
+  outline: none;
+}
+
+.btn-primary:focus {
+  outline: none;
 }
 
 .btn-secondary {
@@ -503,152 +534,186 @@ ul {
 
 /* Hamburger Menu Icon - Premium Glass Orb */
 /* Hamburger Menu Icon - Quantum Tech Orb */
+/* Hamburger Menu Icon - Infinity Portal Style */
 .hamburger {
   display: none !important;
-  /* Default hidden on desktop - with force */
+  /* Default hidden on desktop */
   cursor: pointer;
   z-index: 1100;
-
-  /* Orb Container Dimensions */
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  /* Circle Idle */
   padding: 0;
 
-  /* Glassmorphism Core */
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Deep Space Core */
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(197, 160, 89, 0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 
-  /* Flex to center bars */
+  /* Flex Layout */
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 
   position: relative;
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  /* Elastic bounce */
+  /* Complex transition for "Reconstruction" feel on close */
+  transition: all 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
-/* Orbital Ring */
+/* Inner Gold Ring (Clockwise) */
 .hamburger::before {
   content: '';
   position: absolute;
-  inset: -6px;
-  /* Floating outside */
+  inset: -4px;
   border-radius: 50%;
-  border: 1px dashed rgba(197, 160, 89, 0.3);
-  animation: orbit 10s linear infinite;
+  border: 2px solid transparent;
+  border-top-color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+  animation: orbitClockwise 6s linear infinite;
   pointer-events: none;
-  opacity: 0.7;
-  transition: all 0.5s ease;
+  transition: all 0.4s ease;
 }
 
-/* Core Glow */
+/* Outer Glass Ring (Counter-Clockwise) */
 .hamburger::after {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: -8px;
   border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(197, 160, 89, 0.15), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: -1;
+  border: 1.5px dashed rgba(255, 255, 255, 0.2);
+  animation: orbitCounter 12s linear infinite;
+  pointer-events: none;
+  transition: all 0.4s ease;
 }
 
-.hamburger:hover::after {
-  opacity: 1;
-}
-
+/* Bars Structure - Tech Stagger */
 .hamburger .bar {
   display: block;
   width: 24px;
   height: 2px;
   background-color: var(--text-color);
   border-radius: 2px;
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  /* Snap Physics */
   position: relative;
+  transition: all 0.4s ease;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
-/* uneven bars for tech feel */
 .hamburger .bar:nth-child(1) {
-  width: 24px;
-  transform-origin: center;
+  width: 18px;
+  transform: translateX(-4px);
 }
 
 .hamburger .bar:nth-child(2) {
-  width: 16px;
-  align-self: flex-end;
-  margin-right: 13px;
-  transform-origin: center;
+  width: 26px;
 }
 
-/* adjusted margin for flex */
 .hamburger .bar:nth-child(3) {
-  width: 24px;
-  transform-origin: center;
+  width: 18px;
+  transform: translateX(4px);
 }
 
-/* Reset specialized alignment for easier animation handling */
-.hamburger {
-  align-items: center;
+/* Hover State: Warp Speed */
+.hamburger:hover::before {
+  animation-duration: 1.5s;
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-.hamburger .bar {
-  margin: 0;
-  align-self: center;
-}
-
-
-/* Active State (X Shape & Energized) */
-.hamburger.active {
-  background: rgba(197, 160, 89, 0.1);
-  border-color: var(--accent-gold);
-  box-shadow: 0 0 20px rgba(197, 160, 89, 0.3);
-  transform: rotate(90deg);
-  /* Rotate button itself */
-}
-
-.hamburger.active::before {
-  border-style: solid;
-  /* Lock ring */
-  border-color: var(--accent-gold);
-  border-width: 1px;
+.hamburger:hover::after {
   animation-duration: 3s;
-  /* Speed up lock */
-  opacity: 1;
+  border-color: var(--accent-gold);
+}
+
+.hamburger:hover {
+  transform: scale(1.05);
+}
+
+/* ACTIVE STATE: Portal Open (Diamond Shape) */
+.hamburger.active {
+  border-radius: 12px;
+  /* Morph to Rounded Square */
+  transform: rotate(135deg);
+  /* Diamond orientation */
+  border-color: var(--accent-gold);
+  background: rgba(197, 160, 89, 0.15);
+  box-shadow: 0 0 30px rgba(197, 160, 89, 0.4);
+  gap: 0;
+  /* Collapse gap for X */
+}
+
+/* Align rings to square shape on active */
+.hamburger.active::before {
   inset: -2px;
-  /* Tighten ring */
+  border-radius: 10px;
+  border: 1px solid var(--accent-gold);
+  animation: none;
+  /* Stop spin */
+  transform: rotate(-135deg);
+  /* Counter-rotate to stay upright relative to container */
+  box-shadow: 0 0 10px var(--accent-gold);
+}
+
+.hamburger.active::after {
+  inset: -6px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-style: solid;
+  animation: none;
+}
+
+/* X Formation - Clean & Sharp */
+.hamburger.active .bar {
+  position: absolute;
+  width: 28px;
+  height: 2.5px;
+  background-color: #fff;
+  margin: 0;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  transform-origin: center;
 }
 
 .hamburger.active .bar:nth-child(1) {
-  width: 28px;
-  transform: translateY(7px) rotate(45deg);
-  background-color: var(--accent-gold);
+  transform: rotate(90deg);
+  /* Vertical part of X */
+  top: auto;
+  left: auto;
 }
 
 .hamburger.active .bar:nth-child(2) {
   opacity: 0;
-  transform: translateX(-20px) scale(0);
+  transform: scale(0);
+  /* Implode */
 }
 
 .hamburger.active .bar:nth-child(3) {
-  width: 28px;
-  transform: translateY(-7px) rotate(-45deg);
-  background-color: var(--accent-gold);
+  transform: rotate(0deg);
+  /* Horizontal part of X (container is rotated 135deg, so this forms X) */
+  top: auto;
+  left: auto;
 }
 
-@keyframes orbit {
+/* Animations */
+@keyframes orbitClockwise {
   from {
     transform: rotate(0deg);
   }
 
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitCounter {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
   }
 }
 
@@ -788,28 +853,45 @@ ul {
 }
 
 /* Glass Arrow Button - High Gloss / Reflective Style */
-.glass-arrow-btn {
+/* Glass Arrow Button - Bottom Center Position */
+/* Glass Arrow Button - Bottom Center Position */
+/* Restored Gold Glass Aesthetic (Matching .back-to-top) */
+/* Flexbox Container for Perfect Centering */
+.carousel-controls {
   position: absolute;
-  top: 45%;
-  /* Moved up 5% for better vertical alignment */
-  transform: translateY(-50%);
+  bottom: -4.5rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 20;
+  pointer-events: none;
+  /* Let clicks pass through empty space */
+}
+
+.glass-arrow-btn {
+  position: relative;
+  /* Changed from absolute */
+  bottom: auto;
+  left: auto;
+  right: auto;
+  top: auto;
+  transform: none;
+
   width: 56px;
   height: 56px;
   border-radius: 50%;
+  pointer-events: auto;
+  /* Enable clicks on buttons */
 
-  /* Enhanced Glossy Background with stronger shine */
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.35) 0%,
-      rgba(255, 255, 255, 0.08) 50%,
-      rgba(255, 255, 255, 0.02) 100%);
+  /* Gold Glass Aesthetic */
+  background: linear-gradient(135deg, rgba(197, 160, 89, 0.3), rgba(197, 160, 89, 0.1));
+  border: 1px solid rgba(197, 160, 89, 0.5);
+  color: var(--accent-gold);
 
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
-  border-top: 2px solid rgba(255, 255, 255, 0.7);
-  /* Enhanced highlight top border */
-  border-left: 1.5px solid rgba(255, 255, 255, 0.6);
-
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
   display: flex;
   align-items: center;
@@ -817,97 +899,43 @@ ul {
   cursor: pointer;
   z-index: 20;
 
-  /* Enhanced shadow for stronger 3D effect + Glow */
-  box-shadow:
-    0 12px 40px 0 rgba(0, 0, 0, 0.4),
-    0 4px 16px 0 rgba(255, 255, 255, 0.1),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-    inset 3px 3px 15px rgba(255, 255, 255, 0.3),
-    inset -2px -2px 10px rgba(0, 0, 0, 0.1);
-  /* Multi-layer shine with depth */
+  /* Shadow */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-/* Enhanced shining reflection on top */
-.glass-arrow-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60%;
-  border-radius: 50% 50% 0 0;
-  background: linear-gradient(to bottom,
-      rgba(255, 255, 255, 0.6) 0%,
-      rgba(255, 255, 255, 0.3) 40%,
-      rgba(255, 255, 255, 0) 100%);
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-/* Additional glossy highlight spot */
-.glass-arrow-btn::after {
-  content: '';
-  position: absolute;
-  top: 8px;
-  left: 10px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: radial-gradient(circle at center,
-      rgba(255, 255, 255, 0.8) 0%,
-      rgba(255, 255, 255, 0.2) 50%,
-      transparent 100%);
-  opacity: 0.6;
-  pointer-events: none;
 }
 
 /* Hover State */
 .glass-arrow-btn:hover {
-  transform: translateY(-50%) scale(1.12);
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.5) 0%,
-      rgba(255, 255, 255, 0.15) 50%,
-      rgba(255, 255, 255, 0.05) 100%);
-  border-color: rgba(255, 255, 255, 0.7);
-  box-shadow:
-    0 16px 48px 0 rgba(0, 0, 0, 0.5),
-    0 6px 20px 0 rgba(255, 255, 255, 0.15),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.3),
-    inset 4px 4px 20px rgba(255, 255, 255, 0.4),
-    inset -3px -3px 12px rgba(0, 0, 0, 0.15);
-  color: rgba(255, 255, 255, 1);
+  transform: scale(1.12);
+  background: linear-gradient(135deg, rgba(197, 160, 89, 0.5), rgba(197, 160, 89, 0.2));
+  border-color: var(--accent-gold);
+  box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4);
+  color: #fff;
 }
 
 .glass-arrow-btn:active {
-  transform: translateY(-50%) scale(0.98);
+  transform: scale(0.98);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 .glass-arrow-left {
-  left: -30px;
+  left: calc(50% - 40px);
+  right: auto;
 }
 
 .glass-arrow-right {
-  right: -30px;
+  left: calc(50% + 40px);
+  right: auto;
 }
 
+/* Responsive sizing for different screen sizes */
 /* Responsive sizing for different screen sizes */
 @media (max-width: 1200px) {
   .glass-arrow-btn {
     width: 50px;
     height: 50px;
-  }
-
-  .glass-arrow-left {
-    left: -25px;
-  }
-
-  .glass-arrow-right {
-    right: -25px;
   }
 }
 
@@ -915,8 +943,9 @@ ul {
   .glass-arrow-btn {
     width: 44px;
     height: 44px;
-    top: 42%;
-    /* Adjust vertical position for mobile */
+    /* top: auto; implicit */
+    bottom: -3.5rem;
+    /* Tighter spacing on mobile */
   }
 
   .glass-arrow-btn::after {
@@ -925,21 +954,13 @@ ul {
     top: 6px;
     left: 8px;
   }
-
-  .glass-arrow-left {
-    left: -18px;
-  }
-
-  .glass-arrow-right {
-    right: -18px;
-  }
 }
 
 @media (max-width: 480px) {
   .glass-arrow-btn {
     width: 38px;
     height: 38px;
-    top: 40%;
+    bottom: -3rem;
   }
 
   .glass-arrow-btn::after {
@@ -947,14 +968,6 @@ ul {
     height: 14px;
     top: 5px;
     left: 6px;
-  }
-
-  .glass-arrow-left {
-    left: -12px;
-  }
-
-  .glass-arrow-right {
-    right: -12px;
   }
 }
 
@@ -1049,6 +1062,19 @@ ul {
   /* ABOUT */
   #about>div {
     grid-template-columns: 1fr !important;
+    text-align: center;
+    /* Center text on mobile */
+  }
+
+  #about .section-divider {
+    margin: 0 auto 1.5rem auto;
+    /* Center the gold divider */
+  }
+
+  /* Specific override for paragraphs as requested */
+  #about p {
+    text-align: left;
+    padding-left: 1.5rem;
   }
 
   #about img {

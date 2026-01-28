@@ -125,34 +125,6 @@ const Research = () => {
             {/* Scroll Container */}
             <div style={{ position: 'relative', width: '100%' }}>
 
-                {/* Left Glass Arrow */}
-                <button
-                    className="back-to-top visible"
-                    onClick={scrollLeft}
-                    aria-label="Scroll Left"
-                    style={{
-                        position: 'absolute',
-                        left: '10px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        bottom: 'auto',
-                        right: 'auto'
-                    }}
-                >
-                    <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <path d="M15 18l-6-6 6-6" />
-                    </svg>
-                </button>
-
                 <div
                     className="projects-scroll-container hide-scrollbar"
                     ref={scrollRef}
@@ -225,33 +197,48 @@ const Research = () => {
                     ))}
                 </div>
 
-                {/* Right Glass Arrow */}
-                <button
-                    className="back-to-top visible"
-                    onClick={scrollRight}
-                    aria-label="Scroll Right"
-                    style={{
-                        position: 'absolute',
-                        right: '10px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        bottom: 'auto',
-                        left: 'auto'
-                    }}
-                >
-                    <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                {/* Arrows Container - Perfectly Centered via Flexbox */}
+                <div className="carousel-controls">
+                    {/* Left Glass Arrow */}
+                    <button
+                        className="glass-arrow-btn"
+                        onClick={scrollLeft}
+                        aria-label="Scroll Left"
                     >
-                        <path d="M9 18l6-6-6-6" />
-                    </svg>
-                </button>
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path d="M15 18l-6-6 6-6" />
+                        </svg>
+                    </button>
+
+                    {/* Right Glass Arrow */}
+                    <button
+                        className="glass-arrow-btn"
+                        onClick={scrollRight}
+                        aria-label="Scroll Right"
+                    >
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             {/* Pulse animation for active focus */}
