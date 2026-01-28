@@ -127,9 +127,17 @@ const Research = () => {
 
                 {/* Left Glass Arrow */}
                 <button
-                    className="glass-arrow-btn glass-arrow-left"
+                    className="back-to-top visible"
                     onClick={scrollLeft}
                     aria-label="Scroll Left"
+                    style={{
+                        position: 'absolute',
+                        left: '10px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        bottom: 'auto',
+                        right: 'auto'
+                    }}
                 >
                     <svg
                         width="24"
@@ -219,9 +227,17 @@ const Research = () => {
 
                 {/* Right Glass Arrow */}
                 <button
-                    className="glass-arrow-btn glass-arrow-right"
+                    className="back-to-top visible"
                     onClick={scrollRight}
                     aria-label="Scroll Right"
+                    style={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        bottom: 'auto',
+                        left: 'auto'
+                    }}
                 >
                     <svg
                         width="24"
