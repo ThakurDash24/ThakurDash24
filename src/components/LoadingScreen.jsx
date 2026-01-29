@@ -50,7 +50,7 @@ const LoadingScreen = ({ onComplete, onFadeOutStart, allComponentsLoaded }) => {
                     Welcome to Portfolio
                 </div>
                 <div className="loading-text">
-                    Tdash Production
+                    Thakur Dash
                 </div>
             </div>
         </div>

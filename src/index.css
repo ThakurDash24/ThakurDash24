@@ -966,7 +966,6 @@ ul {
     width: 44px;
     height: 44px;
     /* top: auto; implicit */
-    bottom: -3.5rem;
     /* Tighter spacing on mobile */
   }
 
@@ -982,7 +981,6 @@ ul {
   .glass-arrow-btn {
     width: 38px;
     height: 38px;
-    bottom: -3rem;
   }
 
   .glass-arrow-btn::after {
