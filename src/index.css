@@ -162,6 +162,28 @@ a,
   right: 10px;
 }
 
+/* Centered Controls Container */
+.carousel-controls {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.carousel-controls .glass-arrow-btn {
+  position: relative;
+  top: auto;
+  transform: none;
+  left: auto;
+  right: auto;
+}
+
+.carousel-controls .glass-arrow-btn:hover {
+  transform: scale(1.1);
+}
+
 @media (max-width: 768px) {
   .back-to-top {
     bottom: 1.5rem;
