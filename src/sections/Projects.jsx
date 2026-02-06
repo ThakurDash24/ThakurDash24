@@ -4,13 +4,21 @@ import Section from '../components/Section';
 
 const projects = [
     {
+        title: 'AGENTIO - Blog Writing Agent',
+        description:
+            'Inspired by a CampusX build, I engineered a local LLM blog agent that runs end-to-end: Ollama + Docker on WSL2, backend orchestration, frontend delivery, and Tavily search for fresh context. It scrapes, structures, and outputs ready-to-post Markdown with prompt tuning, temperature control, and model selection lessons learned from real failures.',
+        tags: ['Ollama', 'Docker', 'WSL2', 'Agentic AI'],
+        link: 'https://blog-writing-agent.vercel.app/',
+        github: 'https://github.com/ThakurDash24/Blog-Writing-Agent',
+        latest: true,
+    },
+    {
         title: 'Resumyzer - AI Resume Analyzer',
         description:
             'Job seekers often struggle to know if their resumes are ATS-friendly. I built Resumyzer, an AI-powered analyzer that evaluates resumes in real-time, highlights gaps, and delivers actionable feedback to help candidates optimize with confidence.',
         tags: ['React + TS', 'FastAPI', 'Supabase'],
         link: 'https://resumyzer24.vercel.app',
         github: 'https://github.com/ThakurDash24/Resumyzer',
-        latest: true,
     },
     {
         title: 'SMS Spam Classifier',

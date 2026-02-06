@@ -7,9 +7,7 @@ const skills = [
         items: [
             { name: 'Python', current: true },
             { name: 'MySQL' },
-            { name: 'C++' },
-            { name: 'C' },
-            { name: 'Java' },
+            { name: 'C / C++ / Java' },
             { name: 'HTML / CSS / JavaScript' },
         ],
     },
@@ -17,7 +15,7 @@ const skills = [
         category: 'Frameworks & ML Stack',
         items: [
             { name: 'LangChain', current: true },
-            { name: 'PyTorch' },
+            { name: 'LangGraph', current: true },
             { name: 'TensorFlow' },
             { name: 'Scikit-learn' },
             { name: 'Hugging Face' },
@@ -26,14 +24,16 @@ const skills = [
     {
         category: 'Backend & Infrastructure',
         items: [
+            { name: 'AWS', current: true },
             { name: 'FastAPI', current: true },
             { name: 'Flask' },
-            { name: 'Docker' },
         ],
     },
     {
         category: 'Tools & Data Stack',
         items: [
+            { name: 'Docker',current: true },
+            { name: 'Ollama',current: true },
             { name: 'Pandas / NumPy' },
             { name: 'GitHub' },
             { name: 'SQL / MySQL' },
