@@ -3,9 +3,20 @@ import Section from '../components/Section';
 
 const researchAreas = [
     {
+        title: 'Explainable AI',
+        description: 'Building interpretable models and responsible ML workflows. I am currently studying SHP (Explainable AI paper) to better understand faithful explanations, attribution, and transparency in decision-making.',
+        current: true,
+    },
+    {
+        title: 'LLMs & RAG',
+        description: 'Working on local LLM pulling and fine-tuning pipelines, plus advanced retrieval workflows like CRAG (Corrective RAG) to improve grounding, reduce hallucinations, and boost answer quality.',
+        current: true,
+    },
+    {
         title: 'Applied Machine Learning',
         description: 'Bridging theory and practice. I focus on the full lifecycle of ML systems—from feature engineering and model selection to rigorous evaluation—deploying scalable solutions that drive real-world impact.',
     },
+
     {
         title: 'Deep Learning Concepts',
         description: 'Unraveling neural architectures. My work spans the mathematics of backpropagation, CNNs for vision, and Sequence Models, building a deep understanding of how complex representations are learned.',
@@ -13,11 +24,6 @@ const researchAreas = [
     {
         title: 'NLP & Generative AI',
         description: 'Harnessing the power of Language Models. I design sophisticated conversational agents and generative workflows, mastering prompt engineering and Transformer mechanics to create context-aware systems.',
-    },
-    {
-        title: 'Agentic AI',
-        description: 'Pioneering autonomous systems. Leveraging LangChain, I build agents with memory, planning, and tool-use capabilities, enabling them to reason and execute complex, multi-step goals independently.',
-        current: true,
     },
 ];
 

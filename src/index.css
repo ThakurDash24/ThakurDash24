@@ -549,6 +549,43 @@ ul {
   color: var(--accent-gold);
 }
 
+.logo-shine {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.logo-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 215, 0, 0.55),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: logoShine 3.4s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+@keyframes logoShine {
+  0% {
+    left: -150%;
+  }
+  20% {
+    left: 120%;
+  }
+  100% {
+    left: 120%;
+  }
+}
+
 .nav-menu {
   display: flex;
   gap: 2rem;

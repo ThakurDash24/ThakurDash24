@@ -119,7 +119,7 @@ const Header = () => {
     return (
         <header className={`header ${isScrolled ? 'header-scrolled' : ''}`}>
             <div className="container nav-container">
-                <a href="#" className="logo">
+                <a href="#" className="logo logo-shine">
                     ThakurDash<span>.</span>
                 </a>
 
