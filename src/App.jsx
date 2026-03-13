@@ -8,6 +8,7 @@ import Footer from './sections/Footer'
 const Home = lazy(() => import('./sections/Home'))
 const About = lazy(() => import('./sections/About'))
 const Skills = lazy(() => import('./sections/Skills'))
+const Certifications = lazy(() => import('./sections/Certifications'))
 const Projects = lazy(() => import('./sections/Projects'))
 const Experience = lazy(() => import('./sections/Experience'))
 const Research = lazy(() => import('./sections/Research'))
@@ -27,6 +28,7 @@ function MainContent({ onAllLoaded }) {
                 <Home />
                 <About />
                 <Skills />
+                <Certifications />
                 <Projects />
                 <Experience />
                 <Research />
