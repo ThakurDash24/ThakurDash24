@@ -10,7 +10,7 @@ const certifications = [
     badge: "🖥️",
     accentColor: "#c5a059",
     pdfUrl: "/assets/SE_Forage.pdf",
-    aspectRatio: "1",
+    aspectRatio: "1.414",
     linkedin:
       "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_certificate-activity-7417437933009522689-UCf7?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE714k0BfF9RK_eF23ppMpTmln-2e7unXjk",
     shortDesc:
@@ -27,9 +27,9 @@ const certifications = [
     issuer: "IBM · SkillsBuild",
     year: "2025",
     badge: "🤖",
-    accentColor: "#85a6dfff",
+    accentColor: "#4f8ef7",
     pdfUrl: "/assets/IBM.pdf",
-    aspectRatio: "1",
+    aspectRatio: "1.294",
     linkedin:
       "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_certification-activity-7402406356131176448-MAnM?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE714k0BfF9RK_eF23ppMpTmln-2e7unXjk",
     shortDesc:
@@ -74,7 +74,7 @@ const certifications = [
     badge: "☁️",
     accentColor: "#fb923c",
     pdfUrl: "/assets/AWS_ML.pdf",
-    aspectRatio: "1",
+    aspectRatio: "1.414",
     linkedin:
       "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_completion-certificate-activity-7382872360942563329-RGc8?utm_source=share&utm_medium=member_desktop&rcm=ACoAADlnv7EB1aS-uldKnhxP0Eh1BxXc2iFQEr8",
     shortDesc:
