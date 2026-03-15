@@ -10,6 +10,7 @@ const certifications = [
     badge: "🖥️",
     accentColor: "#c5a059",
     pdfUrl: "/assets/SE_Forage.pdf",
+    aspectRatio: "1.414",
     linkedin:
       "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_certificate-activity-7417437933009522689-UCf7?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE714k0BfF9RK_eF23ppMpTmln-2e7unXjk",
     shortDesc:
@@ -26,8 +27,9 @@ const certifications = [
     issuer: "IBM · SkillsBuild",
     year: "2025",
     badge: "🤖",
-    accentColor: "#4f8ef7",
+    accentColor: "#85a6dfff",
     pdfUrl: "/assets/IBM.pdf",
+    aspectRatio: "1.294",
     linkedin:
       "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_certification-activity-7402406356131176448-MAnM?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE714k0BfF9RK_eF23ppMpTmln-2e7unXjk",
     shortDesc:
@@ -52,6 +54,7 @@ const certifications = [
     badge: "🏷️",
     accentColor: "#c026d3",
     pdfUrl: "/assets/DATA Labelling.pdf",
+    aspectRatio: "1.414",
     linkedin:
       "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_certificate-activity-7391797216870428672-m9cF?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE714k0BfF9RK_eF23ppMpTmln-2e7unXjk",
     shortDesc:
@@ -62,6 +65,26 @@ const certifications = [
       "Developed skills in quality control and iterative improvement for training data used in AI models.",
     ],
     tags: ["Data Labelling", "Annotation", "PII Awareness", "AI Training Data"],
+  },
+  {
+    id: "cert-aws-ml",
+    title: "AWS Machine Learning Basics",
+    issuer: "Amazon Web Services (AWS)",
+    year: "2024",
+    badge: "☁️",
+    accentColor: "#fb923c",
+    pdfUrl: "/assets/AWS_ML.pdf",
+    aspectRatio: "1.414",
+    linkedin:
+      "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_completion-certificate-activity-7382872360942563329-RGc8?utm_source=share&utm_medium=member_desktop&rcm=ACoAADlnv7EB1aS-uldKnhxP0Eh1BxXc2iFQEr8",
+    shortDesc:
+      "A friendly, jargon-free introduction to how machines process data to make smart decisions.",
+    fullDesc: [
+      "Explored the core ideas behind machine learning: training computers to spot hidden patterns without being explicitly programmed.",
+      "Looked at real-world, everyday examples of AI in action to understand how models learn from historical data.",
+      "Discovered how cloud platforms like AWS make it incredibly easy for anyone to build and deploy intelligent solutions.",
+    ],
+    tags: ["AWS", "Machine Learning Beginners", "Cloud", "AI Fundamentals"],
   },
 ];
 
@@ -316,7 +339,7 @@ const CertCard = ({ cert, isActive }) => {
           style={{
             position: "relative",
             width: "100%",
-            aspectRatio: "1.294", // Match US Letter bounds perfectly
+            aspectRatio: cert.aspectRatio || "1.294", // Dynamically match certificate bounds
             zIndex: 4,
             borderRadius: "10px",
             overflow: "hidden",
@@ -333,7 +356,7 @@ const CertCard = ({ cert, isActive }) => {
         >
           {/* Render PDF directly using an object tag scaled appropriately */}
           <object
-            data={`${cert.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+            data={`${cert.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
             type="application/pdf"
             style={{
               position: "absolute",
