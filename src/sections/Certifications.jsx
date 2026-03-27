@@ -3,23 +3,49 @@ import Section from "../components/Section";
 
 const certifications = [
   {
-    id: "cert-se-forage",
-    title: "Software Engineering Virtual Experience",
-    issuer: "Forage · JPMorgan Chase & Co.",
-    year: "2025",
-    badge: "🖥️",
-    accentColor: "#c5a059",
-    pdfUrl: "/assets/SE_Forage.pdf",
+    id: "cert-hf-agentic-ai",
+    title: "Agentic Ai certificate",
+    issuer: "Hugging Face",
+    year: "2026",
+    latest: true,
+    //badge: "🤖",
+    accentColor: "#f2d45e",
+    pdfUrl: "/assets/HF_AGENTIC_COURSE.pdf",
+    aspectRatio: "1.414",
+    shortDesc:
+      "Mastering autonomous systems through reasoning, tool orchestration, and control.",
+    fullDesc: [
+      "Transitioned from simple prompting to engineering reasoning-based agentic systems using smolagents, LlamaHub, and LlamaIndex.",
+      "Successfully passed and maintained a leaderboard position on GAIA benchmarks by optimizing agent loops and tool intent.",
+      "Engineered a system capable of structured reasoning and precise tool usage without relying on paid LLM providers.",
+    ],
+    tags: [
+      "Agentic AI",
+      "smolagents",
+      "LlamaIndex",
+      "Hugging Face",
+      "GAIA Benchmark",
+    ],
+  },
+  {
+    id: "cert-data-labelling",
+    title: "Data Labelling & Annotation",
+    issuer: "Forage · AI/ML Program",
+    year: "2026",
+    badge: "🏷️",
+    accentColor: "#c026d3",
+    pdfUrl: "/assets/DATA Labelling.pdf",
     aspectRatio: "1.414",
     linkedin:
-      "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_certificate-activity-7417437933009522689-UCf7?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE714k0BfF9RK_eF23ppMpTmln-2e7unXjk",
+      "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_certificate-activity-7391797216870428672-m9cF?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE714k0BfF9RK_eF23ppMpTmln-2e7unXjk",
     shortDesc:
-      "Practical backend development simulating real industry problem-solving.",
+      "Data labeling, PII awareness, and quality control for AI training data.",
     fullDesc: [
-      "Learned practical backend development concepts including Kafka integration and REST API design.",
-      "Worked on practical tasks including Kafka integration, H2 database integration, and REST API development, simulating real industry problem-solving.",
+      "Learned data labeling techniques including batch labeling and annotation workflows.",
+      "Gained understanding of PII awareness, data quality review, and validation processes in datasets.",
+      "Developed skills in quality control and iterative improvement for training data used in AI models.",
     ],
-    tags: ["Kafka", "REST API", "H2 Database", "Backend Dev"],
+    tags: ["Data Labelling", "Annotation", "PII Awareness", "AI Training Data"],
   },
   {
     id: "cert-ibm-ai",
@@ -47,30 +73,10 @@ const certifications = [
     ],
   },
   {
-    id: "cert-data-labelling",
-    title: "Data Labelling & Annotation",
-    issuer: "Forage · AI/ML Program",
-    year: "2026",
-    badge: "🏷️",
-    accentColor: "#c026d3",
-    pdfUrl: "/assets/DATA Labelling.pdf",
-    aspectRatio: "1.414",
-    linkedin:
-      "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_certificate-activity-7391797216870428672-m9cF?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE714k0BfF9RK_eF23ppMpTmln-2e7unXjk",
-    shortDesc:
-      "Data labeling, PII awareness, and quality control for AI training data.",
-    fullDesc: [
-      "Learned data labeling techniques including batch labeling and annotation workflows.",
-      "Gained understanding of PII awareness, data quality review, and validation processes in datasets.",
-      "Developed skills in quality control and iterative improvement for training data used in AI models.",
-    ],
-    tags: ["Data Labelling", "Annotation", "PII Awareness", "AI Training Data"],
-  },
-  {
     id: "cert-aws-ml",
     title: "AWS Machine Learning Basics",
     issuer: "Amazon Web Services (AWS)",
-    year: "2024",
+    year: "2025",
     badge: "☁️",
     accentColor: "#fb923c",
     pdfUrl: "/assets/AWS_ML.pdf",
@@ -85,6 +91,25 @@ const certifications = [
       "Discovered how cloud platforms like AWS make it incredibly easy for anyone to build and deploy intelligent solutions.",
     ],
     tags: ["AWS", "Machine Learning Beginners", "Cloud", "AI Fundamentals"],
+  },
+  {
+    id: "cert-se-forage",
+    title: "Software Engineering Virtual Experience",
+    issuer: "Forage · JPMorgan Chase & Co.",
+    year: "2025",
+    badge: "🖥️",
+    accentColor: "#c5a059",
+    pdfUrl: "/assets/SE_Forage.pdf",
+    aspectRatio: "1.414",
+    linkedin:
+      "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_certificate-activity-7417437933009522689-UCf7?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE714k0BfF9RK_eF23ppMpTmln-2e7unXjk",
+    shortDesc:
+      "Practical backend development simulating real industry problem-solving.",
+    fullDesc: [
+      "Learned practical backend development concepts including Kafka integration and REST API design.",
+      "Worked on practical tasks including Kafka integration, H2 database integration, and REST API development, simulating real industry problem-solving.",
+    ],
+    tags: ["Kafka", "REST API", "H2 Database", "Backend Dev"],
   },
 ];
 
@@ -426,9 +451,29 @@ const CertCard = ({ cert, isActive }) => {
                 marginBottom: "0.3rem",
                 lineHeight: 1.3,
                 textShadow: `0 0 20px ${cert.accentColor}44`,
+                display: "flex",
+                alignItems: "center",
+                gap: "0.80rem",
               }}
             >
               {cert.title}
+              {cert.latest && (
+                <span
+                  style={{
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.06em",
+                    padding: "0.15rem 0.45rem",
+                    borderRadius: "999px",
+                    color: "#fff",
+                    background: "rgba(255,255,255,0.15)",
+                    animation: "focusPulse 1.6s ease-in-out infinite",
+                    whiteSpace: "nowrap",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                  }}
+                >
+                  LATEST
+                </span>
+              )}
             </h3>
             <p
               style={{
@@ -872,6 +917,11 @@ const Certifications = () => {
                 @keyframes certDotPulse {
                     0%, 100% { opacity: 0.7; }
                     50% { opacity: 1; }
+                }
+                @keyframes focusPulse {
+                    0% { opacity: 0.35; }
+                    50% { opacity: 1; }
+                    100% { opacity: 0.35; }
                 }
                 @keyframes certSpin {
                     0% { transform: rotate(0deg); }
