@@ -20,7 +20,7 @@ const Home = () => {
                         fontSize: '0.9rem',
                     }}
                 >
-                    Aspiring Data Scientist
+                    AI/ML Engineer Practitioner
                 </p>
 
                 <h1
