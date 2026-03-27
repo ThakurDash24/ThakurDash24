@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Section from "../components/Section";
 
 const certifications = [
@@ -87,6 +87,266 @@ const certifications = [
     tags: ["AWS", "Machine Learning Beginners", "Cloud", "AI Fundamentals"],
   },
 ];
+
+/* ──────────────────────────────────────────────────────────────
+   PDF → Canvas renderer using pdf.js (CDN)
+   Works on ALL devices including mobile & low-end phones.
+   Falls back to a styled placeholder if pdf.js fails to load.
+   Uses IntersectionObserver for lazy rendering.
+   ────────────────────────────────────────────────────────────── */
+
+// Global pdf.js loader — loads the CDN script once
+let pdfJsLoadPromise = null;
+const PDFJS_CDN =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+const PDFJS_WORKER_CDN =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+function loadPdfJs() {
+  if (pdfJsLoadPromise) return pdfJsLoadPromise;
+  pdfJsLoadPromise = new Promise((resolve, reject) => {
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_CDN;
+      resolve(window.pdfjsLib);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = PDFJS_CDN;
+    script.onload = () => {
+      if (window.pdfjsLib) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_CDN;
+        resolve(window.pdfjsLib);
+      } else {
+        reject(new Error("pdf.js loaded but pdfjsLib not found"));
+      }
+    };
+    script.onerror = () => reject(new Error("Failed to load pdf.js CDN"));
+    document.head.appendChild(script);
+  });
+  return pdfJsLoadPromise;
+}
+
+// In-memory cache so we don't re-render same PDF when navigating carousel
+const renderedImages = {};
+
+const CertPreview = ({ pdfUrl, aspectRatio, accentColor, title }) => {
+  const [status, setStatus] = useState("idle"); // idle | loading | done | error
+  const [imageSrc, setImageSrc] = useState(null);
+  const containerRef = useRef(null);
+  const hasStarted = useRef(false);
+
+  const renderPdf = useCallback(async () => {
+    if (hasStarted.current) return;
+    hasStarted.current = true;
+
+    // Check cache first
+    if (renderedImages[pdfUrl]) {
+      setImageSrc(renderedImages[pdfUrl]);
+      setStatus("done");
+      return;
+    }
+
+    setStatus("loading");
+    try {
+      const pdfjsLib = await loadPdfJs();
+      const loadingTask = pdfjsLib.getDocument(pdfUrl);
+      const pdf = await loadingTask.promise;
+      const page = await pdf.getPage(1);
+
+      // Use a moderate scale for good quality without killing low-end devices
+      const isMobile = window.innerWidth < 768;
+      const scale = isMobile ? 1.5 : 2;
+      const viewport = page.getViewport({ scale });
+
+      const canvas = document.createElement("canvas");
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext("2d");
+
+      await page.render({ canvasContext: ctx, viewport }).promise;
+
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+      renderedImages[pdfUrl] = dataUrl;
+      setImageSrc(dataUrl);
+      setStatus("done");
+
+      // Cleanup
+      pdf.destroy();
+    } catch {
+      setStatus("error");
+    }
+  }, [pdfUrl]);
+
+  // Lazy load — only render when visible
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          renderPdf();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [renderPdf]);
+
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        position: "relative",
+        width: "100%",
+        aspectRatio: aspectRatio || "1.294",
+        borderRadius: "10px",
+        overflow: "hidden",
+        background: "#fff",
+        boxShadow: "0 6px 20px rgba(0,0,0,0.35)",
+        transition: "transform 0.4s ease",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "scale(1.03)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "scale(1)";
+      }}
+    >
+      {/* Rendered image */}
+      {status === "done" && imageSrc && (
+        <img
+          src={imageSrc}
+          alt={`${title} Certificate`}
+          loading="lazy"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+      )}
+
+      {/* Loading skeleton */}
+      {(status === "idle" || status === "loading") && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "1rem",
+            background: `linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%)`,
+          }}
+        >
+          <div
+            style={{
+              width: "36px",
+              height: "36px",
+              border: `3px solid ${accentColor}33`,
+              borderTop: `3px solid ${accentColor}`,
+              borderRadius: "50%",
+              animation: "certSpin 0.8s linear infinite",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "0.75rem",
+              color: "#888",
+              letterSpacing: "0.05em",
+            }}
+          >
+            Loading preview…
+          </span>
+        </div>
+      )}
+
+      {/* Error fallback — styled card with view button */}
+      {status === "error" && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "0.8rem",
+            background: `linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%)`,
+            padding: "1.5rem",
+            textAlign: "center",
+          }}
+        >
+          <div style={{ fontSize: "2.5rem", opacity: 0.5 }}>📜</div>
+          <p
+            style={{
+              fontSize: "0.85rem",
+              color: "#666",
+              margin: 0,
+              lineHeight: 1.5,
+            }}
+          >
+            {title}
+          </p>
+          <span
+            style={{
+              display: "inline-block",
+              padding: "0.45rem 1.2rem",
+              borderRadius: "8px",
+              background: accentColor,
+              color: "#fff",
+              fontSize: "0.8rem",
+              fontWeight: 600,
+              letterSpacing: "0.03em",
+              cursor: "pointer",
+              boxShadow: `0 4px 14px ${accentColor}55`,
+              transition: "transform 0.2s ease, box-shadow 0.2s ease",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(pdfUrl, "_blank");
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = `0 6px 20px ${accentColor}66`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = `0 4px 14px ${accentColor}55`;
+            }}
+          >
+            View Certificate ↗
+          </span>
+        </div>
+      )}
+
+      {/* Clickable overlay to open PDF */}
+      <a
+        href={pdfUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 3,
+        }}
+        aria-label={`View ${title} Certificate`}
+      />
+    </div>
+  );
+};
 
 const CertCard = ({ cert, isActive }) => {
   return (
@@ -323,7 +583,7 @@ const CertCard = ({ cert, isActive }) => {
         </div>
       </div>
 
-      {/* Right Column: Certificate PDF (Embedded) */}
+      {/* Right Column: Certificate Preview (Rendered via pdf.js) */}
       <div
         style={{
           display: "flex",
@@ -334,63 +594,12 @@ const CertCard = ({ cert, isActive }) => {
           boxSizing: "border-box",
         }}
       >
-        {/* Certificate Container Wrapper (Scales on hover) */}
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            aspectRatio: cert.aspectRatio || "1.294", // Dynamically match certificate bounds
-            zIndex: 4,
-            borderRadius: "10px",
-            overflow: "hidden",
-            background: "#fff",
-            boxShadow: `0 6px 20px rgba(0,0,0,0.35)`,
-            transition: "transform 0.4s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.03)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-        >
-          {/* Render PDF directly using an object tag scaled appropriately */}
-          <object
-            data={`${cert.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
-            type="application/pdf"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              border: "none",
-              display: "block",
-              pointerEvents: "none",
-            }}
-            className="cert-img"
-          >
-            <p>
-              Unable to display PDF. <a href={cert.pdfUrl}>Download instead</a>
-            </p>
-          </object>
-
-          {/* Overlay that acts as the clickable trigger to open PDF in new tab */}
-          <a
-            href={cert.pdfUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              zIndex: 3,
-            }}
-            aria-label={`View ${cert.title} Certificate`}
-          />
-        </div>
+        <CertPreview
+          pdfUrl={cert.pdfUrl}
+          aspectRatio={cert.aspectRatio}
+          accentColor={cert.accentColor}
+          title={cert.title}
+        />
       </div>
     </div>
   );
@@ -664,11 +873,9 @@ const Certifications = () => {
                     0%, 100% { opacity: 0.7; }
                     50% { opacity: 1; }
                 }
-                .cert-img-link:hover .cert-img {
-                    transform: scale(1.03);
-                }
-                .cert-img-link:hover .cert-img {
-                    transform: scale(1.02);
+                @keyframes certSpin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
                 }
                 @media (max-width: 850px) {
                     .desktop-arrow { display: none !important; }
