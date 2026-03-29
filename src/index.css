@@ -1,3 +1,11 @@
+@import "tailwindcss";
+@theme {
+  --color-accent-gold: #c5a059;
+  --color-accent-gold-dim: #8a703e;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+}
+
 :root {
   --bg-color: #0a0a0a;
   --text-color: #f8fafc;
@@ -549,40 +557,50 @@ ul {
   color: var(--accent-gold);
 }
 
-.logo-shine {
+.logo-flash {
   position: relative;
   display: inline-block;
   overflow: hidden;
+  letter-spacing: 1px;
+  transition: transform 0.3s ease;
 }
 
-.logo-shine::after {
+.logo-flash:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+}
+
+.logo-flash::after {
   content: '';
   position: absolute;
   top: 0;
   left: -150%;
-  width: 70%;
+  width: 50%;
   height: 100%;
   background: linear-gradient(
     120deg,
     transparent,
-    rgba(255, 215, 0, 0.55),
+    rgba(255, 255, 255, 0.6),
     transparent
   );
-  transform: skewX(-20deg);
-  animation: logoShine 3.4s ease-in-out infinite;
+  transform: skewX(-25deg);
+  animation: logoFlash 4s ease-in-out infinite;
   pointer-events: none;
-  mix-blend-mode: screen;
+  mix-blend-mode: overlay;
 }
 
-@keyframes logoShine {
+@keyframes logoFlash {
   0% {
     left: -150%;
+    opacity: 0;
   }
-  20% {
-    left: 120%;
+  15% {
+    left: 150%;
+    opacity: 1;
   }
   100% {
-    left: 120%;
+    left: 150%;
+    opacity: 0;
   }
 }
 

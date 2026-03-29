@@ -3,6 +3,7 @@ import LoadingScreen from './components/LoadingScreen'
 import Header from './components/Header'
 import ScrollProgress from './components/ScrollProgress'
 import Footer from './sections/Footer'
+import { BeamsBackground } from './components/ui/beams-background'
 
 // Lazy load ALL sections for proper suspense coordination
 const Home = lazy(() => import('./sections/Home'))
@@ -50,7 +51,11 @@ function App() {
     }, []);
 
     return (
-        <div className={`app ${isContentVisible ? 'content-visible' : ''}`}>
+        <BeamsBackground 
+            intensity="subtle" 
+            active={isContentVisible}
+            className={`app ${isContentVisible ? 'content-visible' : ''}`}
+        >
             {isLoading && (
                 <LoadingScreen
                     onComplete={() => setIsLoading(false)}
@@ -58,12 +63,6 @@ function App() {
                     allComponentsLoaded={allComponentsLoaded}
                 />
             )}
-
-            <div className="luxury-bg-container">
-                <div className="luxury-orb orb-1"></div>
-                <div className="luxury-orb orb-2"></div>
-                <div className="luxury-orb orb-3"></div>
-            </div>
 
             <Header />
             <ScrollProgress />
@@ -73,7 +72,7 @@ function App() {
                     <MainContent onAllLoaded={handleAllLoaded} />
                 </Suspense>
             </div>
-        </div>
+        </BeamsBackground>
     )
 }
 
