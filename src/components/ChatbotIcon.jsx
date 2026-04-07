@@ -32,6 +32,8 @@ const StreamingMessage = ({ text, isLatest, onComplete }) => {
 const ChatbotIcon = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isRedirecting, setIsRedirecting] = useState(false);
+    const [showExpandConfirm, setShowExpandConfirm] = useState(false);
+    const [showOpeningNotif, setShowOpeningNotif] = useState(false);
     const [messages, setMessages] = useState([
         { role: 'assistant', content: "Hello! I am Laven. I've been researching Thakur Dash's expertise—how can I help you today?" }
     ]);
@@ -59,12 +61,20 @@ const ChatbotIcon = () => {
     }, [messages, isOpen, isLoading, isStreaming]);
 
     const handleExpand = () => {
-        const confirmSwitch = window.confirm(
-            "Opening full chat will clear current messages. Continue?"
-        );
-        if (confirmSwitch) {
-            window.location.href = "http://localhost:3000/guest_chat";
-        }
+        setShowExpandConfirm(true);
+    };
+
+    const confirmExpand = () => {
+        setShowExpandConfirm(false);
+        setShowOpeningNotif(true);
+        setTimeout(() => {
+            window.open("https://portfolio-agent-inky.vercel.app/guest_chat", "_blank");
+            setTimeout(() => setShowOpeningNotif(false), 1800);
+        }, 700);
+    };
+
+    const cancelExpand = () => {
+        setShowExpandConfirm(false);
     };
 
     const onStreamingComplete = React.useCallback(() => {
@@ -108,7 +118,7 @@ const ChatbotIcon = () => {
         if (window.innerWidth < 768) {
             setIsRedirecting(true);
             setTimeout(() => {
-                window.location.href = "http://localhost:3000/guest_chat";
+                window.location.href = "https://portfolio-agent-inky.vercel.app/guest_chat";
             }, 1200);
         } else {
             setIsOpen(!isOpen);
@@ -259,6 +269,83 @@ const ChatbotIcon = () => {
                     white-space: nowrap;
                     box-shadow: 0 10px 20px rgba(0,0,0,0.4);
                 }
+                .expand-confirm {
+                    position: absolute;
+                    bottom: 80px;
+                    right: 0;
+                    background: rgba(10, 10, 20, 0.92);
+                    backdrop-filter: blur(16px);
+                    padding: 16px 18px;
+                    border-radius: 14px;
+                    color: white;
+                    font-size: 13px;
+                    border: 1px solid rgba(65, 105, 225, 0.35);
+                    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                    min-width: 230px;
+                    z-index: 20;
+                }
+                .expand-confirm-title {
+                    font-weight: 600;
+                    font-size: 13.5px;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                }
+                .expand-confirm-sub {
+                    font-size: 11.5px;
+                    color: rgba(255,255,255,0.45);
+                    line-height: 1.5;
+                }
+                .expand-confirm-actions {
+                    display: flex;
+                    gap: 8px;
+                    justify-content: flex-end;
+                }
+                .confirm-btn-yes {
+                    background: linear-gradient(135deg, #3b5bdb, #4169e1);
+                    border: none;
+                    border-radius: 8px;
+                    color: white;
+                    font-size: 12px;
+                    font-weight: 600;
+                    padding: 6px 14px;
+                    cursor: pointer;
+                    transition: opacity 0.2s;
+                }
+                .confirm-btn-yes:hover { opacity: 0.85; }
+                .confirm-btn-cancel {
+                    background: rgba(255,255,255,0.07);
+                    border: 1px solid rgba(255,255,255,0.1);
+                    border-radius: 8px;
+                    color: rgba(255,255,255,0.6);
+                    font-size: 12px;
+                    padding: 6px 14px;
+                    cursor: pointer;
+                    transition: background 0.2s;
+                }
+                .confirm-btn-cancel:hover { background: rgba(255,255,255,0.12); }
+                .opening-notif {
+                    position: absolute;
+                    bottom: 80px;
+                    right: 0;
+                    background: rgba(22, 38, 110, 0.92);
+                    backdrop-filter: blur(12px);
+                    padding: 11px 18px;
+                    border-radius: 12px;
+                    color: white;
+                    font-size: 12.5px;
+                    border: 1px solid rgba(65, 105, 225, 0.3);
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    white-space: nowrap;
+                    box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+                    z-index: 20;
+                }
             `}} />
 
             <AnimatePresence>
@@ -271,6 +358,47 @@ const ChatbotIcon = () => {
                     >
                         <Loader2 size={14} className="animate-spin text-blue-400" />
                         Opening full chat experience...
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Expand confirm toast */}
+            <AnimatePresence>
+                {showExpandConfirm && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 12, scale: 0.92 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 12, scale: 0.92 }}
+                        transition={{ duration: 0.18 }}
+                        className="expand-confirm"
+                    >
+                        <div className="expand-confirm-title">
+                            <Maximize2 size={13} style={{ color: '#4169e1' }} />
+                            Open Full Chat?
+                        </div>
+                        <div className="expand-confirm-sub">
+                            This will open Laven's full experience in a new tab.
+                        </div>
+                        <div className="expand-confirm-actions">
+                            <button className="confirm-btn-cancel" onClick={cancelExpand}>Cancel</button>
+                            <button className="confirm-btn-yes" onClick={confirmExpand}>Open in new tab</button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Opening-in-new-tab notification */}
+            <AnimatePresence>
+                {showOpeningNotif && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                        transition={{ duration: 0.18 }}
+                        className="opening-notif"
+                    >
+                        <Loader2 size={13} className="animate-spin" style={{ color: '#6b8cff' }} />
+                        Opening in a new tab…
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -341,20 +469,20 @@ const ChatbotIcon = () => {
 
             <motion.button
                 onClick={handleToggle}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.93 }}
+                className={`w-10 h-10 rounded-full flex items-center justify-center shadow-xl transition-all duration-300 ${
                     isOpen ? 'bg-white text-black' : 'bg-[#0a0a0a] border border-white/10'
                 }`}
             >
                 <AnimatePresence mode="wait">
                     {isOpen ? (
                         <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
-                            <X size={24} />
+                            <X size={17} />
                         </motion.div>
                     ) : (
                         <motion.div key="sparkle" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-                            <Sparkles size={24} className="text-white" />
+                            <Sparkles size={17} className="text-white" />
                         </motion.div>
                     )}
                 </AnimatePresence>
