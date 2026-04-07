@@ -65,21 +65,25 @@ export function BeamsBackground({
     if (!ctx) return;
 
     const updateCanvasSize = () => {
-      // Cap DPR for performance on high-density mobile screens
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
       ctx.scale(dpr, dpr);
 
-      const isMobile = window.innerWidth < 768;
+      const isMobile = width < 768;
       const activeCount = isMobile ? 8 : MINIMUM_BEAMS;
       const totalBeams = Math.floor(activeCount * 1.5);
-      
-      beamsRef.current = Array.from({ length: totalBeams }, () =>
-        createBeam(window.innerWidth, window.innerHeight)
-      );
+
+      if (beamsRef.current.length === 0) {
+        beamsRef.current = Array.from({ length: totalBeams }, () =>
+          createBeam(width, height)
+        );
+      }
     };
 
     updateCanvasSize();

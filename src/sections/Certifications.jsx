@@ -8,10 +8,11 @@ const certifications = [
     issuer: "Hugging Face",
     year: "2026",
     latest: true,
-    //badge: "🤖",
     accentColor: "#f2d45e",
     pdfUrl: "/assets/HF_AGENTIC_COURSE.pdf",
     aspectRatio: "1.414",
+    linkedin:
+      "https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_ai-genai-agenticai-ugcPost-7443347690677211136-biQS?utm_source=share&utm_medium=member_desktop&rcm=ACoAADlnv7EB1aS-uldKnhxP0Eh1BxXc2iFQEr8",
     shortDesc:
       "Mastering autonomous systems through reasoning, tool orchestration, and control.",
     fullDesc: [
@@ -32,7 +33,6 @@ const certifications = [
     title: "Data Labelling & Annotation",
     issuer: "Forage · AI/ML Program",
     year: "2026",
-    badge: "🏷️",
     accentColor: "#c026d3",
     pdfUrl: "/assets/DATA Labelling.pdf",
     aspectRatio: "1.414",
@@ -52,7 +52,6 @@ const certifications = [
     title: "AI Fundamentals",
     issuer: "IBM · SkillsBuild",
     year: "2025",
-    badge: "🤖",
     accentColor: "#4f8ef7",
     pdfUrl: "/assets/IBM.pdf",
     aspectRatio: "1.294",
@@ -77,7 +76,6 @@ const certifications = [
     title: "AWS Machine Learning Basics",
     issuer: "Amazon Web Services (AWS)",
     year: "2025",
-    badge: "☁️",
     accentColor: "#fb923c",
     pdfUrl: "/assets/AWS_ML.pdf",
     aspectRatio: "1.414",
@@ -97,7 +95,6 @@ const certifications = [
     title: "Software Engineering Virtual Experience",
     issuer: "Forage · JPMorgan Chase & Co.",
     year: "2025",
-    badge: "🖥️",
     accentColor: "#c5a059",
     pdfUrl: "/assets/SE_Forage.pdf",
     aspectRatio: "1.414",
@@ -311,7 +308,7 @@ const CertPreview = ({ pdfUrl, aspectRatio, accentColor, title }) => {
             textAlign: "center",
           }}
         >
-          <div style={{ fontSize: "2.5rem", opacity: 0.5 }}>📜</div>
+          <div style={{ fontSize: "2.5rem", opacity: 0.5 }}>PDF</div>
           <p
             style={{
               fontSize: "0.85rem",

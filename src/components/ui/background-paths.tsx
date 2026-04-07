@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 
 function FloatingPaths({ position, active }: { position: number; active: boolean }) {
-    const paths = Array.from({ length: 36 }, (_, i) => ({
+    const paths = Array.from({ length: 48 }, (_, i) => ({
         id: i,
         d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
             380 - i * 5 * position
@@ -101,7 +101,7 @@ export function BackgroundPaths({
                     }
                 `}
             </style>
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 translate-y-[30vh]">
                 <FloatingPaths position={1} active={!isEntering} />
                 <FloatingPaths position={-1} active={!isEntering} />
             </div>

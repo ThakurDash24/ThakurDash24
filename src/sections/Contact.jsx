@@ -14,7 +14,7 @@ const Contact = () => {
     });
     const [status, setStatus] = useState('');
 
-    // ✅ Initialize EmailJS once
+    // Initialize EmailJS once
     useEffect(() => {
         emailjs.init(PUBLIC_KEY);
     }, []);

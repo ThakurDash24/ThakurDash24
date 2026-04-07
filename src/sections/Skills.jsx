@@ -63,7 +63,7 @@ const Skills = () => {
                 }}
             >
                 {skills.map((group) => {
-                    // ✅ Move CURRENT items to top
+                    // Move CURRENT items to top
                     const sortedItems = [
                         ...group.items.filter((i) => i.current),
                         ...group.items.filter((i) => !i.current),

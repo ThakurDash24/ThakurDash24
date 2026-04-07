@@ -2,6 +2,7 @@ import { useState, Suspense, lazy, useEffect, useCallback } from 'react'
 import LoadingScreen from './components/LoadingScreen'
 import Header from './components/Header'
 import ScrollProgress from './components/ScrollProgress'
+import ChatbotIcon from './components/ChatbotIcon'
 import Footer from './sections/Footer'
 import { BeamsBackground } from './components/ui/beams-background'
 
@@ -66,6 +67,7 @@ function App() {
 
             <Header />
             <ScrollProgress />
+            <ChatbotIcon />
 
             <div className="content-wrapper">
                 <Suspense fallback={null}>

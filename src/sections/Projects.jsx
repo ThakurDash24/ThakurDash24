@@ -36,14 +36,6 @@ const projects = [
         link: 'https://unicharge-chatbot-24.onrender.com',
         github: 'https://github.com/ThakurDash24/UniCharge_Contibutor/tree/main/ml-engine/models/ChatBot',
     },
-    {
-        title: 'Personalised EV Wallet Backend',
-        description:
-            'Unpredictable charging costs can be a barrier for EV adoption. I created a backend system leveraging machine learning to forecast monthly energy expenses, empowering users with personalized financial insights and predictable budgeting.',
-        tags: ['Machine Learning', 'Forecasting', 'Data Analysis'],
-        link: 'https://unicharge-wallet-24.onrender.com',
-        github: 'https://github.com/ThakurDash24/UniCharge_Contibutor/tree/main/ml-engine/models/Personalised_Wallet',
-    },
 ];
 
 const Projects = () => {
@@ -217,6 +209,15 @@ const Projects = () => {
                                 >
                                     View on GitHub →
                                 </span>
+                                <span
+                                    className="project-link test-it-now"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        window.open(project.link, '_blank');
+                                    }}
+                                >
+                                    Test it now →
+                                </span>
                             </div>
                         </div>
                     ))}
@@ -282,6 +283,42 @@ const Projects = () => {
                     0% { opacity: 0.35; }
                     50% { opacity: 1; }
                     100% { opacity: 0.35; }
+                }
+                .test-it-now {
+                    position: relative;
+                    overflow: hidden;
+                    display: inline-block;
+                    width: max-content;
+                }
+                .test-it-now::after {
+                    content: '';
+                    position: absolute;
+                    top: -10%;
+                    left: -200%;
+                    width: 80%;
+                    height: 120%;
+                    background: linear-gradient(
+                        105deg,
+                        transparent 10%,
+                        rgba(197, 160, 89, 0.9) 45%,
+                        rgba(255, 220, 130, 1) 50%,
+                        rgba(197, 160, 89, 0.9) 55%,
+                        transparent 90%
+                    );
+                    transform: skewX(-20deg);
+                    animation: linkShimmer 3.5s ease-in-out infinite;
+                    pointer-events: none;
+                }
+                @keyframes linkShimmer {
+                    0%   { left: -200%; opacity: 0; }
+                    10%  { opacity: 1; }
+                    40%  { left: 200%; opacity: 1; }
+                    100% { left: 200%; opacity: 0; }
+                }
+                .project-link-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.2rem;
                 }
                 `}
             </style>
