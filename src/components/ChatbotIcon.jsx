@@ -92,7 +92,7 @@ const ChatbotIcon = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('https://portfolio-agent-xvgo.onrender.com/chat', {
+            const response = await fetch('https://portfolio-agent-backend-k6d6.onrender.com/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: currentInput, thread_id: threadId })
