@@ -92,7 +92,7 @@ const ChatbotIcon = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('https://portfolio-agent-backend-k6d6.onrender.com/chat', {
+            const response = await fetch('https://portfolio-agent-backend-k6d6.onrender.com/guest/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: currentInput, thread_id: threadId })
@@ -103,7 +103,7 @@ const ChatbotIcon = () => {
             const data = await response.json();
             const aiResponse = (data.response || data.message || "I apologize, I'm having trouble connecting right now.")
                 .replace(/[#*`_~\[\]()]/g, ''); // Strip markdown
-            
+
             setIsLoading(false);
             setIsStreaming(true);
             setMessages(prev => [...prev, { role: 'assistant', content: aiResponse, streaming: true }]);
@@ -127,7 +127,8 @@ const ChatbotIcon = () => {
 
     return (
         <div className="fixed bottom-8 right-8 z-[1001] flex flex-col items-end gap-4">
-            <style dangerouslySetInnerHTML={{ __html: `
+            <style dangerouslySetInnerHTML={{
+                __html: `
                 .chat-wrapper {
                     width: 360px;
                     height: 520px;
@@ -432,8 +433,8 @@ const ChatbotIcon = () => {
                                     className={`message ${msg.role === "user" ? "user-message" : "ai-message"}`}
                                 >
                                     {msg.role === 'assistant' ? (
-                                        <StreamingMessage 
-                                            text={msg.content} 
+                                        <StreamingMessage
+                                            text={msg.content}
                                             isLatest={msg.streaming && i === messages.length - 1}
                                             onComplete={onStreamingComplete}
                                         />
@@ -455,8 +456,8 @@ const ChatbotIcon = () => {
                                 placeholder="Ask about the portfolio..."
                                 className="input-field"
                             />
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 className="send-btn"
                                 disabled={!input.trim() || isLoading || isStreaming}
                             >
@@ -471,9 +472,8 @@ const ChatbotIcon = () => {
                 onClick={handleToggle}
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.93 }}
-                className={`w-10 h-10 rounded-full flex items-center justify-center shadow-xl transition-all duration-300 ${
-                    isOpen ? 'bg-white text-black' : 'bg-[#0a0a0a] border border-white/10'
-                }`}
+                className={`w-10 h-10 rounded-full flex items-center justify-center shadow-xl transition-all duration-300 ${isOpen ? 'bg-white text-black' : 'bg-[#0a0a0a] border border-white/10'
+                    }`}
             >
                 <AnimatePresence mode="wait">
                     {isOpen ? (
