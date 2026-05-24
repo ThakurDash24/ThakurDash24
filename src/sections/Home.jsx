@@ -57,11 +57,11 @@ const Home = () => {
 
                 <div style={{ display: 'flex', gap: '1.5rem' }}>
                     <a
-                        href="https://resumyzer24.vercel.app"
+                        href="https://portfolio-agent-inky.vercel.app/"
                         onClick={(e) => {
                             e.preventDefault();
-                            if (window.confirm("You are about to open 'Resumyzer' in a new tab. Continue?")) {
-                                window.open("https://resumyzer24.vercel.app", "_blank");
+                            if (window.confirm("You are about to open 'LAVEN - Autonomous AI Portfolio Agent' in a new tab. Continue?")) {
+                                window.open("https://portfolio-agent-inky.vercel.app/", "_blank");
                             }
                         }}
                         className="btn btn-primary"

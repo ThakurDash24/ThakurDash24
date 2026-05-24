@@ -4,13 +4,21 @@ import Section from '../components/Section';
 
 const projects = [
     {
+        title: 'LAVEN - Autonomous AI Portfolio Agent',
+        description:
+            'Built an autonomous AI portfolio agent providing conversational access to projects, skills, and experience. Implemented a RAG pipeline featuring semantic search, session context, and real-time web research powered by Selenium. Developed a robust backend with FastAPI and Supabase (PostgreSQL, JWT), paired with a modern React-based UI.',
+        tags: ['React', 'FastAPI', 'Supabase', 'Selenium', 'RAG'],
+        link: 'https://portfolio-agent-inky.vercel.app/',
+        github: 'https://github.com/ThakurDash24/Portfolio-Agent',
+        latest: true,
+    },
+    {
         title: 'AGENTIO - Blog Writing Agent',
         description:
             'Inspired by a CampusX build, I engineered a local LLM blog agent that runs end-to-end: Ollama + Docker on WSL2, backend orchestration, frontend delivery, and Tavily search for fresh context. It scrapes, structures, and outputs ready-to-post Markdown with prompt tuning, temperature control, and model selection lessons learned from real failures.',
         tags: ['Ollama', 'Docker', 'WSL2', 'Agentic AI'],
         link: 'https://blog-writing-agent.vercel.app/',
         github: 'https://github.com/ThakurDash24/Blog-Writing-Agent',
-        latest: true,
     },
     {
         title: 'Resumyzer - AI Resume Analyzer',

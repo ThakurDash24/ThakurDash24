@@ -3,6 +3,19 @@ import Section from '../components/Section';
 
 const experiences = [
     {
+        period: 'Jan 14, 2026 – Mar 24, 2026',
+        role: 'MERN Stack Developer Intern',
+        company: 'IIT Ropar',
+        description:
+            'This experience strengthened my perspective on problem solving, research-driven learning, and experience in MERN stack for development—which I truly believe is essential for being an AI Full Stack Developer.',
+        recent: true,
+        certificate: {
+            image: '/assets/IIT_CERTIFICATE.jpg',
+            linkedin:
+                'https://www.linkedin.com/posts/thakur-asutosh-dash-a6965922a_nptel-iitropar-internship-share-7460947692689649664-Hox4/?utm_source=share&utm_medium=member_desktop&rcm=ACoAADlnv7EB1aS-uldKnhxP0Eh1BxXc2iFQEr8',
+        },
+    },
+    {
         period: 'Jun 2025 – Jul 2025',
         role: 'Data Science, ML & Deep Learning Intern',
         company: 'Syllogistek Systems Pvt. Ltd.',
@@ -97,8 +110,26 @@ const Experience = () => {
                                 {exp.period}
                             </span>
 
-                            <h3 style={{ marginTop: '0.5rem' }}>
+                            <h3 style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                                 {exp.role}
+                                {exp.recent && (
+                                    <span
+                                        style={{
+                                            fontSize: '0.65rem',
+                                            letterSpacing: '0.06em',
+                                            padding: '0.15rem 0.45rem',
+                                            borderRadius: '999px',
+                                            color: '#fff',
+                                            background: 'rgba(255,255,255,0.15)',
+                                            animation: 'focusPulse 1.6s ease-in-out infinite',
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            whiteSpace: 'nowrap',
+                                            textShadow: 'none'
+                                        }}
+                                    >
+                                        RECENT
+                                    </span>
+                                )}
                             </h3>
 
                             <h4 style={{ color: 'var(--text-muted)' }}>
@@ -179,6 +210,17 @@ const Experience = () => {
                     </div>
                 ))}
             </div>
+
+            {/* Pulse animation for active focus */}
+            <style>
+                {`
+                @keyframes focusPulse {
+                    0% { opacity: 0.35; }
+                    50% { opacity: 1; }
+                    100% { opacity: 0.35; }
+                }
+                `}
+            </style>
         </Section>
     );
 };
