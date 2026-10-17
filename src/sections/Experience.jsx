@@ -1,5 +1,6 @@
 import React from 'react';
 import Section from '../components/Section';
+import { supportsFineHover } from '../lib/utils';
 
 const experiences = [
     {
@@ -77,6 +78,7 @@ const Experience = () => {
                                     'transform 0.35s ease, box-shadow 0.35s ease',
                             }}
                             onMouseMove={(e) => {
+                                if (!supportsFineHover()) return;
                                 const rect =
                                     e.currentTarget.getBoundingClientRect();
                                 const x = e.clientX - rect.left;
@@ -90,12 +92,14 @@ const Experience = () => {
                                     )`;
                             }}
                             onMouseEnter={(e) => {
+                                if (!supportsFineHover()) return;
                                 e.currentTarget.style.transform =
                                     'translateY(-6px)';
                                 e.currentTarget.style.boxShadow =
                                     '0 18px 40px rgba(0,0,0,0.45)';
                             }}
                             onMouseLeave={(e) => {
+                                if (!supportsFineHover()) return;
                                 e.currentTarget.style.transform = 'translateY(0)';
                                 e.currentTarget.style.boxShadow = 'none';
                                 e.currentTarget.style.background = 'none';
@@ -114,6 +118,7 @@ const Experience = () => {
                                 {exp.role}
                                 {exp.recent && (
                                     <span
+                                        className="badge-pulse"
                                         style={{
                                             fontSize: '0.65rem',
                                             letterSpacing: '0.06em',
@@ -121,7 +126,6 @@ const Experience = () => {
                                             borderRadius: '999px',
                                             color: '#fff',
                                             background: 'rgba(255,255,255,0.15)',
-                                            animation: 'focusPulse 1.6s ease-in-out infinite',
                                             border: '1px solid rgba(255,255,255,0.1)',
                                             whiteSpace: 'nowrap',
                                             textShadow: 'none'
@@ -152,12 +156,14 @@ const Experience = () => {
                                         'color 0.3s ease, transform 0.3s ease',
                                 }}
                                 onMouseEnter={(e) => {
+                                    if (!supportsFineHover()) return;
                                     e.currentTarget.style.color =
                                         'var(--text-color)';
                                     e.currentTarget.style.transform =
                                         'translateX(4px)';
                                 }}
                                 onMouseLeave={(e) => {
+                                    if (!supportsFineHover()) return;
                                     e.currentTarget.style.color =
                                         'var(--text-muted)';
                                     e.currentTarget.style.transform =
@@ -190,7 +196,8 @@ const Experience = () => {
                             >
                                 <img
                                     src={exp.certificate.image}
-                                    alt="Internship Certificate"
+                                    alt={`Internship completion certificate from ${exp.company}`}
+                                    loading="lazy"
                                     style={{
                                         width: '100%',
                                         height: '220px',
@@ -198,10 +205,12 @@ const Experience = () => {
                                         transition: 'transform 0.4s ease',
                                     }}
                                     onMouseEnter={(e) => {
+                                        if (!supportsFineHover()) return;
                                         e.target.style.transform =
                                             'scale(1.03)';
                                     }}
                                     onMouseLeave={(e) => {
+                                        if (!supportsFineHover()) return;
                                         e.target.style.transform = 'scale(1)';
                                     }}
                                 />
@@ -210,17 +219,6 @@ const Experience = () => {
                     </div>
                 ))}
             </div>
-
-            {/* Pulse animation for active focus */}
-            <style>
-                {`
-                @keyframes focusPulse {
-                    0% { opacity: 0.35; }
-                    50% { opacity: 1; }
-                    100% { opacity: 0.35; }
-                }
-                `}
-            </style>
         </Section>
     );
 };

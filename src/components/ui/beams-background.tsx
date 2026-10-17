@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "../../lib/utils";
 
 interface AnimatedGradientBackgroundProps {
@@ -50,6 +50,7 @@ export function BeamsBackground({
   const beamsRef = useRef<Beam[]>([]);
   const animationFrameRef = useRef<number>(0);
   const MINIMUM_BEAMS = 12; // Balanced for performance and visibility
+  const reduceMotion = useReducedMotion();
 
   const opacityMap = {
     subtle: 0.7,
@@ -129,33 +130,56 @@ export function BeamsBackground({
       ctx.restore();
     }
 
-    function animate() {
+    function drawFrame(advance: boolean) {
       if (!canvas || !ctx) return;
 
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
       const totalBeams = beamsRef.current.length;
       beamsRef.current.forEach((beam, index) => {
-        beam.y -= beam.speed;
-        beam.pulse += beam.pulseSpeed;
+        if (advance) {
+          beam.y -= beam.speed;
+          beam.pulse += beam.pulseSpeed;
 
-        if (beam.y + beam.length < -200) {
-          resetBeam(beam, index, totalBeams);
+          if (beam.y + beam.length < -200) {
+            resetBeam(beam, index, totalBeams);
+          }
         }
 
         drawBeam(ctx, beam);
       });
+    }
 
+    function animate() {
+      drawFrame(true);
       animationFrameRef.current = requestAnimationFrame(animate);
     }
 
+    // Reduced motion: paint one static frame instead of a perpetual drift.
+    if (reduceMotion) {
+      drawFrame(false);
+      return () => {
+        window.removeEventListener("resize", updateCanvasSize);
+      };
+    }
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationFrameRef.current);
+      } else {
+        animate();
+      }
+    };
+
     animate();
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
       window.removeEventListener("resize", updateCanvasSize);
+      document.removeEventListener("visibilitychange", handleVisibility);
       cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [intensity, active]);
+  }, [intensity, active, reduceMotion]);
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -167,8 +191,8 @@ export function BeamsBackground({
 
       <motion.div
         className="fixed inset-0 pointer-events-none z-0 bg-black/5"
-        animate={{ opacity: [0.03, 0.08, 0.03] }}
-        transition={{ duration: 10, repeat: Infinity }}
+        animate={reduceMotion ? { opacity: 0.05 } : { opacity: [0.03, 0.08, 0.03] }}
+        transition={reduceMotion ? { duration: 0 } : { duration: 10, repeat: Infinity }}
       />
 
       {/* Content Layer */}

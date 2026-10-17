@@ -32,9 +32,27 @@
   /* Prevent default outline */
 }
 
-/* Explicit focus override if needed for accessibility later, but currently removing "selectable" feel */
+/* Hide the default outline on mouse-driven focus, but keep it for keyboard users */
 *:focus {
   outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
+}
+
+/* Respect the OS-level "reduce motion" setting across every animation/transition on the site */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 body {
@@ -202,95 +220,6 @@ a,
   }
 }
 
-/* Loading Screen Styles */
-
-
-.loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #0a0a0a;
-  /* Deep dark background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  transition: opacity 1s ease-out, visibility 1s ease-out;
-  /* Optimized fade (1s) */
-}
-
-.loading-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.loading-text {
-  font-family: 'Cinzel', serif;
-  font-size: 4rem;
-  font-weight: 700;
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  opacity: 0;
-  /* Start hidden */
-  animation: enterAndTurnGold 2s ease-in-out forwards 0.8s;
-  /* Delay appearance */
-  transition: all 1.5s ease-out;
-  will-change: opacity, color, filter, transform;
-}
-
-.loading-subtitle {
-  font-family: 'Cinzel', serif;
-  font-size: 1.2rem;
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  opacity: 0;
-  /* Start hidden */
-  animation: enterAndTurnGold 2s ease-in-out forwards 0.2s;
-  /* Start slightly earlier */
-  transition: all 1.5s ease-out;
-}
-
-@keyframes fadeIn {
-  to {
-    opacity: 0.8;
-  }
-}
-
-@keyframes turnGold {
-  0% {
-    color: #ffffff;
-  }
-
-  100% {
-    color: #bf953f;
-    /* Solid Gold, no glow */
-  }
-}
-
-@keyframes enterAndTurnGold {
-  0% {
-    opacity: 0;
-    color: #ffffff;
-  }
-
-  20% {
-    opacity: 1;
-    color: #ffffff;
-  }
-
-  100% {
-    opacity: 1;
-    color: #bf953f;
-    /* Gold */
-  }
-}
-
 /* Content Animation */
 /* Content Animation */
 .content-wrapper {
@@ -309,45 +238,18 @@ a,
 }
 
 /* Header and BG Animation */
-.header,
-.luxury-bg-container {
+.header {
   opacity: 0;
   transition: opacity 1s ease-out;
 }
 
-.content-visible .header,
-.content-visible .luxury-bg-container {
+.content-visible .header {
   opacity: 1;
 }
 
 /* Ensure Header transition doesn't conflict with scroll effect */
 .header {
   transition: opacity 1s ease-out, padding 0.3s ease, background 0.3s ease;
-}
-
-/* Dust Fade Out Effect */
-.loading-screen.fade-out {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.loading-screen.fade-out .loading-text,
-.loading-screen.fade-out .loading-subtitle {
-  opacity: 0;
-  filter: blur(25px);
-  /* Stronger blur */
-  transform: scale(1.5);
-  /* Larger expansion */
-  letter-spacing: 20px;
-  /* More scattering */
-}
-
-@media (max-width: 768px) {
-  .loading-text {
-    font-size: 1.5rem;
-    letter-spacing: 2px;
-  }
 }
 
 h1,
@@ -429,78 +331,17 @@ ul {
   background: rgba(197, 160, 89, 0.4);
 }
 
-/* Luxury Background */
-.luxury-bg-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -10;
-  overflow: hidden;
-  background: var(--bg-color);
-}
-
-.luxury-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.5;
-  animation: float 20s infinite ease-in-out;
-  will-change: transform;
-}
-
-.orb-1 {
-  top: -10%;
-  right: -5%;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle at center, var(--accent-gold) 0%, rgba(197, 160, 89, 0) 60%);
-  animation-delay: 0s;
-}
-
-.orb-2 {
-  bottom: -10%;
-  left: -10%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle at center, #4f46e5 0%, rgba(79, 70, 229, 0) 60%);
-  animation-delay: -5s;
-}
-
-.orb-3 {
-  top: 40%;
-  left: 40%;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle at center, #c026d3 0%, rgba(192, 38, 211, 0) 60%);
-  opacity: 0.3;
-  animation-delay: -10s;
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-
-  33% {
-    transform: translate(30px, -50px);
-  }
-
-  66% {
-    transform: translate(-20px, 20px);
-  }
-}
-
 /* Buttons */
 .btn {
   display: inline-block;
   padding: 1rem 2.5rem;
   font-weight: 500;
   border-radius: 2px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -546,7 +387,6 @@ ul {
   left: 0;
   right: 0;
   z-index: 1000;
-  transition: all 0.3s ease;
   padding: 2rem 0;
   background: transparent;
   backdrop-filter: none;
@@ -570,6 +410,8 @@ ul {
   font-size: 1.5rem;
   font-family: var(--font-heading);
   font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .logo span {
@@ -626,6 +468,7 @@ ul {
 .nav-menu {
   display: flex;
   gap: 2rem;
+  flex-shrink: 0;
 }
 
 /* Hamburger Menu Icon - Premium Glass Orb */
@@ -813,7 +656,7 @@ ul {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1300px) {
   .hamburger {
     display: flex !important;
     /* Force show on mobile */
@@ -909,6 +752,24 @@ ul {
     color: var(--accent-gold);
     text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
   }
+}
+
+/* Shared "NEW/LATEST/CURRENT" status badge pulse — catches the eye a few times, then settles highlighted */
+@keyframes badgePulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.badge-pulse {
+  animation: badgePulse 1.6s ease-in-out 3;
+  animation-fill-mode: forwards;
 }
 
 /* Projects Styles */

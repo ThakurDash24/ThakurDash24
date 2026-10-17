@@ -8,9 +8,9 @@ interface LoadingScreenProps {
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete, onFadeOutStart }) => {
     return (
-        <BackgroundPaths 
+        <BackgroundPaths
             onEnterStart={onFadeOutStart}
-            onComplete={onComplete} 
+            onComplete={onComplete}
         />
     );
 };

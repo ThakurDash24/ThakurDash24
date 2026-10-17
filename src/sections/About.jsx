@@ -107,7 +107,8 @@ const About = () => {
                             <img
                                 ref={imgRef}
                                 src="/assets/profile.jpg"
-                                alt="Profile"
+                                alt="Thakur Asutosh Dash, AI/ML Engineer"
+                                loading="lazy"
                                 style={{
                                     width: '100%',
                                     height: '360px',

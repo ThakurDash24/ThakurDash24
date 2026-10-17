@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Section from "../components/Section";
+import { supportsFineHover } from "../lib/utils";
 
 const certifications = [
   {
@@ -232,9 +233,11 @@ const CertPreview = ({ pdfUrl, aspectRatio, accentColor, title }) => {
         transition: "transform 0.4s ease",
       }}
       onMouseEnter={(e) => {
+        if (!supportsFineHover()) return;
         e.currentTarget.style.transform = "scale(1.03)";
       }}
       onMouseLeave={(e) => {
+        if (!supportsFineHover()) return;
         e.currentTarget.style.transform = "scale(1)";
       }}
     >
@@ -338,10 +341,12 @@ const CertPreview = ({ pdfUrl, aspectRatio, accentColor, title }) => {
               window.open(pdfUrl, "_blank");
             }}
             onMouseEnter={(e) => {
+              if (!supportsFineHover()) return;
               e.currentTarget.style.transform = "translateY(-2px)";
               e.currentTarget.style.boxShadow = `0 6px 20px ${accentColor}66`;
             }}
             onMouseLeave={(e) => {
+              if (!supportsFineHover()) return;
               e.currentTarget.style.transform = "translateY(0)";
               e.currentTarget.style.boxShadow = `0 4px 14px ${accentColor}55`;
             }}
@@ -389,16 +394,19 @@ const CertCard = ({ cert, isActive }) => {
         overflow: "hidden",
       }}
       onMouseMove={(e) => {
+        if (!supportsFineHover()) return;
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         e.currentTarget.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.08), transparent 40%)`;
       }}
       onMouseEnter={(e) => {
+        if (!supportsFineHover()) return;
         e.currentTarget.style.transform = "translateY(-6px)";
         e.currentTarget.style.boxShadow = `0 18px 40px rgba(0,0,0,0.45), 0 0 40px ${cert.accentColor}44`;
       }}
       onMouseLeave={(e) => {
+        if (!supportsFineHover()) return;
         e.currentTarget.style.transform = "translateY(0)";
         e.currentTarget.style.boxShadow = isActive
           ? `0 0 40px ${cert.accentColor}22, 0 20px 50px rgba(0,0,0,0.4)`
@@ -456,6 +464,7 @@ const CertCard = ({ cert, isActive }) => {
               {cert.title}
               {cert.latest && (
                 <span
+                  className="badge-pulse"
                   style={{
                     fontSize: "0.65rem",
                     letterSpacing: "0.06em",
@@ -463,7 +472,6 @@ const CertCard = ({ cert, isActive }) => {
                     borderRadius: "999px",
                     color: "#fff",
                     background: "rgba(255,255,255,0.15)",
-                    animation: "focusPulse 1.6s ease-in-out infinite",
                     whiteSpace: "nowrap",
                     border: "1px solid rgba(255,255,255,0.1)",
                   }}
@@ -607,10 +615,12 @@ const CertCard = ({ cert, isActive }) => {
                 display: "inline-block",
               }}
               onMouseEnter={(e) => {
+                if (!supportsFineHover()) return;
                 e.currentTarget.style.color = "var(--text-color)";
                 e.currentTarget.style.transform = "translateX(4px)";
               }}
               onMouseLeave={(e) => {
+                if (!supportsFineHover()) return;
                 e.currentTarget.style.color = "var(--text-muted)";
                 e.currentTarget.style.transform = "translateX(0)";
               }}
@@ -649,32 +659,29 @@ const CertCard = ({ cert, isActive }) => {
 
 const Certifications = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [direction, setDirection] = useState("right");
   const trackRef = useRef(null);
   const total = certifications.length;
 
   const goTo = (index, dir) => {
-    if (isAnimating) return;
-    setIsAnimating(true);
     setDirection(dir);
-    setTimeout(() => {
-      setCurrentIndex(index);
-      setIsAnimating(false);
-    }, 350);
+    setCurrentIndex(index);
   };
 
+  // prev/next use the functional setState form (not goTo's closed-over
+  // currentIndex) so rapid or OS-auto-repeated keypresses each advance from
+  // the latest index instead of several presses computing the same target.
   const prev = () => {
-    const newIndex = (currentIndex - 1 + total) % total;
-    goTo(newIndex, "left");
+    setDirection("left");
+    setCurrentIndex((i) => (i - 1 + total) % total);
   };
 
   const next = () => {
-    const newIndex = (currentIndex + 1) % total;
-    goTo(newIndex, "right");
+    setDirection("right");
+    setCurrentIndex((i) => (i + 1) % total);
   };
 
-  // Keyboard navigation
+  // Keyboard navigation — never gated or delayed, so repeated presses stay instant
   useEffect(() => {
     const handler = (e) => {
       if (e.key === "ArrowLeft") prev();
@@ -682,7 +689,7 @@ const Certifications = () => {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [currentIndex, isAnimating]);
+  }, []);
 
   return (
     <Section id="certifications">
@@ -761,12 +768,9 @@ const Certifications = () => {
           >
             <div
               ref={trackRef}
+              key={certifications[currentIndex].id}
+              className={direction === "right" ? "cert-enter-right" : "cert-enter-left"}
               style={{
-                opacity: isAnimating ? 0 : 1,
-                transform: isAnimating
-                  ? `translateX(${direction === "right" ? "30px" : "-30px"})`
-                  : "translateX(0)",
-                transition: "opacity 0.35s ease, transform 0.35s ease",
                 height: "100%",
                 padding: "8px", // padding to see the box-shadow cleanly
               }}
@@ -774,7 +778,6 @@ const Certifications = () => {
               <CertCard
                 cert={certifications[currentIndex]}
                 isActive={true}
-                key={certifications[currentIndex].id}
               />
             </div>
           </div>
@@ -911,18 +914,23 @@ const Certifications = () => {
                         grid-template-columns: 1fr 1.35fr;
                     }
                 }
-                @keyframes certDotPulse {
-                    0%, 100% { opacity: 0.7; }
-                    50% { opacity: 1; }
-                }
-                @keyframes focusPulse {
-                    0% { opacity: 0.35; }
-                    50% { opacity: 1; }
-                    100% { opacity: 0.35; }
-                }
                 @keyframes certSpin {
                     0% { transform: rotate(0deg); }
                     100% { transform: rotate(360deg); }
+                }
+                @keyframes certEnterRight {
+                    from { opacity: 0; transform: translateX(16px); }
+                    to { opacity: 1; transform: translateX(0); }
+                }
+                @keyframes certEnterLeft {
+                    from { opacity: 0; transform: translateX(-16px); }
+                    to { opacity: 1; transform: translateX(0); }
+                }
+                .cert-enter-right {
+                    animation: certEnterRight 180ms cubic-bezier(0.23, 1, 0.32, 1);
+                }
+                .cert-enter-left {
+                    animation: certEnterLeft 180ms cubic-bezier(0.23, 1, 0.32, 1);
                 }
                 @media (max-width: 850px) {
                     .desktop-arrow { display: none !important; }

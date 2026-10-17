@@ -1,5 +1,6 @@
 import React from 'react';
 import Section from '../components/Section';
+import { supportsFineHover } from '../lib/utils';
 
 const skills = [
     {
@@ -81,6 +82,7 @@ const Skills = () => {
                                 transition: 'transform 0.3s ease',
                             }}
                             onMouseMove={(e) => {
+                                if (!supportsFineHover()) return;
                                 const rect =
                                     e.currentTarget.getBoundingClientRect();
                                 const x = e.clientX - rect.left;
@@ -93,10 +95,12 @@ const Skills = () => {
                                 )`;
                             }}
                             onMouseEnter={(e) => {
+                                if (!supportsFineHover()) return;
                                 e.currentTarget.style.transform =
                                     'translateY(-4px)';
                             }}
                             onMouseLeave={(e) => {
+                                if (!supportsFineHover()) return;
                                 e.currentTarget.style.transform =
                                     'translateY(0)';
                                 e.currentTarget.style.background = 'none';
@@ -136,6 +140,7 @@ const Skills = () => {
 
                                         {item.current && (
                                             <span
+                                                className="badge-pulse"
                                                 style={{
                                                     fontSize: '0.65rem',
                                                     letterSpacing: '0.06em',
@@ -145,8 +150,6 @@ const Skills = () => {
                                                     color: '#fff',
                                                     background:
                                                         'rgba(255,255,255,0.15)',
-                                                    animation:
-                                                        'focusPulse 1.6s ease-in-out infinite',
                                                 }}
                                             >
                                                 CURRENT
@@ -159,17 +162,6 @@ const Skills = () => {
                     );
                 })}
             </div>
-
-            {/* Pulse animation */}
-            <style>
-                {`
-                @keyframes focusPulse {
-                    0% { opacity: 0.35; }
-                    50% { opacity: 1; }
-                    100% { opacity: 0.35; }
-                }
-                `}
-            </style>
         </Section>
     );
 };

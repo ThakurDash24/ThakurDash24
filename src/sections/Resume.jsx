@@ -1,5 +1,6 @@
 import React from 'react';
 import Section from '../components/Section';
+import { supportsFineHover } from '../lib/utils';
 
 const Resume = () => {
     return (
@@ -8,17 +9,13 @@ const Resume = () => {
             <style>
                 {`
                 @keyframes borderPulse {
-                    0% {
-                        box-shadow: 0 0 0 rgba(197,160,89,0.0);
-                        border-color: rgba(197,160,89,0.4);
+                    0%, 100% {
+                        box-shadow: 0 0 10px rgba(197,160,89,0.2);
+                        border-color: rgba(197,160,89,0.6);
                     }
                     50% {
                         box-shadow: 0 0 18px rgba(197,160,89,0.35);
                         border-color: rgba(197,160,89,0.9);
-                    }
-                    100% {
-                        box-shadow: 0 0 0 rgba(197,160,89,0.0);
-                        border-color: rgba(197,160,89,0.4);
                     }
                 }
                 `}
@@ -31,13 +28,15 @@ const Resume = () => {
                     textAlign: 'center',
                     borderRadius: '6px',
                     border: '1px solid var(--accent-gold)',
-                    animation: 'borderPulse 2.5s ease-in-out infinite',
+                    animation: 'borderPulse 2.5s ease-in-out 3',
+                    animationFillMode: 'forwards',
                     position: 'relative',
                     overflow: 'hidden',
                     transition:
                         'transform 0.35s ease, box-shadow 0.35s ease',
                 }}
                 onMouseMove={(e) => {
+                    if (!supportsFineHover()) return;
                     const rect = e.currentTarget.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
@@ -50,9 +49,11 @@ const Resume = () => {
                         )`;
                 }}
                 onMouseEnter={(e) => {
+                    if (!supportsFineHover()) return;
                     e.currentTarget.style.transform = 'translateY(-6px)';
                 }}
                 onMouseLeave={(e) => {
+                    if (!supportsFineHover()) return;
                     e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.background = 'none';
                 }}
@@ -106,11 +107,13 @@ const Resume = () => {
                                 'transform 0.3s ease, opacity 0.3s ease',
                         }}
                         onMouseEnter={(e) => {
+                            if (!supportsFineHover()) return;
                             e.currentTarget.style.transform =
                                 'translateY(-2px)';
                             e.currentTarget.style.opacity = '0.9';
                         }}
                         onMouseLeave={(e) => {
+                            if (!supportsFineHover()) return;
                             e.currentTarget.style.transform = 'translateY(0)';
                             e.currentTarget.style.opacity = '1';
                         }}
@@ -137,11 +140,13 @@ const Resume = () => {
                                 'transform 0.3s ease, opacity 0.3s ease',
                         }}
                         onMouseEnter={(e) => {
+                            if (!supportsFineHover()) return;
                             e.currentTarget.style.transform =
                                 'translateY(-2px)';
                             e.currentTarget.style.opacity = '0.85';
                         }}
                         onMouseLeave={(e) => {
+                            if (!supportsFineHover()) return;
                             e.currentTarget.style.transform = 'translateY(0)';
                             e.currentTarget.style.opacity = '1';
                         }}

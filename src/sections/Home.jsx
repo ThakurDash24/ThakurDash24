@@ -58,12 +58,8 @@ const Home = () => {
                 <div style={{ display: 'flex', gap: '1.5rem' }}>
                     <a
                         href="https://portfolio-agent-inky.vercel.app/"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            if (window.confirm("You are about to open 'LAVEN - Autonomous AI Portfolio Agent' in a new tab. Continue?")) {
-                                window.open("https://portfolio-agent-inky.vercel.app/", "_blank");
-                            }
-                        }}
+                        target="_blank"
+                        rel="noreferrer"
                         className="btn btn-primary"
                         style={{
                             position: 'relative',
@@ -77,24 +73,25 @@ const Home = () => {
                             minWidth: '180px', // Ensure consistent width
                         }}
                     >
-                        <span style={{ position: 'relative', zIndex: 1, letterSpacing: '1px' }}>Freshly Deployed</span>
+                        <span style={{ position: 'relative', zIndex: 1, letterSpacing: '1px' }}>Try My AI Agent →</span>
                         <div
                             style={{
                                 position: 'absolute',
                                 top: 0,
-                                left: '-100%',
+                                left: 0,
                                 width: '100%',
                                 height: '100%',
                                 background: 'linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent)',
                                 animation: 'shine 3s infinite',
+                                willChange: 'transform',
                             }}
                         />
                         <style>
                             {`
                             @keyframes shine {
-                                0% { left: -100%; }
-                                20% { left: 100%; }
-                                100% { left: 100%; }
+                                0% { transform: translateX(-100%); }
+                                20% { transform: translateX(100%); }
+                                100% { transform: translateX(100%); }
                             }
                             `}
                         </style>

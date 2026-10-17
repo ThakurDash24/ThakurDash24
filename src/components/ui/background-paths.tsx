@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function FloatingPaths({ position, active }: { position: number; active: boolean }) {
     const paths = Array.from({ length: 48 }, (_, i) => ({
@@ -50,41 +50,48 @@ function FloatingPaths({ position, active }: { position: number; active: boolean
 export function BackgroundPaths({
     title = "Welcome Devs",
     onComplete,
-    onEnterStart
+    onEnterStart,
 }: {
     title?: string;
     onComplete?: () => void;
     onEnterStart?: () => void;
 }) {
     const [isEntering, setIsEntering] = useState(false);
+    const [countReady, setCountReady] = useState(false);
+    const hasEnteredRef = useRef(false);
     const words = title.split(" ");
 
     const count = useMotionValue(0);
     const rounded = useTransform(count, Math.round);
 
+    const prefersReducedMotion =
+        typeof window !== "undefined" &&
+        window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
     useEffect(() => {
-        // Fetch real visitor count with a cache-buster so reloads always increase
-        fetch(`https://api.counterapi.dev/v1/thakurdash24/portfolio_visits/up?_t=${Date.now()}`)
-            .then(res => res.json())
-            .then(data => {
-                // Add an offset so it starts looking impressive
-                const finalCount = (data.count || 0) + 1005;
-                animate(count, finalCount, {
+        // Real visit count, served by our own serverless proxy (api/visit-count.js)
+        // so the CounterAPI key never reaches the browser. If it's unavailable
+        // (not configured yet, offline, etc.) we simply don't show a number —
+        // never a made-up one.
+        fetch('/api/visit-count')
+            .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+            .then((data) => {
+                if (typeof data.count !== 'number') throw new Error('bad payload');
+                setCountReady(true);
+                animate(count, data.count, {
                     duration: 1.5,
                     delay: 0.5,
                     ease: "easeOut",
                 });
             })
             .catch(() => {
-                animate(count, 1005, {
-                    duration: 1.5,
-                    delay: 0.5,
-                    ease: "easeOut",
-                });
+                // Leave countReady false — the counter line stays hidden.
             });
     }, []);
 
     const handleEnter = () => {
+        if (hasEnteredRef.current) return;
+        hasEnteredRef.current = true;
         setIsEntering(true);
         if (onEnterStart) onEnterStart();
 
@@ -99,6 +106,15 @@ export function BackgroundPaths({
             }
         }, 800);
     };
+
+    // Skip the intro animation entirely for users who prefer reduced motion —
+    // the welcome screen is decorative, and forcing motion on them would be
+    // an accessibility regression.
+    useEffect(() => {
+        if (prefersReducedMotion) {
+            handleEnter();
+        }
+    }, [prefersReducedMotion]);
 
     return (
         <motion.div
@@ -173,37 +189,40 @@ export function BackgroundPaths({
                         ))}
                     </h1>
 
-                    {/* Visitor Counter Animation */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5, duration: 1.0, ease: "easeOut" }}
-                        className="flex flex-col items-center mb-8"
-                        style={{ marginTop: '3rem' }}
-                    >
-                        <p className="text-white/60 text-sm sm:text-base md:text-lg tracking-[0.2em] text-center">
-                            You are the <motion.span className="text-white font-medium">{rounded}</motion.span>th to arrive
-                        </p>
-                    </motion.div>
+                    {/* Visitor Counter Animation — real count from api/visit-count, hidden until it resolves */}
+                    {countReady && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1.0, ease: "easeOut" }}
+                            className="flex flex-col items-center mb-8"
+                            style={{ marginTop: '3rem' }}
+                        >
+                            <p className="text-white/60 text-sm sm:text-base md:text-lg tracking-[0.2em] text-center">
+                                You are the <motion.span className="text-white font-medium">{rounded}</motion.span>th to arrive
+                            </p>
+                        </motion.div>
+                    )}
 
-                    <div className="flex justify-center" style={{ marginTop: '40px' }}>
+                    <div className="flex justify-center items-center gap-3" style={{ marginTop: '40px' }}>
                         <button
                             onClick={handleEnter}
                             disabled={isEntering}
-                            className="relative w-12 h-12 sm:w-14 sm:h-14 bg-white/5 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-500 hover:w-[180px] sm:hover:w-[240px] hover:bg-white/5 group cursor-pointer border border-white/20 hover:border-[#c5a059] hover:shadow-[0_0_25px_rgba(197,160,89,0.5)] disabled:pointer-events-none overflow-hidden"
+                            aria-label="Enter to Portfolio"
+                            className="group peer relative w-12 h-12 sm:w-14 sm:h-14 bg-white/5 backdrop-blur-md rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer border border-white/20 hover:border-[#c5a059] hover:shadow-[0_0_25px_rgba(197,160,89,0.5)] disabled:pointer-events-none"
                         >
-                            {/* 1. The Icon (Scales down and disappears on hover) */}
-                            <span className="absolute inset-0 transition-all duration-500 group-hover:scale-0 group-hover:opacity-0 flex items-center justify-center">
-                                <span className="text-white/60 transition-colors text-2xl font-light">
-                                    →
-                                </span>
-                            </span>
-
-                            {/* 2. The Text (Scales up and appears on hover) */}
-                            <span className="absolute text-white tracking-[0.2em] text-[10px] sm:text-xs font-bold transition-all duration-500 scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 whitespace-nowrap uppercase">
-                                Enter to Portfolio
+                            <span className="text-white/60 group-hover:text-white transition-colors duration-200 text-2xl font-light">
+                                →
                             </span>
                         </button>
+
+                        {/* Label — reveals via opacity/transform, never changes the button's own size */}
+                        <span
+                            aria-hidden="true"
+                            className="text-white tracking-[0.2em] text-[10px] sm:text-xs font-bold uppercase whitespace-nowrap pointer-events-none opacity-0 -translate-x-1 peer-hover:opacity-100 peer-hover:translate-x-0 transition-[opacity,transform] duration-200 ease-out"
+                        >
+                            Enter to Portfolio
+                        </span>
                     </div>
                 </motion.div>
             </div>

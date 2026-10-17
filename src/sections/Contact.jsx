@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Section from '../components/Section';
 import emailjs from '@emailjs/browser';
+import { supportsFineHover } from '../lib/utils';
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
@@ -54,6 +55,7 @@ const Contact = () => {
                     borderRadius: '6px',
                 }}
                 onMouseMove={(e) => {
+                    if (!supportsFineHover()) return;
                     const rect = e.currentTarget.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
@@ -65,10 +67,12 @@ const Contact = () => {
                     )`;
                 }}
                 onMouseEnter={(e) => {
+                    if (!supportsFineHover()) return;
                     e.currentTarget.style.transform = 'scale(1.02)';
                     e.currentTarget.style.transition = 'transform 0.3s ease';
                 }}
                 onMouseLeave={(e) => {
+                    if (!supportsFineHover()) return;
                     e.currentTarget.style.background = '';
                     e.currentTarget.style.transform = 'scale(1)';
                 }}
@@ -172,6 +176,7 @@ const Contact = () => {
                         aria-label="LinkedIn"
                         style={socialIconStyle}
                         onMouseEnter={(e) => {
+                            if (!supportsFineHover()) return;
                             e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
                             e.currentTarget.style.color = 'var(--accent-gold)';
                             e.currentTarget.style.borderColor = 'rgba(255,215,0,0.6)';
@@ -179,6 +184,7 @@ const Contact = () => {
                                 '0 0 20px rgba(255,215,0,0.25), 0 0 40px rgba(255,215,0,0.15)';
                         }}
                         onMouseLeave={(e) => {
+                            if (!supportsFineHover()) return;
                             e.currentTarget.style.transform = 'translateY(0) scale(1)';
                             e.currentTarget.style.color = 'rgba(255,255,255,0.85)';
                             e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';
@@ -203,6 +209,7 @@ const Contact = () => {
                         aria-label="GitHub"
                         style={socialIconStyle}
                         onMouseEnter={(e) => {
+                            if (!supportsFineHover()) return;
                             e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
                             e.currentTarget.style.color = 'var(--accent-gold)';
                             e.currentTarget.style.borderColor = 'rgba(255,215,0,0.6)';
@@ -210,6 +217,7 @@ const Contact = () => {
                                 '0 0 20px rgba(255,215,0,0.25), 0 0 40px rgba(255,215,0,0.15)';
                         }}
                         onMouseLeave={(e) => {
+                            if (!supportsFineHover()) return;
                             e.currentTarget.style.transform = 'translateY(0) scale(1)';
                             e.currentTarget.style.color = 'rgba(255,255,255,0.85)';
                             e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';

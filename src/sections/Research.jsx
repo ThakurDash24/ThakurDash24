@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Section from '../components/Section';
+import { supportsFineHover } from '../lib/utils';
 
 const researchAreas = [
     {
@@ -146,6 +147,7 @@ const Research = () => {
                                 justifyContent: 'center'
                             }}
                             onMouseMove={(e) => {
+                                if (!supportsFineHover()) return;
                                 const rect = e.currentTarget.getBoundingClientRect();
                                 const x = e.clientX - rect.left;
                                 const y = e.clientY - rect.top;
@@ -158,11 +160,13 @@ const Research = () => {
                                     )`;
                             }}
                             onMouseEnter={(e) => {
+                                if (!supportsFineHover()) return;
                                 e.currentTarget.style.transform = 'translateY(-6px)';
                                 e.currentTarget.style.boxShadow =
                                     '0 18px 40px rgba(0,0,0,0.45)';
                             }}
                             onMouseLeave={(e) => {
+                                if (!supportsFineHover()) return;
                                 e.currentTarget.style.transform = 'translateY(0)';
                                 e.currentTarget.style.boxShadow = 'none';
                                 e.currentTarget.style.background = 'none';
@@ -179,6 +183,7 @@ const Research = () => {
                                 {item.title}
                                 {item.current && (
                                     <span
+                                        className="badge-pulse"
                                         style={{
                                             fontSize: '0.65rem',
                                             letterSpacing: '0.06em',
@@ -186,7 +191,6 @@ const Research = () => {
                                             borderRadius: '999px',
                                             color: '#fff',
                                             background: 'rgba(255,255,255,0.15)',
-                                            animation: 'focusPulse 1.6s ease-in-out infinite',
                                             border: '1px solid rgba(255,255,255,0.1)',
                                             whiteSpace: 'nowrap',
                                             textShadow: 'none' // Prevent double glow on tag
@@ -247,16 +251,6 @@ const Research = () => {
                 </div>
             </div>
 
-            {/* Pulse animation for active focus */}
-            <style>
-                {`
-                @keyframes focusPulse {
-                    0% { opacity: 0.35; }
-                    50% { opacity: 1; }
-                    100% { opacity: 0.35; }
-                }
-                `}
-            </style>
         </Section>
     );
 };

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Section from '../components/Section';
+import { supportsFineHover } from '../lib/utils';
 
 
 const projects = [
@@ -153,6 +154,7 @@ const Projects = () => {
                             className="glass project-card"
                             onClick={(e) => handleCardClick(e, project.link)}
                             onMouseMove={(e) => {
+                                if (!supportsFineHover()) return;
                                 const rect = e.currentTarget.getBoundingClientRect();
                                 const x = e.clientX - rect.left;
                                 const y = e.clientY - rect.top;
@@ -164,6 +166,7 @@ const Projects = () => {
                                 )`;
                             }}
                             onMouseLeave={(e) => {
+                                if (!supportsFineHover()) return;
                                 e.currentTarget.style.background = '';
                             }}
                         >
@@ -176,6 +179,7 @@ const Projects = () => {
                                 {project.title}
                                 {project.latest && (
                                     <span
+                                        className="badge-pulse"
                                         style={{
                                             fontSize: '0.65rem',
                                             letterSpacing: '0.06em',
@@ -183,7 +187,6 @@ const Projects = () => {
                                             borderRadius: '999px',
                                             color: '#fff',
                                             background: 'rgba(255,255,255,0.15)',
-                                            animation: 'focusPulse 1.6s ease-in-out infinite',
                                             whiteSpace: 'nowrap',
                                             border: '1px solid rgba(255,255,255,0.1)'
                                         }}
@@ -287,11 +290,6 @@ const Projects = () => {
                         color: var(--accent-gold);
                     }
                 }
-                @keyframes focusPulse {
-                    0% { opacity: 0.35; }
-                    50% { opacity: 1; }
-                    100% { opacity: 0.35; }
-                }
                 .test-it-now {
                     position: relative;
                     overflow: hidden;
@@ -302,7 +300,7 @@ const Projects = () => {
                     content: '';
                     position: absolute;
                     top: -10%;
-                    left: -200%;
+                    left: 0;
                     width: 80%;
                     height: 120%;
                     background: linear-gradient(
@@ -313,15 +311,21 @@ const Projects = () => {
                         rgba(197, 160, 89, 0.9) 55%,
                         transparent 90%
                     );
-                    transform: skewX(-20deg);
                     animation: linkShimmer 3.5s ease-in-out infinite;
+                    animation-play-state: paused;
                     pointer-events: none;
+                    will-change: transform, opacity;
                 }
                 @keyframes linkShimmer {
-                    0%   { left: -200%; opacity: 0; }
+                    0%   { transform: skewX(-20deg) translateX(-250%); opacity: 0; }
                     10%  { opacity: 1; }
-                    40%  { left: 200%; opacity: 1; }
-                    100% { left: 200%; opacity: 0; }
+                    40%  { transform: skewX(-20deg) translateX(250%); opacity: 1; }
+                    100% { transform: skewX(-20deg) translateX(250%); opacity: 0; }
+                }
+                @media (hover: hover) and (pointer: fine) {
+                    .test-it-now:hover::after {
+                        animation-play-state: running;
+                    }
                 }
                 .project-link-container {
                     display: flex;
