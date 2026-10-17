@@ -1,0 +1,1078 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@theme {
+  --color-accent-gold: #c5a059;
+  --color-accent-gold-dim: #8a703e;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+:root {
+  --bg-color: #0a0a0a;
+  --text-color: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent-gold: #c5a059;
+  --accent-gold-dim: #8a703e;
+  --accent-navy: #0f172a;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  --transition-slow: 0.5s ease;
+  --transition-fast: 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  /* Remove blue highlight on mobile */
+  outline: none;
+  /* Prevent default outline */
+}
+
+/* Hide the default outline on mouse-driven focus, but keep it for keyboard users */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
+}
+
+/* Respect the OS-level "reduce motion" setting across every animation/transition on the site */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Disable text selection globally */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Explicitly disable selection on interactive elements and media */
+img,
+svg,
+button,
+a,
+.glass-arrow-btn {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  /* Prevent image dragging */
+}
+
+/* Scroll Progress Bar */
+.scroll-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 10000;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-gold), #f0d68a, var(--accent-gold));
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+  transition: width 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: width;
+  box-shadow: 0 0 10px var(--accent-gold), 0 0 20px rgba(197, 160, 89, 0.5);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Back to Top Button */
+/* Shared Gold Glass Button Style */
+.back-to-top,
+.glass-arrow-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(197, 160, 89, 0.3), rgba(197, 160, 89, 0.1));
+  border: 1px solid rgba(197, 160, 89, 0.5);
+  color: var(--accent-gold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 20;
+  /* Ensure high visibility */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  /* Added subtle shadow for depth */
+}
+
+.back-to-top:hover,
+.glass-arrow-btn:hover {
+  background: linear-gradient(135deg, rgba(197, 160, 89, 0.5), rgba(197, 160, 89, 0.2));
+  transform: scale(1.1);
+  box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4);
+}
+
+/* Back to Top Specifics */
+.back-to-top {
+  position: fixed;
+  bottom: 6.5rem;
+  right: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  z-index: 1000;
+  /* Higher z-index for fixed element */
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  transform: translateY(-3px);
+  /* Override scale for back-to-top hover logic */
+}
+
+.back-to-top:active {
+  transform: translateY(0);
+}
+
+/* Carousel Arrow Specifics */
+.glass-arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.glass-arrow-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  /* Keep vertical center */
+}
+
+.glass-arrow-left {
+  left: 10px;
+}
+
+.glass-arrow-right {
+  right: 10px;
+}
+
+/* Centered Controls Container */
+.carousel-controls {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.carousel-controls .glass-arrow-btn {
+  position: relative;
+  top: auto;
+  transform: none;
+  left: auto;
+  right: auto;
+}
+
+.carousel-controls .glass-arrow-btn:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .back-to-top {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* Content Animation */
+/* Content Animation */
+.content-wrapper {
+  opacity: 0;
+  filter: blur(10px);
+  transform: scale(1.02);
+  /* Subtle zoom out for depth */
+  transition: opacity 1s ease-out, filter 1s ease-out, transform 1s ease-out;
+  will-change: opacity, filter, transform;
+}
+
+.content-visible .content-wrapper {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+
+/* Header and BG Animation */
+.header {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
+
+.content-visible .header {
+  opacity: 1;
+}
+
+/* Ensure Header transition doesn't conflict with scroll effect */
+.header {
+  transition: opacity 1s ease-out, padding 0.3s ease, background 0.3s ease;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-fast);
+}
+
+ul {
+  list-style: none;
+}
+
+/* Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section {
+  padding: 6rem 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gold);
+}
+
+/* Chat Widget Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(197, 160, 89, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(197, 160, 89, 0.4);
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  font-weight: 500;
+  border-radius: 2px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background: var(--text-color);
+  color: var(--bg-color);
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  background: var(--accent-gold);
+  color: var(--bg-color);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px rgba(197, 160, 89, 0.5);
+  outline: none;
+}
+
+.btn-primary:focus {
+  outline: none;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-color);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(4px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px rgba(255, 255, 255, 0.1);
+}
+
+/* Header Styles */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 2rem 0;
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom: none;
+}
+
+.header-scrolled {
+  padding: 1rem 0;
+  background: rgba(10, 10, 10, 0.3);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.logo span {
+  color: var(--accent-gold);
+}
+
+.logo-flash {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  letter-spacing: 1px;
+  transition: transform 0.3s ease;
+}
+
+.logo-flash:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+}
+
+.logo-flash::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  transform: skewX(-25deg);
+  animation: logoFlash 4s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+@keyframes logoFlash {
+  0% {
+    left: -150%;
+    opacity: 0;
+  }
+  15% {
+    left: 150%;
+    opacity: 1;
+  }
+  100% {
+    left: 150%;
+    opacity: 0;
+  }
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2rem;
+  flex-shrink: 0;
+}
+
+/* Hamburger Menu Icon - Premium Glass Orb */
+/* Hamburger Menu Icon - Quantum Tech Orb */
+/* Hamburger Menu Icon - Infinity Portal Style */
+.hamburger {
+  display: none !important;
+  /* Default hidden on desktop */
+  cursor: pointer;
+  z-index: 1100;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  /* Circle Idle */
+  padding: 0;
+
+  /* Deep Space Core */
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(197, 160, 89, 0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+
+  /* Flex Layout */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+
+  position: relative;
+  /* Complex transition for "Reconstruction" feel on close */
+  transition: all 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+/* Inner Gold Ring (Clockwise) */
+.hamburger::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+  animation: orbitClockwise 6s linear infinite;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+/* Outer Glass Ring (Counter-Clockwise) */
+.hamburger::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255, 255, 255, 0.2);
+  animation: orbitCounter 12s linear infinite;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+/* Bars Structure - Tech Stagger */
+.hamburger .bar {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--text-color);
+  border-radius: 2px;
+  position: relative;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.hamburger .bar:nth-child(1) {
+  width: 18px;
+  transform: translateX(-4px);
+}
+
+.hamburger .bar:nth-child(2) {
+  width: 26px;
+}
+
+.hamburger .bar:nth-child(3) {
+  width: 18px;
+  transform: translateX(4px);
+}
+
+/* Hover State: Warp Speed */
+.hamburger:hover::before {
+  animation-duration: 1.5s;
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.hamburger:hover::after {
+  animation-duration: 3s;
+  border-color: var(--accent-gold);
+}
+
+.hamburger:hover {
+  transform: scale(1.05);
+}
+
+/* ACTIVE STATE: Portal Open (Diamond Shape) */
+.hamburger.active {
+  border-radius: 12px;
+  /* Morph to Rounded Square */
+  transform: rotate(135deg);
+  /* Diamond orientation */
+  border-color: var(--accent-gold);
+  background: rgba(197, 160, 89, 0.15);
+  box-shadow: 0 0 30px rgba(197, 160, 89, 0.4);
+  gap: 0;
+  /* Collapse gap for X */
+}
+
+/* Align rings to square shape on active */
+.hamburger.active::before {
+  inset: -2px;
+  border-radius: 10px;
+  border: 1px solid var(--accent-gold);
+  animation: none;
+  /* Stop spin */
+  transform: rotate(-135deg);
+  /* Counter-rotate to stay upright relative to container */
+  box-shadow: 0 0 10px var(--accent-gold);
+}
+
+.hamburger.active::after {
+  inset: -6px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-style: solid;
+  animation: none;
+}
+
+/* X Formation - Clean & Sharp */
+.hamburger.active .bar {
+  position: absolute;
+  width: 28px;
+  height: 2.5px;
+  background-color: #fff;
+  margin: 0;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  transform-origin: center;
+}
+
+.hamburger.active .bar:nth-child(1) {
+  transform: rotate(90deg);
+  /* Vertical part of X */
+  top: auto;
+  left: auto;
+}
+
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+  transform: scale(0);
+  /* Implode */
+}
+
+.hamburger.active .bar:nth-child(3) {
+  transform: rotate(0deg);
+  /* Horizontal part of X (container is rotated 135deg, so this forms X) */
+  top: auto;
+  left: auto;
+}
+
+/* Animations */
+@keyframes orbitClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitCounter {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@media (max-width: 1300px) {
+  .hamburger {
+    display: flex !important;
+    /* Force show on mobile */
+    margin-left: auto;
+    /* Force push to right */
+  }
+
+  /* Ensure Layout: Logo Left, Menu Right */
+  .nav-container {
+    padding: 0 1.5rem;
+    width: 100%;
+    /* Ensure space-between works by verifying parent width */
+    justify-content: space-between;
+    /* Redundant but safe */
+  }
+
+  .nav-menu-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 1000;
+  }
+
+  .nav-menu-container.active {
+    transform: translateX(0);
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .nav-link {
+    font-size: 1.5rem;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .nav-menu-container.active .nav-link {
+    opacity: 1;
+    transform: translateY(0);
+    /* Staggered animation delay handled by nth-child or JS, 
+       but simple CSS transition delay works well too */
+    transition-delay: 0.2s;
+  }
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  position: relative;
+  color: var(--text-color);
+}
+
+@media (hover: hover) {
+  .nav-link:hover {
+    opacity: 1;
+    color: var(--accent-gold);
+  }
+}
+
+.nav-link.active {
+  opacity: 1;
+  color: var(--accent-gold);
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+  animation: goldFlash 0.6s ease-out forwards;
+}
+
+@keyframes goldFlash {
+  0% {
+    color: #ffffff;
+    text-shadow: 0 0 20px #ffffff;
+  }
+
+  100% {
+    color: var(--accent-gold);
+    text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+  }
+}
+
+/* Shared "NEW/LATEST/CURRENT" status badge pulse — catches the eye a few times, then settles highlighted */
+@keyframes badgePulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.badge-pulse {
+  animation: badgePulse 1.6s ease-in-out 3;
+  animation-fill-mode: forwards;
+}
+
+/* Projects Styles */
+.projects-scroll-container {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  padding-bottom: 2rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  /* Hide scrollbar for cleaner look, but keep functionality */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
+  cursor: grab;
+}
+
+.projects-scroll-container::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
+}
+
+.projects-scroll-container:active {
+  cursor: grabbing;
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Glass Arrow Button - High Gloss / Reflective Style */
+/* Glass Arrow Button - Bottom Center Position */
+/* Glass Arrow Button - Bottom Center Position */
+/* Restored Gold Glass Aesthetic (Matching .back-to-top) */
+/* Flexbox Container for Perfect Centering */
+.carousel-controls {
+  position: absolute;
+  bottom: -4.5rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 20;
+  pointer-events: none;
+  /* Let clicks pass through empty space */
+}
+
+.glass-arrow-btn {
+  position: relative;
+  /* Changed from absolute */
+  bottom: auto;
+  left: auto;
+  right: auto;
+  top: auto;
+  transform: none;
+
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  pointer-events: auto;
+  /* Enable clicks on buttons */
+
+  /* Gold Glass Aesthetic */
+  background: linear-gradient(135deg, rgba(197, 160, 89, 0.3), rgba(197, 160, 89, 0.1));
+  border: 1px solid rgba(197, 160, 89, 0.5);
+  color: var(--accent-gold);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+
+  /* Shadow */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+
+/* Hover State */
+.glass-arrow-btn:hover {
+  transform: scale(1.12);
+  background: linear-gradient(135deg, rgba(197, 160, 89, 0.5), rgba(197, 160, 89, 0.2));
+  border-color: var(--accent-gold);
+  box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4);
+  color: #fff;
+}
+
+.glass-arrow-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.glass-arrow-left {
+  left: calc(50% - 40px);
+  right: auto;
+}
+
+.glass-arrow-right {
+  left: calc(50% + 40px);
+  right: auto;
+}
+
+/* Responsive sizing for different screen sizes */
+/* Responsive sizing for different screen sizes */
+@media (max-width: 1200px) {
+  .glass-arrow-btn {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .glass-arrow-btn {
+    width: 44px;
+    height: 44px;
+    /* top: auto; implicit */
+    /* Tighter spacing on mobile */
+  }
+
+  .glass-arrow-btn::after {
+    width: 16px;
+    height: 16px;
+    top: 6px;
+    left: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .glass-arrow-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .glass-arrow-btn::after {
+    width: 14px;
+    height: 14px;
+    top: 5px;
+    left: 6px;
+  }
+}
+
+.project-card {
+  min-width: 400px;
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  flex-shrink: 0;
+  /* Prevent shrinking */
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.project-title {
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.project-title:hover {
+  transform: scale(1.05);
+  color: var(--accent-gold);
+}
+
+.project-description {
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+}
+
+.project-tags {
+  margin-top: 1rem;
+}
+
+.project-tag {
+  margin-right: 1rem;
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+}
+
+.project-link-container {
+  margin-top: 1.2rem;
+}
+
+.project-link {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.project-link:hover {
+  opacity: 1;
+  color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+
+  /* Layout spacing */
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  /* Header */
+  .header {
+    padding: 1rem 0;
+  }
+
+  /* Reduced section padding for mobile to bring content up */
+  .section {
+    padding: 3rem 0;
+  }
+
+  /* HOME – Shift content up specifically */
+  #home .container {
+    margin-top: 0;
+    transform: translateY(-20px);
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
+  }
+
+  /* ABOUT */
+  #about>div {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+    /* Center text on mobile */
+  }
+
+  #about .section-divider {
+    margin: 0 auto 1.5rem auto;
+    /* Center the gold divider */
+  }
+
+  /* Specific override for paragraphs as requested */
+  #about p {
+    text-align: left;
+    padding-left: 1.5rem;
+  }
+
+  #about img {
+    width: 100%;
+    height: 260px;
+  }
+
+  /* EXPERIENCE */
+  #experience>div>div {
+    grid-template-columns: 1fr !important;
+  }
+
+  #experience img {
+    width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+  }
+
+  /* PROJECTS */
+  .projects-scroll-container {
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 2rem;
+    /* Ensure space for scrollbar if visible or touch area */
+  }
+
+  .project-card {
+    min-width: 85vw;
+    /* Show most of the card, with a peek at the next one */
+    max-width: 85vw;
+    scroll-snap-align: center;
+  }
+
+  /* RESEARCH & SKILLS */
+  #research div[style*="grid"],
+  #skills div[style*="grid"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 360px) {
+  #home .container {
+    margin-top: 2rem;
+  }
+}
