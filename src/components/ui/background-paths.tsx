@@ -204,25 +204,25 @@ export function BackgroundPaths({
                         </motion.div>
                     )}
 
-                    <div className="flex justify-center items-center gap-3" style={{ marginTop: '40px' }}>
+                    <div className="flex justify-center" style={{ marginTop: '40px' }}>
                         <button
                             onClick={handleEnter}
                             disabled={isEntering}
                             aria-label="Enter to Portfolio"
-                            className="group peer relative w-12 h-12 sm:w-14 sm:h-14 bg-white/5 backdrop-blur-md rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer border border-white/20 hover:border-[#c5a059] hover:shadow-[0_0_25px_rgba(197,160,89,0.5)] disabled:pointer-events-none"
+                            className="relative w-12 h-12 sm:w-14 sm:h-14 bg-white/5 backdrop-blur-md rounded-full flex items-center justify-center transition-[width,border-color,box-shadow] duration-200 hover:w-[180px] sm:hover:w-[240px] group cursor-pointer border border-white/20 hover:border-[#c5a059] hover:shadow-[0_0_25px_rgba(197,160,89,0.5)] disabled:pointer-events-none overflow-hidden"
                         >
-                            <span className="text-white/60 group-hover:text-white transition-colors duration-200 text-2xl font-light">
-                                →
+                            {/* Icon: recedes on hover */}
+                            <span className="absolute inset-0 transition-[transform,opacity] duration-200 group-hover:scale-75 group-hover:opacity-0 flex items-center justify-center">
+                                <span className="text-white/60 text-2xl font-light">
+                                    →
+                                </span>
+                            </span>
+
+                            {/* Label: reveals on hover */}
+                            <span className="absolute text-white tracking-[0.2em] text-[10px] sm:text-xs font-bold transition-[transform,opacity] duration-200 scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 whitespace-nowrap uppercase">
+                                Enter to Portfolio
                             </span>
                         </button>
-
-                        {/* Label — reveals via opacity/transform, never changes the button's own size */}
-                        <span
-                            aria-hidden="true"
-                            className="text-white tracking-[0.2em] text-[10px] sm:text-xs font-bold uppercase whitespace-nowrap pointer-events-none opacity-0 -translate-x-1 peer-hover:opacity-100 peer-hover:translate-x-0 transition-[opacity,transform] duration-200 ease-out"
-                        >
-                            Enter to Portfolio
-                        </span>
                     </div>
                 </motion.div>
             </div>
