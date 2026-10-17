@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import Section from '../components/Section';
+import { KineticWords } from '../components/KineticText';
 
 const About = () => {
     const [inView, setInView] = useState(false);
     const imgRef = useRef(null);
+    const reduceMotion = useReducedMotion();
 
     // Intersection Observer for scroll effect
     useEffect(() => {
@@ -38,9 +41,9 @@ const About = () => {
                 }}
             >
                 {/* Text Section */}
-                <div>
+                <div style={{ order: 2 }}>
                     <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>
-                        About Me
+                        <KineticWords text="About Me" />
                     </h2>
 
                     <div
@@ -53,22 +56,11 @@ const About = () => {
                         }}
                     />
 
-                    {/* <p
-                        style={{
-                            fontSize: '1.05rem',
-                            color: 'var(--text-muted)',
-                            marginBottom: '0.9rem',
-                        }}
-                    >
-                        I am <strong>Thakur Asutosh Dash</strong>, a Computer Science
-                        undergraduate with a strong academic foundation and a
-                        disciplined management background. Alongside academics,
-                        I have actively contributed as a club member, organized
-                        technical and academic events, and mentored students as a
-                        student mentor.
-                    </p> */}
-
-                    <p
+                    <motion.p
+                        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0 }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         style={{
                             fontSize: '1.05rem',
                             color: 'var(--text-muted)',
@@ -76,9 +68,13 @@ const About = () => {
                         }}
                     >
                         I am <strong>Thakur Asutosh Dash</strong>, a <strong>Computer Science undergraduate</strong> with a <strong>strong academic foundation</strong> and a <strong>systems-first way of thinking</strong>. My journey has been shaped not only by academics, but also by <strong>technical club involvement</strong>, <strong>event leadership</strong>, and <strong>student mentoring</strong>, experiences that trained me to think clearly, communicate precisely, and take ownership of results.
-                    </p>
+                    </motion.p>
 
-                    <p
+                    <motion.p
+                        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0 }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
                         style={{
                             fontSize: '1.05rem',
                             color: 'var(--text-muted)',
@@ -86,11 +82,11 @@ const About = () => {
                         }}
                     >
                         What draws me to <strong>Data Science</strong>, <strong>Machine Learning</strong>, and <strong>intelligent system design</strong> is the belief that most failures happen long before code is written. I focus on <strong>decision-making around data, design, and structure</strong>, because strong systems are built on clarity, not shortcuts. I value <strong>fundamentals</strong>, <strong>continuous growth</strong>, and <strong>engineering discipline</strong>, with a constant aim to convert <strong>complex ideas into dependable, real-world outcomes</strong>.
-                    </p>
+                    </motion.p>
                 </div>
 
                 {/* Image Section */}
-                <div style={{ textAlign: 'center' }}>
+                <div style={{ order: 1, textAlign: 'center' }}>
                     <div
                         className="glass"
                         style={{
@@ -106,15 +102,15 @@ const About = () => {
                         >
                             <img
                                 ref={imgRef}
-                                src="/assets/profile.jpg"
+                                src="/assets/experience/speaking-closeup-1-graded.webp"
                                 alt="Thakur Asutosh Dash, AI/ML Engineer"
                                 loading="lazy"
                                 style={{
                                     width: '100%',
                                     height: '360px',
                                     objectFit: 'cover',
-                                    objectPosition: 'center 22%',
-                                    filter: inView ? 'grayscale(0%)' : 'grayscale(100%)',
+                                    objectPosition: 'center 15%',
+                                    filter: inView ? 'grayscale(0%) brightness(1)' : 'grayscale(100%) brightness(0.85)',
                                     transform: inView ? 'scale(1.05)' : 'scale(1)',
                                     transition:
                                         'transform 3.5s ease, filter 3.5s ease',

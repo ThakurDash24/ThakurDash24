@@ -3,8 +3,10 @@ import LoadingScreen from './components/LoadingScreen'
 import Header from './components/Header'
 import ScrollProgress from './components/ScrollProgress'
 import ChatbotIcon from './components/ChatbotIcon'
+import PhotoInterlude from './components/PhotoInterlude'
 import Footer from './sections/Footer'
 import { BeamsBackground } from './components/ui/beams-background'
+import { useScrollProgress } from './hooks/useScrollProgress'
 
 // Lazy load ALL sections for proper suspense coordination
 const Home = lazy(() => import('./sections/Home'))
@@ -30,6 +32,12 @@ function MainContent({ onAllLoaded }) {
                 <Home />
                 <About />
                 <Skills />
+                <PhotoInterlude
+                    src="/assets/hero/speaking-wide-cutout-v3.webp"
+                    caption="Not only technical: leadership, event management, public speaking, project leads, mentoring."
+                    align="right"
+                    layout="split"
+                />
                 <Certifications />
                 <Projects />
                 <Experience />
@@ -46,17 +54,21 @@ function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [isContentVisible, setIsContentVisible] = useState(false);
     const [allComponentsLoaded, setAllComponentsLoaded] = useState(false);
+    const worldProgress = useScrollProgress();
 
     const handleAllLoaded = useCallback(() => {
         setAllComponentsLoaded(true);
     }, []);
 
     return (
-        <BeamsBackground 
-            intensity="subtle" 
+        <BeamsBackground
+            intensity="subtle"
             active={isContentVisible}
+            progress={worldProgress}
             className={`app ${isContentVisible ? 'content-visible' : ''}`}
         >
+            <img className="world-backdrop" src="/assets/hero/backdrop.webp" alt="" aria-hidden="true" />
+
             {isLoading && (
                 <LoadingScreen
                     onComplete={() => setIsLoading(false)}

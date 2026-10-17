@@ -1,8 +1,11 @@
 import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import Section from '../components/Section';
-import { supportsFineHover } from '../lib/utils';
+import { setGlowPosition } from '../lib/utils';
 
 const Resume = () => {
+    const reduceMotion = useReducedMotion();
+
     return (
         <Section id="resume">
             {/* Border pulse animation */}
@@ -21,8 +24,15 @@ const Resume = () => {
                 `}
             </style>
 
+            <motion.div
+                initial={reduceMotion ? false : { opacity: 0, scale: 0.94 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
             <div
-                className="glass"
+                className="glass glow-card"
+                onMouseMove={setGlowPosition}
                 style={{
                     padding: '4rem',
                     textAlign: 'center',
@@ -30,32 +40,7 @@ const Resume = () => {
                     border: '1px solid var(--accent-gold)',
                     animation: 'borderPulse 2.5s ease-in-out 3',
                     animationFillMode: 'forwards',
-                    position: 'relative',
                     overflow: 'hidden',
-                    transition:
-                        'transform 0.35s ease, box-shadow 0.35s ease',
-                }}
-                onMouseMove={(e) => {
-                    if (!supportsFineHover()) return;
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-
-                    e.currentTarget.style.background =
-                        `radial-gradient(
-                            600px circle at ${x}px ${y}px,
-                            rgba(255,255,255,0.08),
-                            transparent 40%
-                        )`;
-                }}
-                onMouseEnter={(e) => {
-                    if (!supportsFineHover()) return;
-                    e.currentTarget.style.transform = 'translateY(-6px)';
-                }}
-                onMouseLeave={(e) => {
-                    if (!supportsFineHover()) return;
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.background = 'none';
                 }}
             >
                 <h2
@@ -155,6 +140,7 @@ const Resume = () => {
                     </button>
                 </div>
             </div>
+            </motion.div>
         </Section>
     );
 };

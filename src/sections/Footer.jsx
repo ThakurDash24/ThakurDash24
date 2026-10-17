@@ -1,18 +1,30 @@
 import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 const Footer = () => {
+    const reduceMotion = useReducedMotion();
+
     return (
-        <footer
+        <motion.footer
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             style={{
+                position: 'relative',
                 marginTop: '6rem',
                 padding: '2.5rem 1rem',
                 textAlign: 'center',
                 borderTop: '1px solid rgba(255,255,255,0.08)',
+                overflow: 'hidden',
             }}
         >
+            <div className="footer-glow" />
+
             {/* Identity */}
             <p
                 style={{
+                    position: 'relative',
                     fontSize: '0.9rem',
                     color: 'var(--text-muted)',
                     marginBottom: '0.8rem',
@@ -24,6 +36,7 @@ const Footer = () => {
             {/* Location */}
             <p
                 style={{
+                    position: 'relative',
                     fontSize: '0.8rem',
                     color: 'rgba(255,255,255,0.45)',
                     marginBottom: '1.2rem',
@@ -35,33 +48,21 @@ const Footer = () => {
             {/* Contact Info */}
             <p
                 style={{
+                    position: 'relative',
                     fontSize: '0.85rem',
                     color: 'rgba(255,255,255,0.55)',
                     marginBottom: '1.8rem',
                 }}
             >
-                <a
-                    href="mailto:thkrdash@gmail.com"
-                    style={contactStyle}
-                >
+                <a href="mailto:thkrdash@gmail.com" className="footer-link" style={contactStyle}>
                     thkrdash@gmail.com
                 </a>
-
-                {/* Optional phone — enable if needed */}
-                {/*
-                <span style={{ margin: '0 0.6rem' }}>·</span>
-                <a
-                    href="tel:+91XXXXXXXXXX"
-                    style={contactStyle}
-                >
-                    +91-XXXXXXXXXX
-                </a>
-                */}
             </p>
 
             {/* Social Links */}
             <div
                 style={{
+                    position: 'relative',
                     display: 'flex',
                     justifyContent: 'center',
                     gap: '2rem',
@@ -71,6 +72,7 @@ const Footer = () => {
                     href="https://www.linkedin.com/in/thakur-asutosh-dash-a6965922a/"
                     target="_blank"
                     rel="noreferrer"
+                    className="footer-link"
                     style={iconStyle}
                 >
                     LinkedIn
@@ -80,6 +82,7 @@ const Footer = () => {
                     href="https://github.com/ThakurDash24"
                     target="_blank"
                     rel="noreferrer"
+                    className="footer-link"
                     style={iconStyle}
                 >
                     GitHub
@@ -89,6 +92,7 @@ const Footer = () => {
                     href="https://x.com/MrThakurDash"
                     target="_blank"
                     rel="noreferrer"
+                    className="footer-link"
                     style={iconStyle}
                 >
                     X
@@ -98,6 +102,7 @@ const Footer = () => {
             {/* Subtle Signature */}
             <p
                 style={{
+                    position: 'relative',
                     marginTop: '1.5rem',
                     fontSize: '0.75rem',
                     color: 'rgba(255,255,255,0.35)',
@@ -105,7 +110,7 @@ const Footer = () => {
             >
                 Building intelligent systems.
             </p>
-        </footer>
+        </motion.footer>
     );
 };
 
@@ -113,13 +118,11 @@ const iconStyle = {
     fontSize: '0.85rem',
     color: 'var(--text-muted)',
     textDecoration: 'none',
-    transition: 'transform 0.3s ease, color 0.3s ease',
 };
 
 const contactStyle = {
     color: 'rgba(255,255,255,0.65)',
     textDecoration: 'none',
-    transition: 'color 0.3s ease',
 };
 
 export default Footer;

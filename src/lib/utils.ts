@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import type { MouseEvent } from "react"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -12,4 +13,14 @@ export function cn(...inputs: ClassValue[]) {
 export function supportsFineHover() {
   if (typeof window === "undefined" || !window.matchMedia) return true
   return window.matchMedia("(hover: hover) and (pointer: fine)").matches
+}
+
+// Drives .glow-card: writes the pointer position relative to the card's own
+// box (not the viewport), so the spotlight/border-ring gradients stay
+// correct even while the card is mid hover-transform (translateY etc).
+export function setGlowPosition(e: MouseEvent<HTMLElement>) {
+  if (!supportsFineHover()) return
+  const rect = e.currentTarget.getBoundingClientRect()
+  e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`)
+  e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`)
 }

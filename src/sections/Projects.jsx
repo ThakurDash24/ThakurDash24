@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import Section from '../components/Section';
-import { supportsFineHover } from '../lib/utils';
+import { KineticWords } from '../components/KineticText';
+import { supportsFineHover, setGlowPosition } from '../lib/utils';
 
 
 const projects = [
@@ -12,6 +13,7 @@ const projects = [
         link: 'https://portfolio-agent-inky.vercel.app/',
         github: 'https://github.com/ThakurDash24/Portfolio-Agent',
         latest: true,
+        image: '/assets/projects/laven.png',
     },
     {
         title: 'AGENTIO - Blog Writing Agent',
@@ -20,6 +22,7 @@ const projects = [
         tags: ['Ollama', 'Docker', 'WSL2', 'Agentic AI'],
         link: 'https://blog-writing-agent.vercel.app/',
         github: 'https://github.com/ThakurDash24/Blog-Writing-Agent',
+        image: '/assets/projects/agentio.jpg',
     },
     {
         title: 'Resumyzer - AI Resume Analyzer',
@@ -28,6 +31,7 @@ const projects = [
         tags: ['React + TS', 'FastAPI', 'Supabase'],
         link: 'https://resumyzer24.vercel.app',
         github: 'https://github.com/ThakurDash24/Resumyzer',
+        image: '/assets/projects/resumyzer.jpg',
     },
     {
         title: 'SMS Spam Classifier',
@@ -36,6 +40,7 @@ const projects = [
         tags: ['Python', 'Scikit-learn', 'NLP'],
         link: 'https://sms-spam-classifier-24.onrender.com',
         github: 'https://github.com/ThakurDash24/SMS_SPAM_CLASSIFIER_RENDER_DEPLOYED',
+        image: '/assets/projects/spam-classifier.png',
     },
     {
         title: 'EV Charging Chatbot',
@@ -44,6 +49,7 @@ const projects = [
         tags: ['FastAPI', 'GenAI', 'Backend'],
         link: 'https://unicharge-chatbot-24.onrender.com',
         github: 'https://github.com/ThakurDash24/UniCharge_Contibutor/tree/main/ml-engine/models/ChatBot',
+        image: '/assets/projects/ev-chatbot.png',
     },
 ];
 
@@ -117,29 +123,9 @@ const Projects = () => {
 
     return (
         <Section id="projects">
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', textAlign: 'center' }}>
-                Projects
+            <h2 style={{ fontSize: '2.5rem', marginBottom: '3rem', textAlign: 'center' }}>
+                <KineticWords text="Projects" />
             </h2>
-
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    marginBottom: '3rem',
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '1rem',
-                    letterSpacing: '0.05em',
-                    opacity: 0.9,
-                    animation: 'luxuriousPulse 4s ease-in-out infinite',
-                }}
-            >
-                <div>Slide to explore</div>
-                <div style={{ fontSize: '0.85rem', opacity: 0.7 }}>
-                    (Hover the title to Experience)
-                </div>
-            </div>
 
             {/* Container for scroll area + buttons */}
             <div style={{ position: 'relative', width: '100%' }}>
@@ -151,25 +137,42 @@ const Projects = () => {
                     {infiniteProjects.map((project, index) => (
                         <div
                             key={`${project.title}-${index}`}
-                            className="glass project-card"
+                            className="glass project-card glow-card"
                             onClick={(e) => handleCardClick(e, project.link)}
-                            onMouseMove={(e) => {
-                                if (!supportsFineHover()) return;
-                                const rect = e.currentTarget.getBoundingClientRect();
-                                const x = e.clientX - rect.left;
-                                const y = e.clientY - rect.top;
-
-                                e.currentTarget.style.background = `radial-gradient(
-                                    600px circle at ${x}px ${y}px,
-                                    rgba(255,255,255,0.08),
-                                    transparent 40%
-                                )`;
-                            }}
-                            onMouseLeave={(e) => {
-                                if (!supportsFineHover()) return;
-                                e.currentTarget.style.background = '';
-                            }}
+                            onMouseMove={setGlowPosition}
                         >
+                            {project.image && (
+                                <div
+                                    style={{
+                                        margin: '-2rem -2rem 1.2rem',
+                                        height: '180px',
+                                        overflow: 'hidden',
+                                        borderBottom: '1px solid var(--glass-border)',
+                                    }}
+                                >
+                                    <img
+                                        src={project.image}
+                                        alt={`${project.title} screenshot`}
+                                        loading="lazy"
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            objectPosition: 'top',
+                                            transition: 'transform 0.5s ease',
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            if (!supportsFineHover()) return;
+                                            e.target.style.transform = 'scale(1.06)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            if (!supportsFineHover()) return;
+                                            e.target.style.transform = 'scale(1)';
+                                        }}
+                                    />
+                                </div>
+                            )}
+
                             {/* Project Title (Live Link) */}
                             <h3
                                 className="project-title"
@@ -280,16 +283,6 @@ const Projects = () => {
 
             <style>
                 {`
-                @keyframes luxuriousPulse {
-                    0%, 100% { 
-                        opacity: 0.5; 
-                        color: var(--text-muted);
-                    }
-                    50% { 
-                        opacity: 1; 
-                        color: var(--accent-gold);
-                    }
-                }
                 .test-it-now {
                     position: relative;
                     overflow: hidden;

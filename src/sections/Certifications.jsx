@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import Section from "../components/Section";
+import { KineticWords } from "../components/KineticText";
 import { supportsFineHover } from "../lib/utils";
 
 const certifications = [
@@ -658,6 +660,7 @@ const CertCard = ({ cert, isActive }) => {
 };
 
 const Certifications = () => {
+  const reduceMotion = useReducedMotion();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState("right");
   const trackRef = useRef(null);
@@ -705,7 +708,7 @@ const Certifications = () => {
             padding: "0 0.5rem",
           }}
         >
-          Certifications
+          <KineticWords text="Certifications" />
         </h2>
       </div>
       <p
@@ -725,7 +728,11 @@ const Certifications = () => {
       </p>
 
       {/* Carousel Wrapper */}
-      <div
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         style={{
           position: "relative",
           width: "100%",
@@ -885,21 +892,7 @@ const Certifications = () => {
             <path d="M9 18l6-6-6-6" />
           </svg>
         </button>
-      </div>
-
-      {/* Hint text */}
-      <p
-        style={{
-          textAlign: "center",
-          color: "var(--text-muted)",
-          fontSize: "0.75rem",
-          marginTop: "1rem",
-          letterSpacing: "0.06em",
-          opacity: 0.6,
-        }}
-      >
-        Use arrows or keyboard ← → to navigate
-      </p>
+      </motion.div>
 
       {/* Pulse animation for dots and Image Hover Effects */}
       <style>{`

@@ -9,6 +9,22 @@ interface AnimatedGradientBackgroundProps {
   intensity?: "subtle" | "medium" | "strong";
   active?: boolean;
   children?: React.ReactNode;
+  /** Global scroll progress (0-1). Drives the world's hue/intensity so the
+   * background reads as one continuous space rather than a static loop. */
+  progress?: number;
+}
+
+// Two gaussian "acts" (hero, projects) plus a slow rise into the close give
+// the beams a reason to breathe instead of pulsing at a constant rate.
+function worldIntensity(progress: number) {
+  const gaussian = (x: number, mean: number, spread: number) =>
+    Math.exp(-((x - mean) ** 2) / (2 * spread * spread));
+
+  const heroPeak = gaussian(progress, 0.02, 0.06);
+  const projectsPeak = gaussian(progress, 0.55, 0.12);
+  const closeRise = 0.25 + progress * 0.35;
+
+  return Math.min(1, 0.45 + heroPeak * 0.6 + projectsPeak * 0.45 + closeRise * 0.3);
 }
 
 interface Beam {
@@ -33,8 +49,8 @@ function createBeam(width: number, height: number): Beam {
     length: height * 2.5,
     angle,
     speed: 0.3 + Math.random() * 0.5, // Refined slower speed
-    opacity: 0.1 + Math.random() * 0.1, 
-    hue: 225 + Math.random() * 10, 
+    opacity: 0.1 + Math.random() * 0.1,
+    hue: 40 + Math.random() * 8, // warm gold family, matches --accent-gold
     pulse: Math.random() * Math.PI * 2,
     pulseSpeed: 0.02 + Math.random() * 0.03,
   };
@@ -45,12 +61,18 @@ export function BeamsBackground({
   intensity = "subtle",
   active = true,
   children,
+  progress = 0,
 }: AnimatedGradientBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const beamsRef = useRef<Beam[]>([]);
   const animationFrameRef = useRef<number>(0);
   const MINIMUM_BEAMS = 12; // Balanced for performance and visibility
   const reduceMotion = useReducedMotion();
+  // Read via ref inside the rAF loop so scroll updates don't tear down/rebuild the canvas.
+  const progressRef = useRef(progress);
+  useEffect(() => {
+    progressRef.current = progress;
+  }, [progress]);
 
   const opacityMap = {
     subtle: 0.7,
@@ -103,8 +125,8 @@ export function BeamsBackground({
         (Math.random() - 0.5) * spacing * 0.5;
       beam.width = 100 + Math.random() * 100;
       beam.speed = 0.3 + Math.random() * 0.5;
-      beam.hue = 225 + (index * 10) / totalBeams;
-      beam.opacity = 0.12 + Math.random() * 0.08; 
+      beam.hue = 40 + (index * 6) / totalBeams;
+      beam.opacity = 0.12 + Math.random() * 0.08;
       return beam;
     }
 
@@ -116,7 +138,8 @@ export function BeamsBackground({
       const pulsingOpacity =
         beam.opacity *
         (0.9 + Math.sin(beam.pulse) * 0.1) * // Refined subtle pulse
-        opacityMap[intensity];
+        opacityMap[intensity] *
+        worldIntensity(progressRef.current);
 
       const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
 
